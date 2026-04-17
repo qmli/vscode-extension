@@ -1,0 +1,81 @@
+export declare global {
+  declare const DEBUG: boolean;
+  /**
+   * 条件类型
+   * PartialDeep<T> 递归地将类型 T 的所有属性设为可选。
+   * Optional<T, K> 将类型 T 中的属性 K 设为可选。
+   * PickPartialDeep<T, K> 将类型 T 中的属性 K 设为可选，其余属性保持不变。
+   */
+  export type PartialDeep<T> = T extends Record<string, unknown> ? { [K in keyof T]?: PartialDeep<T[K]> } : T;
+  export type Optional<T, K extends keyof T> = Omit<T, K> & { [P in K]?: T[P] };
+  export type PickPartialDeep<T, K extends keyof T> = Omit<Partial<T>, K> & { [P in K]?: Partial<T[P]> };
+
+  /**
+   * 从 Entity 中提取所有必填字段的 key 联合类型
+   * 通过判断 undefined 是否可赋值给字段类型来区分 required / optional
+   */
+  export type RequiredKeys<T> = {
+    [K in keyof T]-?: undefined extends T[K] ? never : K;
+  }[keyof T];
+
+  /** Entity 中所有可选字段的 key 联合类型 */
+  export type OptionalKeys<T> = Exclude<keyof T, RequiredKeys<T>>;
+
+  export type Mutable<T> = { -readonly [P in keyof T]: T[P] };
+  export type MutableDeep<T> = { -readonly [P in keyof T]: MutableDeep<T[P]> };
+  export type PickMutable<T, K extends keyof T> = Omit<T, K> & { -readonly [P in K]: T[P] };
+
+  export type EntriesType<T> = T extends Record<infer K, infer V> ? [K, V] : never;
+
+  export type ExcludeSome<T, K extends keyof T, R> = Omit<T, K> & { [P in K]-?: Exclude<T[P], R> };
+
+  export type ExtractAll<T, U> = { [K in keyof T]: T[K] extends U ? T[K] : never };
+  export type ExtractPrefixes<T extends string, SEP extends string> = T extends `${infer Prefix}${SEP}${infer Rest}`
+    ? Prefix | `${Prefix}${SEP}${ExtractPrefixes<Rest, SEP>}`
+    : T;
+  export type ExtractSome<T, K extends keyof T, R> = Omit<T, K> & { [P in K]-?: Extract<T[P], R> };
+
+  export type RequireSome<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: T[P] };
+  export type RequireSomeWithProps<T, K extends keyof T, Props extends keyof T[K]> = Omit<T, K> & {
+    [P in K]-?: RequireSome<T[P], Props>;
+  };
+
+  export type AllNonNullable<T> = { [P in keyof T]-?: NonNullable<T[P]> };
+  export type SomeNonNullable<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
+
+  export type Prefix<P extends string, T extends string, S extends string = ''> = T extends `${P}${S}${infer R}`
+    ? R
+    : never;
+
+  export type Replace<T, K extends keyof T, R> = Omit<T, K> & { [P in K]: R };
+
+  export type StartsWith<P extends string, T extends string, S extends string = ''> = T extends `${P}${S}${string}`
+    ? T
+    : never;
+
+  export type UnwrapCustomEvent<T> = T extends CustomEvent<infer U> ? U : never;
+
+  export type RemoveFirstArg<F> = F extends {
+    (first: any, ...args: infer A1): infer R1;
+    (first: any, ...args: infer A2): infer R2;
+    (first: any, ...args: infer A3): infer R3;
+    (first: any, ...args: infer A4): infer R4;
+  }
+    ? ((...args: A1) => R1) & ((...args: A2) => R2) & ((...args: A3) => R3) & ((...args: A4) => R4)
+    : F extends {
+          (first: any, ...args: infer A1): infer R1;
+          (first: any, ...args: infer A2): infer R2;
+          (first: any, ...args: infer A3): infer R3;
+        }
+      ? ((...args: A1) => R1) & ((...args: A2) => R2) & ((...args: A3) => R3)
+      : F extends {
+            (first: any, ...args: infer A1): infer R1;
+            (first: any, ...args: infer A2): infer R2;
+          }
+        ? ((...args: A1) => R1) & ((...args: A2) => R2)
+        : F extends {
+              (first: any, ...args: infer A1): infer R1;
+            }
+          ? (...args: A1) => R1
+          : never;
+}

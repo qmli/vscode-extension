@@ -1,0 +1,59 @@
+# exclude node_modules in all packages
+node_modules
+**/node_modules/**
+packages/**/node_modules/**
+.pnpm
+
+# exclude development files
+.vscode
+.git
+*.log
+.env
+.env.*
+.gitignore
+pnpm-lock.yaml
+.yarnrc
+.yarn
+
+# exclude source files (only built output is needed)
+src/**
+**/*.ts
+**/test/**
+**/*.test.ts
+**/*.spec.ts
+
+# exclude development config files
+tsconfig*.json
+**/tsconfig*.json
+../../tsconfig.json
+../../package.json
+../../README.md
+../../*.md
+../../*.yaml
+../../.gitignore
+webpack.config.js
+../../*.mjs
+../../.prettierrc.js
+../../.npmrc
+../../.gitattributes
+../../.editorconfig
+../../esbuild.js
+../../scripts
+../../.gitlab
+../../.git
+../utils/readme.txt
+
+# exclude VSCode test files
+.vscode-test/**
+**/.vscode-test.*
+../../.vscode
+../../packages
+
+# exclude build artifacts that should be generated
+**/*.map
+out/**
+e2e/**
+packages/**/e2e/**
+.idea/**
+.eslintcache
+packages/**

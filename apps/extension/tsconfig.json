@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "removeComments": true,
+    "noErrorTruncation": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@packages/*": ["../../packages/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/extension.ts", "test/**/*.ts", "../../packages/@types/global.d.ts"],
+  "exclude": ["node_modules", "webpack.config.js"]
+}

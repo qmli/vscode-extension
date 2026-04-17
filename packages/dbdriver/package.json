@@ -1,0 +1,40 @@
+{
+  "name": "@packages/dbdriver",
+  "version": "1.0.0",
+  "description": "SQLite database driver based on better-sqlite3 with application-level encryption",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    }
+  },
+  "scripts": {
+    "dev": "vite build --mode development && tsc --emitDeclarationOnly",
+    "watch": "vite build --mode development --watch",
+    "build": "vite build --mode production && tsc --emitDeclarationOnly",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "vite-plugin-dts": "^4.3.0"
+  },
+  "peerDependencies": {
+    "@journeyapps/sqlcipher": "^5.3.1"
+  }
+}

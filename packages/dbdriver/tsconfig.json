@@ -1,0 +1,16 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "lib": ["ES2022"],
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@packages/*": ["../../packages/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "../../packages/@types/global.d.ts", "*.d.ts"],
+  "exclude": ["node_modules", "dist", "src/**/__tests__/*", "src/**/*.test.*", "src/**/*.spec.*"]
+}

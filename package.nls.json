@@ -1,0 +1,23 @@
+{
+  "command.project.create": "Create Project",
+  "command.project.rename": "Rename",
+  "command.project.refresh": "Refresh",
+  "command.project.projectManager": "Project Manager",
+  "command.project.directoryStructure": "Directory Structure",
+  "command.project.addNode": "Add Node",
+  "configuration.communicationMonitoringConfig": "Communication Monitoring",
+  "configuration.communicationMonitoringConfig.enabled": "Enabled Communication Monitoring",
+  "configuration.communicationMonitoringConfig.logLevel": "Communication Monitoring Log Level",
+  "tree.contextMenu.rename": "Rename",
+  "tree.contextMenu.delete": "Delete",
+  "tree.contextMenu.copy": "Copy",
+  "tree.contextMenu.paste": "Paste",
+  "tree.contextMenu.clone": "Clone",
+  "tree.contextMenu.createObject": "Create Object",
+  "tree.contextMenu.link": "Reference Project",
+  "tree.contextMenu.unlink": "Unreference Project",
+  "tree.contextMenu.toggleAll": "Expand/Collapse All",
+  "tree.contextMenu.sortAsc": "Sort Ascending by Name",
+  "tree.contextMenu.sortDesc": "Sort Descending by Name",
+  "tree.contextMenu.sortManual": "Reset to Default Order"
+}

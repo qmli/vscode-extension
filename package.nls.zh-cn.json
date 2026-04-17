@@ -1,0 +1,23 @@
+{
+  "command.project.create": "创建工程",
+  "command.project.rename": "重命名",
+  "command.project.refresh": "刷新",
+  "command.project.projectManager": "工程管理",
+  "command.project.directoryStructure": "目录结构",
+  "command.project.addNode": "添加节点",
+  "configuration.communicationMonitoringConfig": "通信监控",
+  "configuration.communicationMonitoringConfig.enabled": "启用通信监控",
+  "configuration.communicationMonitoringConfig.logLevel": "通信监控日志级别",
+  "tree.contextMenu.rename": "重命名",
+  "tree.contextMenu.delete": "删除",
+  "tree.contextMenu.copy": "复制",
+  "tree.contextMenu.paste": "粘贴",
+  "tree.contextMenu.clone": "克隆",
+  "tree.contextMenu.createObject": "新建对象",
+  "tree.contextMenu.link": "引用工程",
+  "tree.contextMenu.unlink": "取消引用工程",
+  "tree.contextMenu.toggleAll": "展开/折叠全部",
+  "tree.contextMenu.sortAsc": "按名称升序",
+  "tree.contextMenu.sortDesc": "按名称降序",
+  "tree.contextMenu.sortManual": "恢复默认排序"
+}

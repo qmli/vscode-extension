@@ -1,0 +1,60 @@
+// A launch configuration that compiles the extension and then opens it inside a new window
+// Use IntelliSense to learn about possible attributes.
+// Hover to view descriptions of existing attributes.
+// For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Extension ",
+      "type": "extensionHost",
+      "request": "launch",
+      "runtimeExecutable": "${execPath}",
+      "args": ["--profile=Debugging", "--extensionDevelopmentPath=${workspaceFolder}"],
+      "outFiles": ["${workspaceFolder}/dist/extension/**/*.js"],
+      "pauseForSourceMap": true,
+      "presentation": {
+        "group": "2_run",
+        "order": 1
+      },
+      "showAsyncStacks": true,
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
+      "sourceMapPathOverrides": {
+        // esbuild 生成的路径是相对于 apps/extension/ 的
+        "src/*": "${workspaceFolder}/apps/extension/src/*",
+        "../packages/*": "${workspaceFolder}/packages/*",
+        "../../packages/*": "${workspaceFolder}/packages/*",
+        // webpack 风格路径
+        "webpack:///./*": "${workspaceFolder}/*",
+        "webpack:///*": "${workspaceFolder}/*",
+        // 其他相对路径
+        "../*": "${workspaceFolder}/apps/extension/*",
+        "../../*": "${workspaceFolder}/*"
+      },
+      "internalConsoleOptions": "openOnSessionStart",
+      "smartStep": true,
+      "sourceMapRenames": true,
+      "sourceMaps": true,
+      "trace": true
+    },
+    {
+      "name": "Run Extension Webview",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": ["--extensionDevelopmentPath=${workspaceFolder}", "--disable-web-security"],
+      "outFiles": ["${workspaceFolder}/dist/**/*.js"],
+      "rendererDebugOptions": {
+        "webRoot": "${workspaceFolder}/packages/webview",
+        "sourceMaps": true,
+        "sourceMapRenames": true,
+        "pauseForSourceMap": true
+      },
+      "preLaunchTask": "${defaultBuildTask}",
+      "debugWebviews": true,
+      "debugWebWorkerHost": true,
+      "pauseForSourceMap": true,
+      "sourceMaps": true,
+      "skipFiles": ["<node_internals>/**", "**/node_modules/**"]
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+# 源代码目录（已打包到 dist）
+src/**
+test/**
+
+# 构建配置文件
+webpack.config.js
+tsconfig.json
+gulpfile.js
+.test
+
+# 开发依赖和缓存
+# 排除所有 node_modules，但保留运行时必需的原生模块
+node_modules/**
+# 但保留 @journeyapps/sqlcipher 及其依赖（用 ! 表示不忽略）
+!node_modules/@journeyapps/**
+!node_modules/@mapbox/**
+!node_modules/abbrev/**
+!node_modules/agent-base/**
+!node_modules/ansi-regex/**
+!node_modules/aproba/**
+!node_modules/are-we-there-yet/**
+!node_modules/balanced-match/**
+!node_modules/brace-expansion/**
+!node_modules/chownr/**
+!node_modules/color-support/**
+!node_modules/concat-map/**
+!node_modules/console-control-strings/**
+!node_modules/debug/**
+!node_modules/delegates/**
+!node_modules/detect-libc/**
+!node_modules/emoji-regex/**
+!node_modules/fs.realpath/**
+!node_modules/fs-minipass/**
+!node_modules/gauge/**
+!node_modules/glob/**
+!node_modules/has-unicode/**
+!node_modules/https-proxy-agent/**
+!node_modules/inflight/**
+!node_modules/inherits/**
+!node_modules/is-fullwidth-code-point/**
+!node_modules/make-dir/**
+!node_modules/minimatch/**
+!node_modules/minipass/**
+!node_modules/minizlib/**
+!node_modules/mkdirp/**
+!node_modules/ms/**
+!node_modules/node-addon-api/**
+!node_modules/node-fetch/**
+!node_modules/nopt/**
+!node_modules/npmlog/**
+!node_modules/object-assign/**
+!node_modules/once/**
+!node_modules/path-is-absolute/**
+!node_modules/readable-stream/**
+!node_modules/rimraf/**
+!node_modules/safe-buffer/**
+!node_modules/semver/**
+!node_modules/set-blocking/**
+!node_modules/signal-exit/**
+!node_modules/string_decoder/**
+!node_modules/string-width/**
+!node_modules/strip-ansi/**
+!node_modules/tar/**
+!node_modules/tr46/**
+!node_modules/util-deprecate/**
+!node_modules/webidl-conversions/**
+!node_modules/whatwg-url/**
+!node_modules/wide-align/**
+!node_modules/wrappy/**
+!node_modules/yallist/**
+.cache/**
+
+# 版本控制
+.git/**
+.gitignore
+.gitattributes
+
+# 编辑器配置
+.vscode/**
+.vscode-test/**
+*.code-workspace
+
+# TypeScript
+**/*.ts
+**/*.map
+tsconfig.*.json
+
+# 文档和说明
+README.md
+CHANGELOG.md
+*.md
+!dist/**/*.md
+
+# 日志和临时文件
+*.log
+**/*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+
+# 测试相关
+**/*.test.*
+**/*.spec.*
+coverage/**
+.nyc_output/**
+
+# 其他配置文件
+.eslintrc*
+.prettierrc*
+.editorconfig
+.npmrc
+.nvmrc
+
+# CI/CD
+.github/**
+.gitlab-ci.yml
+azure-pipelines.yml
+
+# monorepo 其他应用（不应打包）
+apps/docs/**
+apps/webview/**
+# apps/extension 整个目录（源代码已打包到 dist/extension，不需要包含源目录）
+apps/extension/**
+# 但保留所有 dist 构建输出（extension 和 webview 的构建产物）
+!dist/**
+
+
+# monorepo 其他 packages（不应打包）
+packages/**
+
+# 临时和输出文件
+out/**
+*.vsix
