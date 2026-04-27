@@ -1,0 +1,116 @@
+{
+  "create": "Create",
+  "object": "Object",
+  "clone": "Clone",
+  "copy": "Copy",
+  "paste": "Paste",
+  "delete": "Delete",
+  "save": "Save",
+  "retrieve": "Retrieve",
+  "replace": "Replace",
+  "export": "Export",
+  "designer": {
+    "nModel": {
+      "version": "Version"
+    }
+  },
+  "view": {
+    "normal": "Normal View",
+    "list": "List View",
+    "change": "Change View",
+    "chart": "Chart View"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "warning": "Warning",
+    "info": "Information",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "remove": "Remove",
+    "refresh": "Refresh",
+    "search": "Enter keywords and hit Enter",
+    "filter": "Filter",
+    "sort": "Sort",
+    "settings": "Settings",
+    "help": "Help",
+    "close": "Close",
+    "open": "Open",
+    "copy": "Copy",
+    "paste": "Paste",
+    "cut": "Cut",
+    "undo": "Undo",
+    "redo": "Redo",
+    "linkRedirection": "Link redirection"
+  },
+  "tree": {
+    "title": "Tree View",
+    "expandAll": "Expand All",
+    "collapseAll": "Collapse All",
+    "noData": "No data available",
+    "createFolder": "Create Folder",
+    "createFile": "Create File",
+    "rename": "Rename",
+    "duplicate": "Duplicate"
+  },
+  "settings": {
+    "title": "Settings",
+    "general": "General",
+    "appearance": "Appearance",
+    "editor": "Editor",
+    "theme": "Theme",
+    "themeDescription": "Choose the interface theme",
+    "language": "Language",
+    "languageDescription": "Choose the interface language",
+    "fontSize": "Font Size",
+    "fontSizeDescription": "Adjust the font size of the interface",
+    "fontSizePreview": "Preview text",
+    "autoSave": "Auto Save",
+    "light": "Light",
+    "dark": "Dark",
+    "auto": "Auto",
+    "description": "Settings related to the application",
+    "tabs": {
+      "welcome": "Welcome",
+      "general": "General",
+      "monitoring": "Monitoring"
+    },
+    "quickActions": {
+      "general": {
+        "title": "General Settings",
+        "description": "Configure general options for the application"
+      },
+      "monitoring": {
+        "title": "Monitoring Settings",
+        "description": "Configure monitoring options for the application",
+        "solutionConfig": "Solution Configuration",
+        "backup": "Backup Configuration {0}",
+        "default": "Default Configuration"
+      }
+    },
+    "welcome": {
+      "title": "Welcome to the Settings",
+      "description": "Here you can configure your preferences",
+      "subtitle": "Personalize your experience"
+    }
+  },
+  "main": {
+    "title": "Main View",
+    "welcome": "Welcome",
+    "overview": "Overview",
+    "recentFiles": "Recent Files",
+    "quickActions": "Quick Actions"
+  },
+  "errors": {
+    "networkError": "Network error occurred",
+    "fileNotFound": "File not found",
+    "accessDenied": "Access denied",
+    "invalidData": "Invalid data",
+    "operationFailed": "Operation failed"
+  }
+}

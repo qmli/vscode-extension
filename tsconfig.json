@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "lib": ["ES2022", "DOM"],
+    "lib": ["ES2022", "DOM", "esnext.disposable"],
     "module": "ES2022",
     "target": "ES2022",
     "moduleResolution": "bundler",
@@ -15,7 +15,13 @@
     "noErrorTruncation": true,
     "ignoreDeprecations": "5.0",
     "paths": {
-      "@packages/*": ["./packages/*"]
+      "@packages/*": ["./packages/*"],
+      "@orientais/vscode-core": ["./packages/vscode-core/src/index.ts"],
+      "@orientais/vscode-core/*": ["./packages/vscode-core/src/*"],
+      "@orientais/vscode-webview": ["./packages/vscode-webview/src/index.ts"],
+      "@orientais/vscode-webview/*": ["./packages/vscode-webview/src/*"],
+      "@orientais/vscode-external": ["./packages/vscode-external/src/index.ts"],
+      "@orientais/vscode-external/*": ["./packages/vscode-external/src/*"]
     }
   },
   "exclude": ["node_modules", "dist", "**/webpack.config.js", ".prettierrc.js"]

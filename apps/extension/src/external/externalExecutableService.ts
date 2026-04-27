@@ -1,6 +1,6 @@
 import type { Disposable } from 'vscode';
-import { Logger } from '@/core/logger';
-import { getLogScope } from '@/core/logger.scope';
+import { Logger } from '@orientais/vscode-core/logger';
+import { getLogScope } from '@orientais/vscode-core/logger.scope';
 import { showGenericErrorMessage } from '@/core/message';
 import { ExternalExecutableError } from './errors';
 import { logExternalDebug, logExternalError, logExternalInfo, logExternalWarn } from './externalOutputChannel';

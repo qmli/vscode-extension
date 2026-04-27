@@ -1,0 +1,115 @@
+{
+  "create": "创建",
+  "object": "对象",
+  "clone": "克隆",
+  "copy": "复制",
+  "paste": "粘贴",
+  "delete": "删除",
+  "save": "保存",
+  "retrieve": "检索",
+  "replace": "替换",
+  "export": "导出",
+  "designer": {
+    "nModel": {
+      "version": "版本"
+    }
+  },
+  "view": {
+    "normal": "通用视图",
+    "list": "列表视图",
+    "change": "分配视图",
+    "chart": "图形化视图"
+  },
+  "common": {
+    "loading": "加载中...",
+    "error": "错误",
+    "success": "成功",
+    "warning": "警告",
+    "info": "信息",
+    "confirm": "确认",
+    "cancel": "取消",
+    "save": "保存",
+    "delete": "删除",
+    "edit": "编辑",
+    "add": "添加",
+    "remove": "移除",
+    "refresh": "刷新",
+    "search": "请输入关键字，回车进行查询。",
+    "filter": "筛选",
+    "sort": "排序",
+    "settings": "设置",
+    "help": "帮助",
+    "close": "关闭",
+    "open": "打开",
+    "copy": "复制",
+    "paste": "粘贴",
+    "cut": "剪切",
+    "undo": "撤销",
+    "redo": "重做"
+  },
+  "tree": {
+    "title": "树状视图",
+    "expandAll": "展开全部",
+    "collapseAll": "收起全部",
+    "noData": "暂无数据",
+    "createFolder": "创建文件夹",
+    "createFile": "创建文件",
+    "rename": "重命名",
+    "duplicate": "复制"
+  },
+  "settings": {
+    "title": "设置",
+    "general": "常规",
+    "appearance": "外观",
+    "editor": "编辑器",
+    "theme": "主题",
+    "themeDescription": "选择界面主题",
+    "language": "语言",
+    "languageDescription": "选择界面语言",
+    "fontSize": "字体大小",
+    "fontSizeDescription": "调整界面字体大小",
+    "fontSizePreview": "预览文字",
+    "autoSave": "自动保存",
+    "light": "浅色",
+    "dark": "深色",
+    "auto": "自动",
+    "description": "与应用程序相关的设置",
+    "tabs": {
+      "welcome": "欢迎",
+      "general": "常规",
+      "monitoring": "监控"
+    },
+    "quickActions": {
+      "general": {
+        "title": "常规设置",
+        "description": "配置应用程序的常规选项"
+      },
+      "monitoring": {
+        "title": "监控设置",
+        "description": "配置应用程序的监控选项",
+        "default": "默认配置",
+        "backup": "备份配置{0}",
+        "solutionConfig": "解决方案配置"
+      }
+    },
+    "welcome": {
+      "title": "欢迎使用设置",
+      "description": "在这里您可以配置您的偏好设置",
+      "subtitle": "个性化您的体验"
+    }
+  },
+  "main": {
+    "title": "主页面",
+    "welcome": "欢迎",
+    "overview": "概览",
+    "recentFiles": "最近文件",
+    "quickActions": "快速操作"
+  },
+  "errors": {
+    "networkError": "网络错误",
+    "fileNotFound": "文件未找到",
+    "accessDenied": "拒绝访问",
+    "invalidData": "无效数据",
+    "operationFailed": "操作失败"
+  }
+}

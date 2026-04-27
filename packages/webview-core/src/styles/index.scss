@@ -1,0 +1,26 @@
+// 样式系统统一入口
+// 基于 Element Plus + VSCode 主题的现代化样式架构
+
+// 1. 核心基础层
+@use './core/variables.scss';
+@use './core/functions.scss';
+@use './core/mixins.scss';
+@use './core/theme.scss';
+
+
+// 2. 基础样式层（最小化，避免与 Element Plus 冲突）
+@use './foundation/reset.scss';
+@use './foundation/typography.scss';
+@use './foundation/layout.scss';
+@use './foundation/forms.scss';
+@use './foundation/utilities.scss';
+
+// 3. Element Plus 主题系统（优先级最高）
+@use './element-plus/index.scss' as element;
+
+// 4. VSCode 特定组件
+@use './components/index.scss' as components;
+
+// 5. 主题
+@use './core/light.scss';
+@use './core/dark.scss';

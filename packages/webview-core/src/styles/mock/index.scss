@@ -1,0 +1,19 @@
+// VSCode 主题模拟系统
+// 为第三方 Vue 程序提供 VSCode 主题环境模拟
+
+@use './themes/theme-light-vars.scss' as light;
+@use './themes/theme-dark-vars.scss' as dark;
+@use './dev-tools.scss';
+@use './theme-switcher.scss';
+
+// 默认使用暗色主题
+@include dark.theme-variables;
+
+// // 主题切换类
+// .theme-light {
+//   @include light.theme-variables;
+// }
+
+// .theme-dark {
+//   @include dark.theme-variables;
+// }

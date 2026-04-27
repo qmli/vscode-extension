@@ -1,0 +1,48 @@
+// SCSS 函数库
+// 提供各种实用的 SCSS 函数
+
+@use 'sass:math';
+@use 'sass:color';
+
+// 像素转换为 rem 单位
+@function px-to-rem($px, $base-font-size: 16px) {
+  @return math.div($px, $base-font-size) * 1rem;
+}
+
+// 计算相对字体大小
+@function relative-font-size($target-size, $base-size: 16px) {
+  @return math.div($target-size, $base-size) * 1em;
+}
+
+// 计算 z-index 层级
+@function z-index($layer) {
+  $z-indexes: (
+    'dropdown': 1000,
+    'sticky': 1020,
+    'fixed': 1030,
+    'modal-backdrop': 1040,
+    'modal': 1050,
+    'popover': 1060,
+    'tooltip': 1070
+  );
+
+  @return map-get($z-indexes, $layer);
+}
+
+// 计算间距比例
+@function spacing-scale($multiplier, $base-spacing: 8px) {
+  @return $base-spacing * $multiplier;
+}
+
+// 获取边框半径
+@function border-radius($size: 'default') {
+  $radii: (
+    'sm': 2px,
+    'default': 4px,
+    'lg': 8px,
+    'xl': 12px,
+    'full': 50%
+  );
+
+  @return map-get($radii, $size);
+}

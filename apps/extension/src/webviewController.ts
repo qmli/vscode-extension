@@ -4,7 +4,7 @@
 import type { Disposable, Event, Uri, ViewBadge, Webview, WebviewPanel, WebviewView } from 'vscode';
 import { CancellationTokenSource, EventEmitter, ViewColumn, window, WindowState } from 'vscode';
 import { executeCommand, executeCoreCommand } from '@/common/commands/command';
-import { pauseOnCancelOrTimeout } from '@/common/promise';
+import { pauseOnCancelOrTimeout } from '@orientais/vscode-core';
 import type {
   IpcCallMessageType,
   IpcCallParamsType,
@@ -31,9 +31,9 @@ import type { WebviewCommands, WebviewViewCommands } from '@packages/common/webv
 import type { WebviewIds, WebviewViewIds } from '@packages/common/webviews/constants/constants.views';
 import { getScopedCounter } from '@packages/utils/counter';
 import type { Container } from './container';
-import { isCancellationError } from './core/errors';
-import { debug } from './core/log';
-import { getViewFocusCommand } from './core/vscode.views';
+import { isCancellationError } from '@orientais/vscode-core/errors';
+import { debug } from '@orientais/vscode-core/log';
+import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';
 import type { WebviewContext } from './webview';
 import type { WebviewCommandCallback, WebviewCommandRegistrar } from './webviewCommandRegistrar';
 import type { WebviewHost, WebviewShowOptions } from './webviewHost';

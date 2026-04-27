@@ -1,7 +1,7 @@
 import vscode, { Uri } from 'vscode';
 import { Media } from '@/common/constants/constants';
 import { ISoftDataType } from '@/common/constants/constants.isoft';
-import { errorManager } from '@/core/errors';
+import { errorManager } from '@orientais/vscode-core/errors';
 import { getMediaIcon } from '@/utils/media';
 import { EProjectType, ProjectType } from '@packages/common/webviews/constants/constants.project';
 import type { ProjectInfo } from '@packages/common/webviews/models/projects/projectInfo';

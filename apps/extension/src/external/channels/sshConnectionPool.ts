@@ -1,6 +1,6 @@
-import { Logger } from '@/core/logger';
-import { getLogScope } from '@/core/logger.scope';
-import type { RunOptions } from '@/core/shell';
+import { Logger } from '@orientais/vscode-core/logger';
+import { getLogScope } from '@orientais/vscode-core/logger.scope';
+import type { RunOptions } from '@orientais/vscode-core/shell';
 import type { SSHConfig } from '../types/protocol';
 import { SSHChannel } from './sshChannel';
 

@@ -1,0 +1,586 @@
+// Element Plus 组件定制样式
+// 针对 VSCode 环境的 Element Plus 组件深度定制
+//
+// 使用 body 包裹所有规则，将特异性从 (0,1,0) 提升到 (0,1,1)，
+// 确保无论 CSS 加载顺序如何，始终覆盖 element-plus 原始样式。
+
+// ========================================
+// 动画（@keyframes 必须保留在顶层）
+// ========================================
+
+@keyframes el-button-loading-rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// ========================================
+// 所有组件定制（body 包裹提升特异性）
+// ========================================
+
+body {
+  // ========================================
+  // 按钮组件定制
+  // ========================================
+  a:hover {
+    text-decoration: none;
+  }
+
+  .el-button {
+    // color: var(--vscode-button-foreground);
+
+    &:not(.is-disabled):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    &.is-disabled {
+      color: var(--vscode-titleBar-activeForeground);
+      border-color: var(--vscode-focusBorder);
+      cursor: not-allowed;
+    }
+
+    // &:hover {
+    //   background-color: var(--vscode-button-hoverBackground);
+    // }
+
+    &.is-warning {
+      border: 1px solid var(--vscode-focusBorder);
+      // border-color: var(--vscode-warningForeground);
+
+      &.is-focus {
+        // box-shadow: 0 0 0 2px color-mix(in srgb, var(--vscode-warningForeground) 30%, transparent 70%);
+      }
+    }
+
+    &.is-disabled:hover {
+      transform: translateY(0);
+      box-shadow: none;
+      color: var(--vscode-titleBar-activeForeground);
+      border-color: var(--vscode-focusBorder);
+    }
+
+    &:not(.is-disabled):active {
+      transform: translateY(0);
+    }
+
+    &.is-circle {
+      border-radius: 50%;
+    }
+
+    &.is-loading {
+      pointer-events: none;
+
+      .el-icon {
+        animation: el-button-loading-rotate 1s linear infinite;
+      }
+    }
+    &.is-link:hover {
+      color: var(--vscode-titleBar-activeForeground);
+    }
+  }
+
+  // 按钮组优化
+  .el-button-group {
+    .el-button {
+      &:hover {
+        z-index: 1;
+      }
+
+      &:focus {
+        z-index: 2;
+      }
+    }
+  }
+
+  // ========================================
+  // 输入框组件定制
+  // ========================================
+
+  .el-input {
+    &.is-focus .el-input__wrapper {
+      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+    }
+
+    &.is-success .el-input__wrapper {
+      border-color: var(--vscode-charts-green);
+      &.is-focus {
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--vscode-charts-green) 30%, transparent 70%);
+      }
+    }
+    & .el-input__wrapper {
+      background-color: var(--vscode-input-background);
+    }
+
+    &.is-warning .el-input__wrapper {
+      // border-color: var(--vscode-warningForeground);
+
+      &.is-focus {
+        // box-shadow: 0 0 0 2px color-mix(in srgb, var(--vscode-warningForeground) 30%, transparent 70%);
+      }
+    }
+
+    &.is-error .el-input__wrapper {
+      border-color: var(--vscode-errorForeground);
+
+      &.is-focus {
+        box-shadow: 0 0 0 2px color-mix(in srgb, var(--vscode-errorForeground) 30%, transparent 70%);
+      }
+    }
+  }
+
+  // ========================================
+  // 选择器组件定制
+  // ========================================
+
+  .el-select {
+    .el-select__wrapper {
+      background-color: var(--vscode-dropdown-background);
+
+      &.is-focus {
+        box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+      }
+    }
+
+    .el-select-dropdown__item {
+      &:hover {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+
+      &.is-selected {
+        background-color: var(--vscode-list-activeBackground);
+        color: var(--vscode-list-activeForeground);
+        font-weight: 500;
+      }
+    }
+
+    .el-tag {
+      background-color: var(--vscode-tab-activeBackground);
+      border: 1px solid var(--vscode-tab-border);
+      color: var(--vscode-titleBar-activeForeground);
+
+      .el-tag__close {
+        color: var(--vscode-titleBar-activeForeground);
+      }
+    }
+  }
+
+  // ========================================
+  // 表格组件定制
+  // ========================================
+
+  .el-table {
+    background-color: var(--vscode-background);
+    color: var(--vscode-foreground);
+
+    .el-table__header-wrapper {
+      .el-table__header {
+        th {
+          background-color: var(--vscode-sideBar-background);
+          color: var(--vscode-sideBar-foreground);
+          border-bottom: 1px solid var(--vscode-border);
+          font-weight: 600;
+        }
+      }
+    }
+
+    .el-table__empty-block {
+      background-color: var(--vscode-background);
+      color: var(--vscode-list-inactiveForeground);
+    }
+  }
+
+  // ========================================
+  // 对话框组件定制
+  // ========================================
+
+  .el-dialog {
+    background-color: var(--vscode-background);
+    border: 1px solid var(--vscode-border);
+    box-shadow: var(--vscode-widget-shadow);
+
+    .el-dialog__header {
+      background-color: var(--vscode-sideBar-background);
+      border-bottom: 1px solid var(--vscode-border);
+      color: var(--vscode-foreground);
+      padding: 16px 20px;
+    }
+
+    .el-dialog__body {
+      color: var(--vscode-foreground);
+      padding: 20px;
+    }
+
+    .el-dialog__footer {
+      border-top: 1px solid var(--vscode-border);
+      background-color: var(--vscode-background);
+      padding: 16px 20px;
+    }
+
+    .el-dialog__close {
+      color: var(--vscode-list-inactiveForeground);
+
+      &:hover {
+        color: var(--vscode-foreground);
+        background-color: var(--vscode-list-hoverBackground);
+      }
+    }
+  }
+
+  // ========================================
+  // 消息组件定制
+  // ========================================
+
+  .el-message {
+    background-color: var(--vscode-notification-background);
+    border: 1px solid var(--vscode-notification-border);
+    color: var(--vscode-notification-foreground);
+    box-shadow: var(--vscode-widget-shadow);
+
+    &.el-message--success {
+      border-left: 4px solid var(--vscode-charts-green);
+    }
+
+    &.el-message--warning {
+      border-left: 4px solid var(--vscode-warningForeground);
+    }
+
+    &.el-message--error {
+      border-left: 4px solid var(--vscode-errorForeground);
+    }
+
+    &.el-message--info {
+      border-left: 4px solid var(--vscode-infoForeground);
+    }
+
+    .el-message__closeBtn {
+      color: var(--vscode-list-inactiveForeground);
+
+      &:hover {
+        color: var(--vscode-foreground);
+      }
+    }
+  }
+
+  // ========================================
+  // 菜单组件定制
+  // ========================================
+
+  .el-menu {
+    background-color: var(--vscode-sideBar-background);
+    border-right: 1px solid var(--vscode-sideBar-border);
+
+    .el-menu-item {
+      color: var(--vscode-sideBar-foreground);
+
+      &:hover {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+
+      &.is-active {
+        background-color: var(--vscode-list-activeBackground);
+        color: var(--vscode-list-activeForeground);
+        border-right: 2px solid var(--vscode-button-background);
+      }
+    }
+
+    .el-sub-menu {
+      .el-sub-menu__title {
+        color: var(--vscode-sideBar-foreground);
+
+        &:hover {
+          background-color: var(--vscode-list-hoverBackground);
+        }
+      }
+    }
+  }
+
+  // ========================================
+  // Popper 通用浮层（下拉、选择器、Popover、Tooltip 等）
+  // ========================================
+
+  .el-popper {
+    border: 12px solid var(--el-popper-border-color);
+
+    &.is-light,
+    &:not(.is-dark) {
+      background-color: var(--vscode-activityBar-background);
+      color: var(--vscode-sideBar-foreground);
+      border-color: var(--vscode-activityBar-border);
+
+      .el-popper__arrow::before {
+        border-color: var(--vscode-activityBar-border);
+        background-color: var(--vscode-activityBar-background);
+      }
+    }
+
+    &.is-dark {
+      background-color: var(--vscode-activityBar-background);
+      color: var(--vscode-sideBar-foreground);
+      border-color: var(--vscode-activityBar-border);
+
+      .el-popper__arrow::before {
+        border-color: var(--vscode-activityBar-border);
+        background-color: var(--vscode-activityBar-background);
+      }
+    }
+  }
+
+  // ========================================
+  // 工具提示组件定制
+  // ========================================
+
+  .el-tooltip__popper {
+    background-color: var(--vscode-activityBar-background);
+    color: var(--vscode-activityBar-foreground);
+    border: 1px solid var(--vscode-activityBar-border);
+
+    .el-popper__arrow::before {
+      border-color: var(---vscode-activityBar-border);
+    }
+
+    &.is-light {
+      background-color: var(--vscode-activityBar-background);
+      color: var(--vscode-activityBar-foreground);
+      border: 1px solid var(--vscode-activityBar-border);
+
+      .el-popper__arrow::before {
+        border-color: var(---vscode-activityBar-border);
+      }
+    }
+  }
+
+  // ========================================
+  // 加载组件定制
+  // ========================================
+
+  .el-loading-mask {
+    background-color: color-mix(in srgb, var(--vscode-background) 80%, transparent 20%);
+    backdrop-filter: blur(2px);
+
+    .el-loading-spinner {
+      .el-icon {
+        color: var(--vscode-button-background);
+        font-size: 20px;
+      }
+
+      .el-loading-text {
+        color: var(--vscode-foreground);
+        margin-top: 8px;
+      }
+    }
+  }
+
+  // ========================================
+  // 分页组件定制
+  // ========================================
+
+  .el-pagination {
+    .el-pager {
+      li {
+        background-color: var(--vscode-background);
+        color: var(--vscode-foreground);
+        border: 1px solid var(--vscode-border);
+
+        &:hover {
+          background-color: var(--vscode-list-hoverBackground);
+        }
+
+        &.is-active {
+          background-color: var(--vscode-button-background);
+          color: var(--vscode-button-foreground);
+        }
+      }
+    }
+
+    .btn-prev,
+    .btn-next {
+      background-color: var(--vscode-background);
+      color: var(--vscode-foreground);
+      border: 1px solid var(--vscode-border);
+
+      &:hover {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+
+      &:disabled {
+        background-color: var(--vscode-list-inactiveForeground);
+        color: var(--vscode-background);
+      }
+    }
+  }
+
+  // ========================================
+  // 树形控件定制
+  // ========================================
+
+  .el-tree {
+    background-color: var(--vscode-sideBar-background);
+    color: var(--vscode-sideBar-foreground);
+
+    .el-tree-node {
+      &:hover > .el-tree-node__content {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+
+      &.is-current > .el-tree-node__content {
+        background-color: var(--vscode-list-activeBackground);
+        color: var(--vscode-list-activeForeground);
+      }
+    }
+
+    .el-tree-node__expand-icon {
+      color: var(--vscode-list-inactiveForeground);
+
+      &.expanded {
+        transform: rotate(90deg);
+      }
+    }
+  }
+
+  // ========================================
+  // 标签页组件定制
+  // ========================================
+
+  .el-tabs {
+    .el-tabs__header {
+      background-color: var(--vscode-background);
+      border-bottom: 1px solid var(--vscode-border);
+    }
+
+    .el-tabs__nav {
+      .el-tabs__item {
+        color: var(--vscode-list-inactiveForeground);
+        border-bottom: 2px solid transparent;
+
+        &:hover {
+          color: var(--vscode-foreground);
+        }
+
+        &.is-active {
+          color: var(--vscode-button-background);
+        }
+      }
+    }
+
+    .el-tabs__content {
+      background-color: var(--vscode-background);
+      color: var(--vscode-foreground);
+    }
+  }
+
+  // ========================================
+  // 抽屉组件定制
+  // ========================================
+
+  .el-drawer {
+    background-color: var(--vscode-background);
+    color: var(--vscode-foreground);
+
+    .el-drawer__header {
+      background-color: var(--vscode-sideBar-background);
+      border-bottom: 1px solid var(--vscode-border);
+      color: var(--vscode-foreground);
+      padding: 16px 20px;
+    }
+
+    .el-drawer__body {
+      padding: 20px;
+    }
+
+    .el-drawer__close-btn {
+      color: var(--vscode-list-inactiveForeground);
+
+      &:hover {
+        color: var(--vscode-foreground);
+        background-color: var(--vscode-list-hoverBackground);
+      }
+    }
+  }
+
+  // ========================================
+  // 卡片组件定制
+  // ========================================
+
+  .el-card {
+    background-color: var(--vscode-editor-background);
+    border: 1px solid var(--vscode-panel-border);
+    box-shadow: var(--vscode-widget-shadow);
+
+    .el-card__header {
+      background-color: var(--vscode-sideBar-background);
+      border-bottom: 1px solid var(--vscode-border);
+      color: var(--vscode-foreground);
+      font-weight: 600;
+    }
+
+    .el-card__body {
+      color: var(--vscode-foreground);
+    }
+  }
+
+  // ========================================
+  // 表单组件定制
+  // ========================================
+
+  .el-form {
+    .el-form-item__label {
+      color: var(--vscode-foreground);
+      font-weight: 500;
+    }
+
+    .el-form-item__error {
+      color: var(--vscode-errorForeground);
+    }
+
+    .el-form-item.is-success {
+      .el-input__wrapper,
+      .el-textarea__inner,
+      .el-select__wrapper {
+        border-color: var(--vscode-charts-green);
+      }
+    }
+
+    .el-form-item.is-error {
+      .el-input__wrapper,
+      .el-textarea__inner,
+      .el-select__wrapper {
+        border-color: var(--vscode-errorForeground);
+      }
+    }
+  }
+
+  // ========================================
+  // 滚动条统一样式
+  // ========================================
+
+  .el-scrollbar__bar.is-vertical > div {
+    background-color: var(--vscode-scrollbarSlider-background);
+
+    &:hover {
+      background-color: var(--vscode-scrollbarSlider-hoverBackground);
+    }
+  }
+
+  .el-scrollbar__bar.is-horizontal > div {
+    background-color: var(--vscode-scrollbarSlider-background);
+
+    &:hover {
+      background-color: var(--vscode-scrollbarSlider-hoverBackground);
+    }
+  }
+
+  // 淡入淡出动画
+  .el-fade-in-enter-active,
+  .el-fade-in-leave-active {
+    transition: opacity 0.15s ease;
+  }
+
+  .el-fade-in-enter-from,
+  .el-fade-in-leave-to {
+    opacity: 0;
+  }
+}

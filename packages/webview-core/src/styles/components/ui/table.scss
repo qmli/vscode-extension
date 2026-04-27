@@ -1,0 +1,365 @@
+// 表格组件样式
+// 统一的表格样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础表格样式
+// ========================================
+
+.vscode-table,
+.orientais-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--vscode-background);
+  color: var(--vscode-foreground);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  overflow: hidden;
+
+  &__header {
+    background-color: var(--vscode-sideBar-background);
+    border-bottom: 1px solid var(--vscode-border);
+  }
+
+  &__header-cell {
+    padding: vars.$spacing-md vars.$spacing-lg;
+    color: var(--vscode-sideBar-foreground);
+    font-weight: 600;
+    font-size: vars.$font-size-sm;
+    text-align: left;
+    border-right: 1px solid var(--vscode-border);
+    position: relative;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    // 可排序列
+    &.is-sortable {
+      cursor: pointer;
+      user-select: none;
+      transition: background-color vars.$transition-fast;
+
+      &:hover {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: vars.$spacing-sm;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 0;
+        height: 0;
+        border: 4px solid transparent;
+        border-bottom-color: var(--vscode-list-inactiveForeground);
+        opacity: 0.5;
+      }
+
+      &.is-ascending::after {
+        border-bottom-color: var(--vscode-foreground);
+        border-top-color: transparent;
+        opacity: 1;
+      }
+
+      &.is-descending::after {
+        border-top-color: var(--vscode-foreground);
+        border-bottom-color: transparent;
+        opacity: 1;
+      }
+    }
+
+    // 可调整大小的列
+    &.is-resizable {
+      &::before {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        cursor: col-resize;
+        background-color: transparent;
+
+        &:hover {
+          background-color: var(--vscode-focusBorder);
+        }
+      }
+    }
+  }
+
+  &__body {
+    background-color: var(--vscode-background);
+  }
+
+  &__row {
+    border-bottom: 1px solid var(--vscode-border);
+    transition: background-color vars.$transition-fast;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+    }
+
+    &.is-selected {
+      background-color: var(--vscode-list-activeBackground);
+      color: var(--vscode-list-activeForeground);
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__cell {
+    padding: vars.$spacing-md vars.$spacing-lg;
+    font-size: vars.$font-size-sm;
+    line-height: 1.5;
+    border-right: 1px solid var(--vscode-border);
+    vertical-align: middle;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    // 文本对齐
+    &.text-left { text-align: left; }
+    &.text-center { text-align: center; }
+    &.text-right { text-align: right; }
+
+    // 垂直对齐
+    &.align-top { vertical-align: top; }
+    &.align-middle { vertical-align: middle; }
+    &.align-bottom { vertical-align: bottom; }
+
+    // 固定宽度
+    &.fixed-width {
+      width: 1%;
+      white-space: nowrap;
+    }
+
+    // 可展开单元格
+    &.expandable {
+      @include mixins.text-ellipsis();
+      max-width: 200px;
+      position: relative;
+
+      &:hover {
+        overflow: visible;
+        white-space: normal;
+        word-break: break-word;
+      }
+    }
+  }
+
+  &__empty {
+    text-align: center;
+    padding: vars.$spacing-xl;
+    color: var(--vscode-list-inactiveForeground);
+    font-size: vars.$font-size-sm;
+    font-style: italic;
+  }
+
+  // 表格变体
+  &--striped {
+    .vscode-table__row:nth-child(even),
+    .orientais-table__row:nth-child(even) {
+      background-color: var(--vscode-sideBar-background);
+
+      &:hover {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+    }
+  }
+
+  &--bordered {
+    border: 2px solid var(--vscode-border);
+
+    .vscode-table__header-cell,
+    .orientais-table__header-cell,
+    .vscode-table__cell,
+    .orientais-table__cell {
+      border: 1px solid var(--vscode-border);
+    }
+  }
+
+  &--borderless {
+    border: none;
+
+    .vscode-table__header,
+    .orientais-table__header,
+    .vscode-table__row,
+    .orientais-table__row {
+      border: none;
+    }
+
+    .vscode-table__header-cell,
+    .orientais-table__header-cell,
+    .vscode-table__cell,
+    .orientais-table__cell {
+      border: none;
+    }
+  }
+
+  &--compact {
+    .vscode-table__header-cell,
+    .orientais-table__header-cell,
+    .vscode-table__cell,
+    .orientais-table__cell {
+      padding: vars.$spacing-sm vars.$spacing-md;
+      font-size: vars.$font-size-xs;
+    }
+  }
+
+  &--spacious {
+    .vscode-table__header-cell,
+    .orientais-table__header-cell,
+    .vscode-table__cell,
+    .orientais-table__cell {
+      padding: vars.$spacing-lg vars.$spacing-xl;
+    }
+  }
+
+  // 响应式表格
+  &--responsive {
+    @include mixins.respond-to('xs') {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+      border: none;
+
+      .vscode-table__header,
+      .orientais-table__header {
+        display: none;
+      }
+
+      .vscode-table__row,
+      .orientais-table__row {
+        display: block;
+        border: 1px solid var(--vscode-border);
+        border-radius: vars.$border-radius;
+        margin-bottom: vars.$spacing-md;
+        padding: vars.$spacing-md;
+      }
+
+      .vscode-table__cell,
+      .orientais-table__cell {
+        display: block;
+        border: none;
+        padding: vars.$spacing-xs 0;
+        text-align: left;
+
+        &::before {
+          content: attr(data-label) ': ';
+          font-weight: 600;
+          color: var(--vscode-sideBar-foreground);
+        }
+      }
+    }
+  }
+}
+
+// ========================================
+// 表格操作栏
+// ========================================
+
+.vscode-table-toolbar,
+.orientais-table-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: vars.$spacing-md 0;
+  margin-bottom: vars.$spacing-md;
+  border-bottom: 1px solid var(--vscode-border);
+
+  &__left,
+  &__right {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+  }
+
+  &__search {
+    min-width: 200px;
+  }
+
+  &__actions {
+    display: flex;
+    gap: vars.$spacing-xs;
+  }
+}
+
+// ========================================
+// 分页组件
+// ========================================
+
+.vscode-table-pagination,
+.orientais-table-pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: vars.$spacing-md 0;
+  margin-top: vars.$spacing-md;
+  border-top: 1px solid var(--vscode-border);
+
+  &__info {
+    color: var(--vscode-list-inactiveForeground);
+    font-size: vars.$font-size-sm;
+  }
+
+  &__controls {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+  }
+
+  &__page-size {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+    font-size: vars.$font-size-sm;
+  }
+}
+
+// ========================================
+// 加载状态
+// ========================================
+
+.vscode-table--loading,
+.orientais-table--loading {
+  position: relative;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+}
+
+.vscode-table__loading,
+.orientais-table__loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}

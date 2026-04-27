@@ -1,0 +1,312 @@
+// 卡片组件样式
+// 统一的卡片样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础卡片样式
+// ========================================
+
+.vscode-card,
+.orientais-card {
+  @include mixins.card-style();
+
+  &__header {
+    background-color: var(--vscode-sideBar-background);
+    border-bottom: 1px solid var(--vscode-border);
+    padding: vars.$spacing-lg vars.$spacing-xl;
+    color: var(--vscode-foreground);
+    font-weight: 600;
+    font-size: vars.$font-size-lg;
+
+    &:first-child {
+      border-top-left-radius: vars.$border-radius;
+      border-top-right-radius: vars.$border-radius;
+    }
+  }
+
+  &__body {
+    padding: vars.$spacing-xl;
+    color: var(--vscode-foreground);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  &__footer {
+    background-color: var(--vscode-sideBar-background);
+    border-top: 1px solid var(--vscode-border);
+    padding: vars.$spacing-lg vars.$spacing-xl;
+    color: var(--vscode-foreground);
+
+    &:last-child {
+      border-bottom-left-radius: vars.$border-radius;
+      border-bottom-right-radius: vars.$border-radius;
+    }
+  }
+
+  // 卡片变体
+  &--bordered {
+    border: 2px solid var(--vscode-border);
+  }
+
+  &--shadow {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  &--hoverable {
+    cursor: pointer;
+    transition: all vars.$transition-fast;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    }
+  }
+
+  &--compact {
+    .vscode-card__header,
+    .orientais-card__header,
+    .vscode-card__footer,
+    .orientais-card__footer {
+      padding: vars.$spacing-md vars.$spacing-lg;
+    }
+
+    .vscode-card__body,
+    .orientais-card__body {
+      padding: vars.$spacing-lg;
+    }
+  }
+
+  &--spacious {
+    .vscode-card__header,
+    .orientais-card__header,
+    .vscode-card__footer,
+    .orientais-card__footer {
+      padding: vars.$spacing-xl calc(vars.$spacing-xl * 1.5);
+    }
+
+    .vscode-card__body,
+    .orientais-card__body {
+      padding: calc(vars.$spacing-xl * 1.5);
+    }
+  }
+
+  // 无边框卡片
+  &--borderless {
+    border: none;
+    box-shadow: none;
+  }
+
+  // 圆角卡片
+  &--rounded {
+    border-radius: vars.$border-radius-lg;
+
+    .vscode-card__header,
+    .orientais-card__header {
+      &:first-child {
+        border-top-left-radius: calc(vars.$border-radius-lg - 1px);
+        border-top-right-radius: calc(vars.$border-radius-lg - 1px);
+      }
+    }
+
+    .vscode-card__footer,
+    .orientais-card__footer {
+      &:last-child {
+        border-bottom-left-radius: calc(vars.$border-radius-lg - 1px);
+        border-bottom-right-radius: calc(vars.$border-radius-lg - 1px);
+      }
+    }
+  }
+
+  // 状态卡片
+  &--primary {
+    border-left: 4px solid var(--vscode-button-background);
+  }
+
+  &--success {
+    border-left: 4px solid var(--vscode-charts-green);
+  }
+
+  &--warning {
+    border-left: 4px solid var(--vscode-warningForeground);
+  }
+
+  &--danger {
+    border-left: 4px solid var(--vscode-errorForeground);
+  }
+
+  &--info {
+    border-left: 4px solid var(--vscode-infoForeground);
+  }
+}
+
+// ========================================
+// 卡片网格
+// ========================================
+
+.vscode-card-grid,
+.orientais-card-grid {
+  display: grid;
+  gap: vars.$spacing-lg;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+
+  &--cols-1 {
+    grid-template-columns: 1fr;
+  }
+
+  &--cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  &--cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  &--cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  // 响应式网格
+  @include mixins.respond-to('xs') {
+    grid-template-columns: 1fr;
+    gap: vars.$spacing-md;
+  }
+
+  @include mixins.respond-to('sm') {
+    &--cols-2,
+    &--cols-3,
+    &--cols-4 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @include mixins.respond-to('md') {
+    &--cols-3,
+    &--cols-4 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @include mixins.respond-to('lg') {
+    &--cols-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+// ========================================
+// 卡片组
+// ========================================
+
+.vscode-card-group,
+.orientais-card-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  .vscode-card,
+  .orientais-card {
+    border-radius: 0;
+    margin-bottom: -1px;
+
+    &:first-child {
+      border-top-left-radius: vars.$border-radius;
+      border-top-right-radius: vars.$border-radius;
+    }
+
+    &:last-child {
+      border-bottom-left-radius: vars.$border-radius;
+      border-bottom-right-radius: vars.$border-radius;
+      margin-bottom: 0;
+    }
+  }
+
+  &--horizontal {
+    flex-direction: row;
+
+    .vscode-card,
+    .orientais-card {
+      margin-bottom: 0;
+      margin-right: -1px;
+
+      &:first-child {
+        border-top-left-radius: vars.$border-radius;
+        border-bottom-left-radius: vars.$border-radius;
+        border-top-right-radius: 0;
+      }
+
+      &:last-child {
+        border-top-right-radius: vars.$border-radius;
+        border-bottom-right-radius: vars.$border-radius;
+        border-bottom-left-radius: 0;
+        margin-right: 0;
+      }
+    }
+  }
+}
+
+// ========================================
+// 特殊卡片类型
+// ========================================
+
+// 统计卡片
+.vscode-stat-card,
+.orientais-stat-card {
+  @extend .vscode-card;
+
+  .stat-number {
+    font-size: calc(vars.$font-size-xl * 1.5);
+    font-weight: 700;
+    color: var(--vscode-button-background);
+    margin-bottom: vars.$spacing-xs;
+  }
+
+  .stat-label {
+    font-size: vars.$font-size-sm;
+    color: var(--vscode-list-inactiveForeground);
+    margin-bottom: vars.$spacing-sm;
+  }
+
+  .stat-change {
+    font-size: vars.$font-size-xs;
+    font-weight: 500;
+
+    &.positive {
+      color: var(--vscode-charts-green);
+    }
+
+    &.negative {
+      color: var(--vscode-errorForeground);
+    }
+  }
+}
+
+// 媒体卡片
+.vscode-media-card,
+.orientais-media-card {
+  @extend .vscode-card;
+
+  .media-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-top-left-radius: vars.$border-radius;
+    border-top-right-radius: vars.$border-radius;
+  }
+
+  .media-content {
+    padding: vars.$spacing-lg;
+  }
+
+  .media-title {
+    font-size: vars.$font-size-lg;
+    font-weight: 600;
+    margin-bottom: vars.$spacing-sm;
+  }
+
+  .media-description {
+    color: var(--vscode-list-inactiveForeground);
+    line-height: 1.6;
+  }
+}

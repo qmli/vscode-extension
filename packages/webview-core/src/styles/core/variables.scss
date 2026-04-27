@@ -1,0 +1,36 @@
+// SCSS 变量定义
+// 注意：颜色相关变量已移除，请使用 VSCode 原生主题变量
+// 例如：var(--vscode-background), var(--vscode-foreground) 等
+
+// 边框和阴影（使用固定值，因为 CSS 变量无法在 SCSS 中用于算术运算）
+$border-radius: 4px;
+$border-radius-lg: 8px;
+$border-radius-sm: 2px;
+
+// 字体系统 - 使用纯SCSS变量以支持算术运算
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 20px;
+
+// 间距系统 - 使用纯SCSS变量以支持算术运算
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+
+// 过渡动画（使用固定值）
+$transition-fast: 0.15s ease;
+$transition-base: 0.3s ease;
+$transition-slow: 0.5s ease;
+
+// Z-index 层级
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;

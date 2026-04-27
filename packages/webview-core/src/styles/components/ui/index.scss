@@ -1,0 +1,19 @@
+// UI 组件样式统一导入文件
+// 包含所有基础组件和 VSCode 特定组件
+
+// 基础表单组件
+@use './button.scss';
+@use './input.scss';
+@use './select.scss';
+@use './table.scss';
+@use './card.scss';
+
+// 基础交互组件
+@use './dialog.scss';
+@use './message.scss';
+@use './loading.scss';
+@use './menu.scss';
+@use './tooltip.scss';
+
+// VSCode 特定组件
+@use './vscode-specific.scss';

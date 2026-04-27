@@ -1,6 +1,6 @@
-import { Logger } from '@/core/logger';
-import { getLogScope } from '@/core/logger.scope';
-import { SSHBasedExecutableProvider } from './sshBasedProvider';
+import { Logger } from '@orientais/vscode-core/logger';
+import { getLogScope } from '@orientais/vscode-core/logger.scope';
+import { SSHBasedExecutableProvider } from '@orientais/vscode-external/providers/sshBasedProvider';
 
 /**
  * 基于SSH的Git提供者示例实现

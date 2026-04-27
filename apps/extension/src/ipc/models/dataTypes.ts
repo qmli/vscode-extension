@@ -1,6 +1,6 @@
 // 统一的 IPC 标记类型系统 —— 允许在 IPC 边界上透明地序列化/反序列化特殊类型
 
-import type { UriComponents } from '@/core/uri';
+import type { UriComponents } from '@orientais/vscode-core/uri';
 
 /** 用于日期的标记类型，序列化为时间戳 */
 export interface IpcDate {

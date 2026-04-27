@@ -8,12 +8,12 @@
  * - 管理webview的订阅状态
  */
 
+import { Logger } from '@orientais/vscode-core/logger';
+import type { WebviewHost } from '@orientais/vscode-webview/webviewHost';
+import type { WebviewsController } from '@orientais/vscode-webview/webviewsController';
 import type { Disposable, Event } from 'vscode';
 import { EventEmitter, window, workspace } from 'vscode';
 import type { Container } from '@/container';
-import { Logger } from '@/core/logger';
-import type { WebviewHost } from '@/webviewHost';
-import type { WebviewsController } from '@/webviewsController';
 import type { AppThemeType, LanguageInfo } from '@packages/common/global.protocol';
 import {
   DidChangeLanguageNotification,

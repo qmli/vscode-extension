@@ -1,3 +1,1 @@
-export interface CommandContextParsingOptions {
-  expectsEditor: boolean;
-}
+export type { CommandContextParsingOptions } from '@orientais/vscode-core';

@@ -1,6 +1,8 @@
 // =============================================================================
 // WebviewsController 实现（总控制器）
 // =============================================================================
+import { uuid } from '@orientais/vscode-core';
+import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';
 import type {
   CancellationToken,
   WebviewOptions,
@@ -11,7 +13,6 @@ import type {
 } from 'vscode';
 import { Disposable, Uri, ViewColumn, window } from 'vscode';
 import { executeCoreCommand } from '@/common/commands/command';
-import { uuid } from '@/common/crypto';
 import type {
   WebviewIds,
   WebviewTypes,
@@ -20,7 +21,6 @@ import type {
 } from '@packages/common/webviews/constants/constants.views';
 import { first } from '@packages/utils/iterable';
 import type { Container } from './container';
-import { getViewFocusCommand } from './core/vscode.views';
 import { WebviewCommandRegistrar } from './webviewCommandRegistrar';
 import { WebviewController } from './webviewController';
 import type { WebviewHost } from './webviewHost';

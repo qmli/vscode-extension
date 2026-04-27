@@ -1,0 +1,236 @@
+// 按钮组件样式
+// 统一的按钮样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础按钮样式
+// ========================================
+
+.vscode-button,
+.orientais-button {
+  @include mixins.button-style();
+
+  // 主要按钮
+  &--primary,
+  &.is-primary {
+    background-color: var(--vscode-button-background);
+    border-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+
+    &:hover {
+      background-color: var(--vscode-button-hoverBackground);
+      border-color: var(--vscode-button-hoverBackground);
+    }
+  }
+
+  // 次要按钮
+  &--secondary,
+  &.is-secondary {
+    background-color: var(--vscode-button-secondaryBackground);
+    border-color: var(--vscode-border);
+    color: var(--vscode-button-secondaryForeground);
+
+    &:hover {
+      background-color: var(--vscode-button-secondaryHoverBackground);
+      border-color: var(--vscode-border);
+    }
+  }
+
+  // 文本按钮
+  &--text,
+  &.is-text {
+    background-color: transparent;
+    border: none;
+    color: var(--vscode-textLink-foreground);
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+      color: var(--vscode-textLink-activeForeground);
+    }
+  }
+
+  // 危险按钮
+  &--danger,
+  &.is-danger {
+    background-color: var(--vscode-errorForeground);
+    border-color: var(--vscode-errorForeground);
+    color: var(--vscode-button-foreground);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  // 成功按钮
+  &--success,
+  &.is-success {
+    background-color: var(--vscode-charts-green);
+    border-color: var(--vscode-charts-green);
+    color: var(--vscode-button-foreground);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  // 警告按钮
+  &--warning,
+  &.is-warning {
+    background-color: var(--vscode-warningForeground);
+    border-color: var(--vscode-warningForeground);
+    color: var(--vscode-button-foreground);
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+
+  // 尺寸变体
+  &--small,
+  &.is-small {
+    padding: calc(vars.$spacing-xs) vars.$spacing-sm;
+    font-size: vars.$font-size-xs;
+  }
+
+  &--large,
+  &.is-large {
+    padding: vars.$spacing-md vars.$spacing-lg;
+    font-size: vars.$font-size-lg;
+  }
+
+  // 状态样式
+  &:disabled,
+  &.is-disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+
+    &:hover {
+      background-color: inherit;
+      border-color: inherit;
+    }
+  }
+
+  // 加载状态
+  &--loading,
+  &.is-loading {
+    pointer-events: none;
+    opacity: 0.8;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      margin: -8px 0 0 -8px;
+      border: 2px solid transparent;
+      border-top-color: currentColor;
+      border-radius: 50%;
+      animation: button-spin 1s linear infinite;
+    }
+  }
+
+  // 图标按钮
+  &--icon,
+  &.is-icon {
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border-radius: 50%;
+
+    &.is-small {
+      width: 24px;
+      height: 24px;
+    }
+
+    &.is-large {
+      width: 40px;
+      height: 40px;
+    }
+  }
+
+  // 块级按钮
+  &--block,
+  &.is-block {
+    display: flex;
+    width: 100%;
+  }
+
+  // 圆角按钮
+  &--rounded,
+  &.is-rounded {
+    border-radius: vars.$border-radius-lg;
+  }
+
+  // 无边框按钮
+  &--ghost,
+  &.is-ghost {
+    background-color: transparent;
+    border: 1px solid var(--vscode-border);
+    color: var(--vscode-foreground);
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+    }
+  }
+}
+
+// ========================================
+// 按钮组
+// ========================================
+
+.vscode-button-group,
+.orientais-button-group {
+  display: inline-flex;
+  vertical-align: middle;
+
+  .vscode-button,
+  .orientais-button {
+    position: relative;
+    margin: 0;
+
+    &:not(:first-child) {
+      margin-left: -1px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+
+    &:not(:last-child) {
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    &:hover {
+      z-index: 1;
+    }
+
+    &:focus {
+      z-index: 2;
+    }
+  }
+
+  &--vertical {
+    flex-direction: column;
+
+    .vscode-button,
+    .orientais-button {
+      &:not(:first-child) {
+        margin-left: 0;
+        margin-top: -1px;
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+        border-bottom-left-radius: vars.$border-radius;
+      }
+
+      &:not(:last-child) {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: vars.$border-radius;
+      }
+    }
+  }
+}

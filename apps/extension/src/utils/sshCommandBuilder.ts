@@ -1,5 +1,5 @@
 import { isAbsolute, normalize, resolve } from 'path';
-import type { SSHConfig } from '../external/types/protocol';
+import type { SSHConfig } from '@orientais/vscode-external';
 import { PlatformUtils } from './platform';
 import type { SSHClientInfo } from './sshClientDetector';
 import { SSHClientType } from './sshClientDetector';

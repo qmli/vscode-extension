@@ -1,0 +1,286 @@
+// 加载组件样式
+// 统一的加载指示器样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础加载样式
+// ========================================
+
+.vscode-loading,
+.orientais-loading {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vscode-foreground);
+
+  &__spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top-color: currentColor;
+    border-radius: 50%;
+    animation: loading-spin 1s linear infinite;
+  }
+
+  &__text {
+    margin-left: vars.$spacing-sm;
+    font-size: vars.$font-size-sm;
+    color: var(--vscode-foreground);
+  }
+
+  // 尺寸变体
+  &--small {
+    .vscode-loading__spinner,
+    .orientais-loading__spinner {
+      width: 16px;
+      height: 16px;
+      border-width: 2px;
+    }
+
+    .vscode-loading__text,
+    .orientais-loading__text {
+      font-size: vars.$font-size-xs;
+    }
+  }
+
+  &--large {
+    .vscode-loading__spinner,
+    .orientais-loading__spinner {
+      width: 32px;
+      height: 32px;
+      border-width: 3px;
+    }
+
+    .vscode-loading__text,
+    .orientais-loading__text {
+      font-size: vars.$font-size-base;
+    }
+  }
+
+  // 颜色变体
+  &--primary {
+    color: var(--vscode-button-background);
+  }
+
+  &--success {
+    color: var(--vscode-charts-green);
+  }
+
+  &--warning {
+    color: var(--vscode-warningForeground);
+  }
+
+  &--error {
+    color: var(--vscode-errorForeground);
+  }
+
+  &--info {
+    color: var(--vscode-infoForeground);
+  }
+
+  // 方向变体
+  &--vertical {
+    flex-direction: column;
+
+    .vscode-loading__text,
+    .orientais-loading__text {
+      margin-left: 0;
+      margin-top: vars.$spacing-sm;
+    }
+  }
+}
+
+// ========================================
+// 全屏加载遮罩
+// ========================================
+
+.vscode-loading-mask,
+.orientais-loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: vars.$z-index-modal;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .vscode-loading,
+  .orientais-loading {
+    background-color: var(--vscode-background);
+    padding: vars.$spacing-xl;
+    border-radius: vars.$border-radius;
+    box-shadow: var(--vscode-widget-shadow);
+    flex-direction: column;
+    gap: vars.$spacing-md;
+
+    &__text {
+      margin: 0;
+      font-size: vars.$font-size-base;
+      font-weight: 500;
+    }
+  }
+}
+
+// ========================================
+// 内联加载
+// ========================================
+
+.vscode-loading-inline,
+.orientais-loading-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: vars.$spacing-xs;
+  font-size: vars.$font-size-sm;
+  color: var(--vscode-list-inactiveForeground);
+
+  .vscode-loading__spinner,
+  .orientais-loading__spinner {
+    width: 14px;
+    height: 14px;
+    border-width: 1.5px;
+  }
+}
+
+// ========================================
+// 按钮加载状态
+// ========================================
+
+.vscode-button--loading,
+.orientais-button--loading {
+  position: relative;
+  pointer-events: none;
+
+  .vscode-loading,
+  .orientais-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+
+    &__spinner {
+      width: 14px;
+      height: 14px;
+      border-width: 2px;
+    }
+
+    &__text {
+      display: none;
+    }
+  }
+}
+
+// ========================================
+// 加载动画
+// ========================================
+
+@keyframes loading-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes loading-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes loading-bounce {
+  0%, 80%, 100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
+}
+
+// VSCode 特定动画关键帧
+@keyframes vscode-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes vscode-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes vscode-slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// 脉冲动画变体
+.vscode-loading--pulse,
+.orientais-loading--pulse {
+  .vscode-loading__spinner,
+  .orientais-loading__spinner {
+    animation: loading-pulse 1.5s ease-in-out infinite;
+  }
+}
+
+// 弹跳动画变体
+.vscode-loading--bounce,
+.orientais-loading--bounce {
+  .vscode-loading__spinner,
+  .orientais-loading__spinner {
+    animation: loading-bounce 1.4s ease-in-out infinite both;
+  }
+}
+
+// 波浪动画变体
+.vscode-loading--wave,
+.orientais-loading--wave {
+  .vscode-loading__spinner,
+  .orientais-loading__spinner {
+    display: flex;
+    gap: 2px;
+
+    &::before,
+    &::after {
+      content: '';
+      width: 4px;
+      height: 4px;
+      background-color: currentColor;
+      border-radius: 50%;
+      animation: loading-bounce 1.4s ease-in-out infinite both;
+    }
+
+    &::before {
+      animation-delay: -0.32s;
+    }
+
+    &::after {
+      animation-delay: -0.16s;
+    }
+  }
+}

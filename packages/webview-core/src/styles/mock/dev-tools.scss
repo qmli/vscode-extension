@@ -1,0 +1,412 @@
+// 开发环境工具样式
+// 提供主题调试和开发辅助功能
+
+@use '../core/variables.scss' as vars;
+@use '../core/mixins.scss' as mixins;
+
+// ========================================
+// 主题调试面板
+// ========================================
+
+@mixin theme-debug-panel {
+  .vscode-theme-debug {
+    position: fixed;
+    top: 50%;
+    left: 20px;
+    transform: translateY(-50%);
+    z-index: 9996;
+    background-color: var(--vscode-background);
+    border: 1px solid var(--vscode-border);
+    border-radius: vars.$border-radius;
+    padding: vars.$spacing-md;
+    box-shadow: var(--vscode-widget-shadow);
+    max-width: 400px;
+    max-height: 80vh;
+    overflow-y: auto;
+    font-size: vars.$font-size-xs;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-50%) translateX(-100%);
+    transition: all vars.$transition-base;
+
+    &.is-visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(-50%) translateX(0);
+    }
+
+    &__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: vars.$spacing-md;
+      padding-bottom: vars.$spacing-sm;
+      border-bottom: 1px solid var(--vscode-border);
+    }
+
+    &__title {
+      font-size: vars.$font-size-sm;
+      font-weight: 600;
+      color: var(--vscode-foreground);
+    }
+
+    &__toggle {
+      background: none;
+      border: none;
+      color: var(--vscode-list-inactiveForeground);
+      cursor: pointer;
+      padding: vars.$spacing-xs;
+      border-radius: vars.$border-radius-sm;
+
+      &:hover {
+        background-color: var(--vscode-list-hoverBackground);
+        color: var(--vscode-foreground);
+      }
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-md;
+    }
+
+    &__section {
+      &-title {
+        font-size: vars.$font-size-xs;
+        font-weight: 600;
+        color: var(--vscode-foreground);
+        margin-bottom: vars.$spacing-xs;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    &__variables {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: vars.$spacing-xs;
+      font-family: monospace;
+    }
+
+    &__variable {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      padding: vars.$spacing-xs;
+      background-color: var(--vscode-sideBar-background);
+      border-radius: vars.$border-radius-sm;
+      border: 1px solid var(--vscode-border);
+
+      &-name {
+        font-size: 10px;
+        color: var(--vscode-list-inactiveForeground);
+        @include mixins.text-ellipsis();
+      }
+
+      &-value {
+        font-size: 11px;
+        color: var(--vscode-foreground);
+        @include mixins.text-ellipsis();
+      }
+    }
+
+    &__controls {
+      display: flex;
+      flex-direction: column;
+      gap: vars.$spacing-sm;
+    }
+
+    &__button {
+      @include mixins.button-style();
+      font-size: vars.$font-size-xs;
+      padding: vars.$spacing-xs vars.$spacing-sm;
+
+      &--primary {
+        background-color: var(--vscode-button-background);
+        color: var(--vscode-button-foreground);
+      }
+
+      &--secondary {
+        background-color: var(--vscode-button-secondaryBackground);
+        color: var(--vscode-button-secondaryForeground);
+      }
+    }
+
+    &__input {
+      @include mixins.input-style();
+      font-size: vars.$font-size-xs;
+      padding: vars.$spacing-xs;
+    }
+
+    &__select {
+      @include mixins.input-style();
+      font-size: vars.$font-size-xs;
+      padding: vars.$spacing-xs;
+      cursor: pointer;
+    }
+  }
+
+  // 调试面板触发器
+  .vscode-debug-trigger {
+    position: fixed;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    z-index: 9995;
+    background-color: var(--vscode-button-background);
+    color: var(--vscode-button-foreground);
+    border: none;
+    border-radius: 0 vars.$border-radius vars.$border-radius 0;
+    padding: vars.$spacing-sm vars.$spacing-xs;
+    cursor: pointer;
+    font-size: vars.$font-size-xs;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    transition: all vars.$transition-fast;
+
+    &:hover {
+      background-color: var(--vscode-button-hoverBackground);
+      transform: translateY(-50%) translateX(5px);
+    }
+  }
+}
+
+// ========================================
+// 主题对比视图
+// ========================================
+
+.vscode-theme-comparison {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9994;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: all vars.$transition-base;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    max-width: 90vw;
+    max-height: 90vh;
+    background-color: var(--vscode-background);
+    border-radius: vars.$border-radius;
+    overflow: hidden;
+    box-shadow: var(--vscode-widget-shadow);
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    height: 70vh;
+    overflow: hidden;
+
+    &-header {
+      background-color: var(--vscode-sideBar-background);
+      color: var(--vscode-sideBar-foreground);
+      padding: vars.$spacing-md;
+      font-weight: 600;
+      text-align: center;
+      border-bottom: 1px solid var(--vscode-border);
+    }
+
+    &-content {
+      flex: 1;
+      padding: vars.$spacing-md;
+      overflow-y: auto;
+      @include mixins.scrollbar-style();
+    }
+  }
+
+  &__divider {
+    width: 2px;
+    background-color: var(--vscode-border);
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 20px;
+      height: 20px;
+      background-color: var(--vscode-background);
+      border: 2px solid var(--vscode-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  &__close {
+    position: absolute;
+    top: vars.$spacing-md;
+    right: vars.$spacing-md;
+    background: none;
+    border: none;
+    color: var(--vscode-list-inactiveForeground);
+    cursor: pointer;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-sm;
+    font-size: vars.$font-size-lg;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+      color: var(--vscode-foreground);
+    }
+  }
+}
+
+// ========================================
+// 主题变量检查器
+// ========================================
+
+.vscode-theme-inspector {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9993;
+  background-color: var(--vscode-background);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  padding: vars.$spacing-sm;
+  box-shadow: var(--vscode-widget-shadow);
+  font-size: vars.$font-size-xs;
+  max-width: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(20px);
+  transition: all vars.$transition-fast;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: vars.$spacing-xs;
+  }
+
+  &__title {
+    font-weight: 600;
+    color: var(--vscode-foreground);
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: var(--vscode-list-inactiveForeground);
+    cursor: pointer;
+    padding: 2px;
+    border-radius: vars.$border-radius-sm;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+      color: var(--vscode-foreground);
+    }
+  }
+
+  &__content {
+    font-family: monospace;
+    color: var(--vscode-foreground);
+    line-height: 1.4;
+  }
+
+  &__variable {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2px;
+
+    &-name {
+      color: var(--vscode-list-inactiveForeground);
+    }
+
+    &-value {
+      color: var(--vscode-foreground);
+      @include mixins.text-ellipsis();
+      max-width: 150px;
+    }
+  }
+}
+
+// ========================================
+// 主题性能监控
+// ========================================
+
+.vscode-theme-performance {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9992;
+  background-color: var(--vscode-background);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  padding: vars.$spacing-sm vars.$spacing-md;
+  box-shadow: var(--vscode-widget-shadow);
+  font-size: vars.$font-size-xs;
+  color: var(--vscode-foreground);
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-md;
+  opacity: 0;
+  visibility: hidden;
+  transition: all vars.$transition-fast;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  &__metric {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+
+    &-label {
+      color: var(--vscode-list-inactiveForeground);
+    }
+
+    &-value {
+      font-family: monospace;
+      font-weight: 600;
+      color: var(--vscode-foreground);
+    }
+
+    &--good {
+      .vscode-theme-performance__metric-value {
+        color: var(--vscode-charts-green);
+      }
+    }
+
+    &--warning {
+      .vscode-theme-performance__metric-value {
+        color: var(--vscode-warningForeground);
+      }
+    }
+
+    &--error {
+      .vscode-theme-performance__metric-value {
+        color: var(--vscode-errorForeground);
+      }
+    }
+  }
+}

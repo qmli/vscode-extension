@@ -49,7 +49,7 @@ const ignorePatterns = {
     '**/scripts/**',
     'apps/extension/webpack.config.js',
     'apps/extension/gulpfile.js',
-    'packages/common/instantiation/**',
+    'packages/vscode-core/src/instantiation/**',
     // 根目录配置文件
     '.prettierrc.js',
     'eslint.config.mjs',
@@ -367,6 +367,43 @@ export default [
           ]
         }
       ]
+    }
+  },
+
+  // vscode-core 基础库（TypeScript）
+  {
+    name: 'vscode-core-typescript',
+    files: ['packages/vscode-core/src/**/*.ts'],
+    ignores: [
+      ...filePatterns.excludeDeclarations,
+      'packages/vscode-core/src/instantiation/**'
+    ],
+    languageOptions: {
+      ...defaultLanguageOptions,
+      parser: ts.parser,
+      globals: globals.node
+    },
+    plugins: { 'import-x': importX },
+    rules: {
+      ...baseJsRules,
+      ...importXRules,
+      ...tsRules,
+      'prettier/prettier': 'warn'
+    },
+    settings: importSettings
+  },
+
+  // vscode-core/commands — 允许 any 类型（泛型基础设施代码）
+  {
+    name: 'vscode-core-commands-any',
+    files: ['packages/vscode-core/src/commands/**/*.ts'],
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'off',
+      '@typescript-eslint/no-unsafe-argument': 'off',
+      '@typescript-eslint/no-unsafe-assignment': 'off',
+      '@typescript-eslint/no-unsafe-call': 'off',
+      '@typescript-eslint/no-unsafe-member-access': 'off',
+      '@typescript-eslint/no-unsafe-return': 'off'
     }
   }
 ];

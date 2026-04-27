@@ -1,0 +1,208 @@
+// 基础表单样式
+// 为原生 HTML 表单元素提供基础样式，与 Element Plus 组件共存
+
+@use '../core/variables.scss' as vars;
+
+// ========================================
+// 原生表单元素基础样式
+// ========================================
+// 注意：这些样式只影响原生 HTML 元素，不影响 Element Plus 组件
+
+input:not([class*="el-"]),
+textarea:not([class*="el-"]),
+select:not([class*="el-"]) {
+  display: block;
+  width: 100%;
+  padding: vars.$spacing-sm;
+  font-family: inherit;
+  font-size: vars.$font-size-sm;
+  color: var(--vscode-input-foreground);
+  background-color: var(--vscode-input-background);
+  border: 1px solid var(--vscode-input-border);
+  border-radius: vars.$border-radius;
+  transition: border-color vars.$transition-fast, box-shadow vars.$transition-fast;
+
+  &:focus {
+    outline: none;
+    border-color: var(--vscode-focusBorder);
+    box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: var(--vscode-list-inactiveForeground);
+  }
+
+  &::placeholder {
+    color: var(--vscode-list-inactiveForeground);
+  }
+}
+
+button:not([class*="el-"]) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: vars.$spacing-sm vars.$spacing-md;
+  background-color: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  font-family: inherit;
+  font-size: vars.$font-size-sm;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all vars.$transition-fast;
+  user-select: none;
+
+  &:hover {
+    background-color: var(--vscode-button-secondaryHoverBackground);
+    border-color: var(--vscode-border);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none !important;
+
+    &:hover {
+      background-color: inherit;
+      border-color: inherit;
+    }
+  }
+}
+
+// ========================================
+// 文本域特殊样式
+// ========================================
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.5;
+}
+
+// ========================================
+// 选择框特殊样式
+// ========================================
+
+select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+  background-position: right vars.$spacing-sm center;
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  padding-right: calc(vars.$spacing-sm + 1.5em);
+}
+
+// ========================================
+// 复选框和单选框
+// ========================================
+
+input[type="checkbox"],
+input[type="radio"] {
+  width: auto;
+  height: 1em;
+  margin-right: vars.$spacing-xs;
+  cursor: pointer;
+}
+
+// ========================================
+// 文件输入框
+// ========================================
+
+input[type="file"] {
+  padding: vars.$spacing-xs;
+  cursor: pointer;
+
+  &::-webkit-file-upload-button {
+    background-color: var(--vscode-button-secondaryBackground);
+    color: var(--vscode-button-secondaryForeground);
+    border: 1px solid var(--vscode-border);
+    border-radius: vars.$border-radius;
+    padding: vars.$spacing-xs vars.$spacing-sm;
+    margin-right: vars.$spacing-sm;
+    cursor: pointer;
+    font-size: vars.$font-size-sm;
+    transition: all vars.$transition-fast;
+
+    &:hover {
+      background-color: var(--vscode-button-secondaryHoverBackground);
+    }
+  }
+}
+
+// ========================================
+// 表单组
+// ========================================
+
+.form-group {
+  margin-bottom: vars.$spacing-md;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: vars.$spacing-xs;
+  font-weight: 500;
+  color: var(--vscode-foreground);
+  font-size: vars.$font-size-sm;
+}
+
+.form-help {
+  margin-top: vars.$spacing-xs;
+  font-size: vars.$font-size-xs;
+  color: var(--vscode-list-inactiveForeground);
+}
+
+.form-error {
+  margin-top: vars.$spacing-xs;
+  font-size: vars.$font-size-xs;
+  color: var(--vscode-errorForeground);
+}
+
+// ========================================
+// 表单状态
+// ========================================
+
+.is-invalid {
+  border-color: var(--vscode-errorForeground) !important;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2) !important;
+  }
+}
+
+.is-valid {
+  border-color: var(--vscode-charts-green) !important;
+
+  &:focus {
+    box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.2) !important;
+  }
+}
+
+// ========================================
+// 内联表单
+// ========================================
+
+.form-inline {
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-sm;
+
+  .form-group {
+    margin-bottom: 0;
+  }
+
+  input,
+  select,
+  button {
+    width: auto;
+  }
+}

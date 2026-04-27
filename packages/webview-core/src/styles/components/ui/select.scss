@@ -1,0 +1,245 @@
+// 选择器组件样式
+// 统一的选择器样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础选择器样式
+// ========================================
+
+.vscode-select,
+.orientais-select {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  &__wrapper {
+    position: relative;
+    background-color: var(--vscode-input-background);
+    border: 1px solid var(--vscode-input-border);
+    border-radius: vars.$border-radius;
+    transition: all vars.$transition-fast;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--vscode-focusBorder);
+    }
+
+    &.is-focus {
+      border-color: var(--vscode-focusBorder);
+      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: var(--vscode-list-inactiveForeground);
+    }
+
+    &.is-error {
+      border-color: var(--vscode-errorForeground);
+    }
+  }
+
+  &__selected {
+    display: flex;
+    align-items: center;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    color: var(--vscode-input-foreground);
+    font-size: vars.$font-size-sm;
+    line-height: 1.5;
+    min-height: 32px;
+
+    &-text {
+      flex: 1;
+      text-align: left;
+      @include mixins.text-ellipsis();
+    }
+
+    &-placeholder {
+      color: var(--vscode-list-inactiveForeground);
+    }
+  }
+
+  &__arrow {
+    color: var(--vscode-list-inactiveForeground);
+    transition: transform vars.$transition-fast;
+    margin-left: vars.$spacing-sm;
+    flex-shrink: 0;
+
+    &.is-reverse {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: vars.$z-index-dropdown;
+    background-color: var(--vscode-dropdown-background);
+    border: 1px solid var(--vscode-dropdown-border);
+    border-radius: vars.$border-radius;
+    box-shadow: var(--vscode-widget-shadow);
+    max-height: 200px;
+    overflow-y: auto;
+    margin-top: 4px;
+
+    @include mixins.scrollbar-style(6px, transparent, rgba(255, 255, 255, 0.2));
+
+    &-empty {
+      text-align: center;
+      padding: vars.$spacing-lg;
+      color: var(--vscode-list-inactiveForeground);
+      font-size: vars.$font-size-sm;
+    }
+  }
+
+  &__option {
+    padding: vars.$spacing-sm vars.$spacing-md;
+    color: var(--vscode-dropdown-foreground);
+    font-size: vars.$font-size-sm;
+    line-height: 1.5;
+    cursor: pointer;
+    transition: background-color vars.$transition-fast;
+    @include mixins.text-ellipsis();
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+    }
+
+    &.is-selected {
+      background-color: var(--vscode-list-activeBackground);
+      color: var(--vscode-list-activeForeground);
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+
+      &:hover {
+        background-color: transparent;
+      }
+    }
+
+    &.is-group {
+      font-weight: 600;
+      color: var(--vscode-sideBar-foreground);
+      background-color: var(--vscode-sideBar-background);
+      cursor: default;
+
+      &:hover {
+        background-color: var(--vscode-sideBar-background);
+      }
+    }
+  }
+
+  // 尺寸变体
+  &--small {
+    .vscode-select__selected,
+    .orientais-select__selected {
+      padding: vars.$spacing-xs vars.$spacing-sm;
+      font-size: vars.$font-size-xs;
+      min-height: 24px;
+    }
+
+    .vscode-select__option,
+    .orientais-select__option {
+      padding: vars.$spacing-xs vars.$spacing-sm;
+      font-size: vars.$font-size-xs;
+    }
+  }
+
+  &--large {
+    .vscode-select__selected,
+    .orientais-select__selected {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      font-size: vars.$font-size-lg;
+      min-height: 40px;
+    }
+
+    .vscode-select__option,
+    .orientais-select__option {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      font-size: vars.$font-size-lg;
+    }
+  }
+
+  // 多选样式
+  &--multiple {
+    .vscode-select__selected,
+    .orientais-select__selected {
+      flex-wrap: wrap;
+      gap: vars.$spacing-xs;
+      min-height: auto;
+      padding: vars.$spacing-xs;
+    }
+
+    .vscode-select__tag,
+    .orientais-select__tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px vars.$spacing-xs;
+      background-color: var(--vscode-badge-background);
+      color: var(--vscode-badge-foreground);
+      border-radius: vars.$border-radius-sm;
+      font-size: vars.$font-size-xs;
+      gap: vars.$spacing-xs;
+
+      &-close {
+        cursor: pointer;
+        opacity: 0.7;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+
+  // 可搜索样式
+  &--searchable {
+    .vscode-select__search,
+    .orientais-select__search {
+      width: 100%;
+      border: none;
+      outline: none;
+      background: transparent;
+      color: var(--vscode-input-foreground);
+      font-size: vars.$font-size-sm;
+
+      &::placeholder {
+        color: var(--vscode-list-inactiveForeground);
+      }
+    }
+  }
+
+  // 无边框样式
+  &--borderless {
+    .vscode-select__wrapper,
+    .orientais-select__wrapper {
+      border: none;
+      background-color: transparent;
+
+      &:hover,
+      &.is-focus {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+    }
+  }
+
+  // 圆角样式
+  &--rounded {
+    .vscode-select__wrapper,
+    .orientais-select__wrapper {
+      border-radius: vars.$border-radius-lg;
+    }
+
+    .vscode-select__dropdown,
+    .orientais-select__dropdown {
+      border-radius: vars.$border-radius-lg;
+    }
+  }
+}

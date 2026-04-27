@@ -1,0 +1,191 @@
+// CSS 重置样式
+// 基于现代 CSS 重置最佳实践
+
+@use '../core/variables.scss' as vars;
+
+// ========================================
+// 基础重置
+// ========================================
+
+* {
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+  font-size: vars.$font-size-base;
+  line-height: 1.5;
+  color: var(--vscode-foreground);
+  background-color: var(--vscode-background);
+  width: 100%;
+  height: 100%;
+}
+
+// 滚动条样式
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--vscode-scrollbarSlider-background);
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--vscode-scrollbarSlider-hoverBackground);
+  }
+
+  &:active {
+    background: var(--vscode-scrollbarSlider-activeBackground);
+  }
+}
+
+// 选择文本样式
+::selection {
+  background-color: var(--vscode-selection-background, rgba(0, 120, 212, 0.4));
+}
+
+::-moz-selection {
+  background-color: var(--vscode-selection-background, rgba(0, 120, 212, 0.4));
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  background-color: inherit;
+  width: 100%;
+  height: 100%;
+}
+
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+// ========================================
+// 表单元素重置
+// ========================================
+
+input,
+textarea,
+select,
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+input,
+textarea,
+select {
+  background-color: transparent;
+  border: none;
+  outline: none;
+}
+
+// ========================================
+// 链接重置
+// ========================================
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// ========================================
+// 列表重置
+// ========================================
+
+ul,
+ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+// ========================================
+// 图片重置
+// ========================================
+
+img {
+  max-width: 100%;
+  height: auto;
+  vertical-align: middle;
+}
+
+// ========================================
+// 表格重置
+// ========================================
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+th,
+td {
+  text-align: left;
+  vertical-align: top;
+}
+
+// ========================================
+// 标题重置
+// ========================================
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  font-weight: inherit;
+  font-size: inherit;
+}
+
+// ========================================
+// 段落重置
+// ========================================
+
+p {
+  margin: 0;
+}
+
+// ========================================
+// 其他重置
+// ========================================
+
+hr {
+  border: none;
+  margin: 0;
+}
+
+fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+}
+
+legend {
+  padding: 0;
+}

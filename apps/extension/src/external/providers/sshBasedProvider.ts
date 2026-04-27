@@ -1,7 +1,7 @@
+import { Logger } from '@orientais/vscode-core/logger';
+import { getLogScope } from '@orientais/vscode-core/logger.scope';
+import type { RunOptions } from '@orientais/vscode-core/shell';
 import type { Disposable } from 'vscode';
-import { Logger } from '@/core/logger';
-import { getLogScope } from '@/core/logger.scope';
-import type { RunOptions } from '@/core/shell';
 import { SSHChannel } from '../channels/sshChannel';
 import {
   ExecutableStartupError,

@@ -1,5 +1,5 @@
-import { ProviderName } from '../externalExecutableService';
-import { LocalExecutableProviderBase } from './localExecutableProviderBase';
+import { ProviderName } from '@orientais/vscode-external/externalExecutableService';
+import { LocalExecutableProviderBase } from '@orientais/vscode-external/providers/localExecutableProviderBase';
 
 /**
  * CP 生成器 Provider。

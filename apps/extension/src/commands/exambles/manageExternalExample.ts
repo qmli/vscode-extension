@@ -2,7 +2,7 @@ import { window } from 'vscode';
 import { command } from '@/common/commands/command';
 import { GlCommandBase } from '@/common/commands/commandBase';
 import { CommandContext } from '@/common/commands/commandContext';
-import { ProviderName } from '@/external/externalExecutableService';
+import { ProviderName } from '@orientais/vscode-external/externalExecutableService';
 import type { Container } from '../../container';
 
 export interface ManageExternalCommandArgs {

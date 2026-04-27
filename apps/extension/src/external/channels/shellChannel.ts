@@ -1,8 +1,8 @@
 import type { Disposable } from 'vscode';
-import { Logger } from '@/core/logger';
-import { getLogScope } from '@/core/logger.scope';
-import type { RunOptions, RunResult } from '@/core/shell';
-import { findExecutable, runSpawn } from '@/core/shell';
+import { Logger } from '@orientais/vscode-core/logger';
+import { getLogScope } from '@orientais/vscode-core/logger.scope';
+import type { RunOptions, RunResult } from '@orientais/vscode-core/shell';
+import { findExecutable, runSpawn } from '@orientais/vscode-core/shell';
 import { CommunicationError, ExecutableTimeoutError } from '../errors';
 import type { CommunicationChannel, ExternalExecutableRequest, ExternalExecutableResponse } from '../types/protocol';
 

@@ -1,5 +1,5 @@
-import { ProviderName } from '../externalExecutableService';
-import { LocalExecutableProviderBase } from './localExecutableProviderBase';
+import { ProviderName } from '@orientais/vscode-external/externalExecutableService';
+import { LocalExecutableProviderBase } from '@orientais/vscode-external/providers/localExecutableProviderBase';
 
 /**
  * AP N 模型升级 Provider。

@@ -1,0 +1,182 @@
+// 对话框组件样式
+// 统一的对话框样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础对话框样式
+// ========================================
+
+.vscode-dialog,
+.orientais-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: vars.$z-index-modal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+
+  &__wrapper {
+    background-color: var(--vscode-background);
+    border: 1px solid var(--vscode-border);
+    border-radius: vars.$border-radius-lg;
+    box-shadow: var(--vscode-widget-shadow);
+    max-width: 90vw;
+    max-height: 90vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    background-color: var(--vscode-sideBar-background);
+    border-bottom: 1px solid var(--vscode-border);
+    padding: vars.$spacing-xl vars.$spacing-xl * 1.5;
+    color: var(--vscode-foreground);
+    font-weight: 600;
+    font-size: vars.$font-size-lg;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:first-child {
+      border-top-left-radius: vars.$border-radius-lg;
+      border-top-right-radius: vars.$border-radius-lg;
+    }
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: var(--vscode-list-inactiveForeground);
+    cursor: pointer;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius;
+    transition: all vars.$transition-fast;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+      color: var(--vscode-foreground);
+    }
+  }
+
+  &__body {
+    padding: vars.$spacing-xl * 1.5;
+    color: var(--vscode-foreground);
+    line-height: 1.6;
+    flex: 1;
+    overflow-y: auto;
+  }
+
+  &__footer {
+    background-color: var(--vscode-background);
+    border-top: 1px solid var(--vscode-border);
+    padding: vars.$spacing-lg vars.$spacing-xl * 1.5;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: vars.$spacing-md;
+
+    &:last-child {
+      border-bottom-left-radius: vars.$border-radius-lg;
+      border-bottom-right-radius: vars.$border-radius-lg;
+    }
+  }
+
+  // 对话框变体
+  &--small {
+    .vscode-dialog__wrapper,
+    .orientais-dialog__wrapper {
+      max-width: 400px;
+    }
+  }
+
+  &--large {
+    .vscode-dialog__wrapper,
+    .orientais-dialog__wrapper {
+      max-width: 80vw;
+      max-height: 80vh;
+    }
+  }
+
+  &--fullscreen {
+    .vscode-dialog__wrapper,
+    .orientais-dialog__wrapper {
+      max-width: 100vw;
+      max-height: 100vh;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+    }
+  }
+
+  // 无边框对话框
+  &--borderless {
+    .vscode-dialog__wrapper,
+    .orientais-dialog__wrapper {
+      border: none;
+      box-shadow: none;
+    }
+  }
+
+  // 圆角对话框
+  &--rounded {
+    .vscode-dialog__wrapper,
+    .orientais-dialog__wrapper {
+      border-radius: vars.$border-radius-lg;
+    }
+  }
+}
+
+// ========================================
+// 对话框动画
+// ========================================
+
+@keyframes dialog-fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes dialog-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+.vscode-dialog,
+.orientais-dialog {
+  animation: dialog-fade-in vars.$transition-base;
+}
+
+// ========================================
+// 对话框遮罩层
+// ========================================
+
+.vscode-dialog__backdrop,
+.orientais-dialog__backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: vars.$z-index-modal-backdrop;
+}

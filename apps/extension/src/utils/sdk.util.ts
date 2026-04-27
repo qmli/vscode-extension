@@ -19,7 +19,7 @@ import {
 } from '@/common/constants/constants.are';
 import { DefaultAreCmdSysMonitorPath, SDK_INSTALL_DIR, WslDistro } from '@/common/constants/constants.shell';
 import { workspaceState as WorkspaceState } from '@/common/constants/constants.storage';
-import { Logger } from '@/core/logger';
+import { Logger } from '@orientais/vscode-core/logger';
 import { SdkInfo } from '@/models/sdk';
 
 /**

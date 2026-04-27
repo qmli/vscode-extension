@@ -1,6 +1,6 @@
-import { Logger } from '@/core/logger';
-import { getLogScope } from '@/core/logger.scope';
-import { ShellBasedExecutableProvider } from './shellBasedProvider';
+import { Logger } from '@orientais/vscode-core/logger';
+import { getLogScope } from '@orientais/vscode-core/logger.scope';
+import { ShellBasedExecutableProvider } from '@orientais/vscode-external/providers/shellBasedProvider';
 
 /**
  * 基于Shell的提供者示例实现

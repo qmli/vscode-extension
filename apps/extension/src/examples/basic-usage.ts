@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 // import { Container } from '@/container';
-import { Logger } from '@/core/logger';
+import { Logger } from '@orientais/vscode-core/logger';
 // import { ProjectEntity } from '@/entitys/project.entity';
 // import { ProjectRepository } from '@/entitys/project.repository';
 import type { ConnectionConfig, Database } from '@packages/dbdriver/src/index';

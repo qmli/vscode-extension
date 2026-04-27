@@ -1,0 +1,112 @@
+// VSCode 特定工具类样式
+// 专注于纯工具类，不包含组件样式
+
+// ========================================
+// VSCode 语义化颜色工具类
+// ========================================
+
+/* VSCode 特定文本颜色 */
+.vscode-text-primary { color: var(--vscode-button-background); }
+.vscode-text-success { color: var(--vscode-charts-green); }
+.vscode-text-warning { color: var(--vscode-warningForeground); }
+.vscode-text-danger { color: var(--vscode-errorForeground); }
+.vscode-text-info { color: var(--vscode-infoForeground); }
+.vscode-text-muted { color: var(--vscode-list-inactiveForeground); }
+.vscode-text-secondary { color: var(--vscode-sideBar-foreground); }
+
+/* VSCode 特定背景颜色 */
+.vscode-bg-editor { background-color: var(--vscode-background); }
+.vscode-bg-sidebar { background-color: var(--vscode-sideBar-background); }
+.vscode-bg-header { background-color: var(--vscode-titleBar-activeBackground); }
+.vscode-bg-hover { background-color: var(--vscode-list-hoverBackground); }
+.vscode-bg-active { background-color: var(--vscode-list-activeBackground); }
+
+
+// ========================================
+// VSCode 特定边框工具类
+// ========================================
+
+.vscode-border { border: 1px solid var(--vscode-border); }
+.vscode-border-panel { border: 1px solid var(--vscode-panel-border); }
+.vscode-border-focus { border: 1px solid var(--vscode-focusBorder); }
+
+// ========================================
+// VSCode 特定阴影工具类
+// ========================================
+
+.vscode-shadow { box-shadow: var(--vscode-widget-shadow); }
+.vscode-shadow-none { box-shadow: none; }
+
+// ========================================
+// VSCode 特定交互工具类
+// ========================================
+
+// 注意：复杂的交互组件已移至相应的组件文件中
+
+.vscode-focus-ring {
+  &:focus {
+    outline: 2px solid var(--vscode-focusBorder);
+    outline-offset: 2px;
+  }
+}
+
+.vscode-hover-lift {
+  transition: transform var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+}
+
+.vscode-focus-visible {
+  &:focus-visible {
+    outline: 2px solid var(--vscode-focusBorder);
+    outline-offset: 2px;
+  }
+}
+
+.vscode-interactive {
+  transition: all var(--transition-fast);
+
+  &:hover {
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+// ========================================
+// VSCode 特定状态工具类
+// ========================================
+
+.vscode-disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.vscode-selected {
+  background-color: var(--vscode-list-activeBackground);
+  color: var(--vscode-list-activeForeground);
+}
+
+// 注意：复杂的加载组件已移至 base/loading.scss 中
+
+// ========================================
+// VSCode 特定动画工具类
+// ========================================
+
+// 注意：复杂的动画组件已移至相应的组件文件中
+// 这里只保留简单的工具类动画
+
+.vscode-fade-in {
+  animation: vscode-fade-in var(--transition-base);
+}
+
+.vscode-slide-in-right {
+  animation: vscode-slide-in-right var(--transition-base);
+}
+
+// 注意：动画关键帧定义已移至 loading.scss 中，避免重复定义

@@ -1,0 +1,261 @@
+/*
+ * VSCode 主题变量定义
+ * 包含所有 VSCode 原生主题变量和扩展主题变量
+ */
+
+:root {
+  /* ========================================
+   * VSCode 原生主题变量映射
+   * ======================================== */
+
+  /* 基础颜色 */
+  --background: var(--vscode-editor-background);
+  --foreground: var(--vscode-editor-foreground);
+  --border: var(--vscode-panel-border);
+
+  /* 按钮颜色 */
+  --buttonBackground: var(--vscode-button-background);
+  --buttonForeground: var(--vscode-button-foreground);
+  --buttonHoverBackground: var(--vscode-button-hoverBackground);
+  --buttonSecondaryBackground: var(--vscode-button-secondaryBackground);
+  --buttonSecondaryForeground: var(--vscode-button-secondaryForeground);
+  --buttonSecondaryHoverBackground: var(--vscode-button-secondaryHoverBackground);
+
+  /* 输入框颜色 */
+  --inputBackground: var(--vscode-input-background);
+  --inputForeground: var(--vscode-input-foreground);
+  --inputBorder: var(--vscode-input-border);
+
+  /* 下拉框颜色 */
+  --dropdownBackground: var(--vscode-dropdown-background);
+  --dropdownForeground: var(--vscode-dropdown-foreground);
+  --dropdownBorder: var(--vscode-dropdown-border);
+
+  /* 列表颜色 */
+  --listBackground: var(--vscode-list-background);
+  --listForeground: var(--vscode-list-foreground);
+  --listHoverBackground: var(--vscode-list-hoverBackground);
+  --listActiveBackground: var(--vscode-list-activeBackground);
+  --listActiveForeground: var(--vscode-list-activeForeground);
+  --listInactiveForeground: var(--vscode-list-inactiveForeground);
+
+  /* 侧边栏颜色 */
+  --sideBarBackground: var(--vscode-sideBar-background);
+  --sideBarForeground: var(--vscode-sideBar-foreground);
+  --sideBarBorder: var(--vscode-sideBar-border);
+
+  /* 状态栏颜色 */
+  --statusBarBackground: var(--vscode-statusBar-background);
+  --statusBarForeground: var(--vscode-statusBar-foreground);
+
+  /* 标题栏颜色 */
+  --titleBarBackground: var(--vscode-titleBar-activeBackground);
+  --titleBarForeground: var(--vscode-titleBar-activeForeground);
+
+  /* 通知颜色 */
+  --notificationBackground: var(--vscode-notification-background);
+  --notificationForeground: var(--vscode-notification-foreground);
+  --notificationBorder: var(--vscode-notification-border);
+
+  /* 错误、警告、信息颜色 */
+  --errorForeground: var(--vscode-errorForeground);
+  --warningForeground: var(--vscode-warningForeground);
+  --infoForeground: var(--vscode-infoForeground);
+
+  /* 链接颜色 */
+  --textLinkForeground: var(--vscode-textLink-foreground);
+  --textLinkActiveForeground: var(--vscode-textLink-activeForeground);
+
+  /* 焦点颜色 */
+  --focusBorder: var(--vscode-focusBorder);
+  --widgetShadow: var(--vscode-widget-shadow);
+
+  /* 选择颜色 */
+  --selectionBackground: var(--vscode-selection-background);
+  --selectionForeground: var(--vscode-selection-foreground);
+
+  /* 滚动条颜色 */
+  --scrollbarSliderBackground: var(--vscode-scrollbarSlider-background);
+  --scrollbarSliderHoverBackground: var(--vscode-scrollbarSlider-hoverBackground);
+  --scrollbarSliderActiveBackground: var(--vscode-scrollbarSlider-activeBackground);
+
+  /* 编辑器颜色 */
+  --editorLineNumberForeground: var(--vscode-editorLineNumber-foreground);
+  --editorLineNumberActiveForeground: var(--vscode-editorLineNumber-activeForeground);
+  --editorIndentGuideBackground: var(--vscode-editorIndentGuide-background);
+  --editorIndentGuideActiveBackground: var(--vscode-editorIndentGuide-activeBackground);
+
+  /* 代码块颜色 */
+  --textCodeBlockBackground: var(--vscode-textCodeBlock-background);
+  --textPreformatForeground: var(--vscode-textPreformat-foreground);
+
+  /* 分割线颜色 */
+  --panelBorder: var(--vscode-panel-border);
+  --sideBarSectionHeaderBackground: var(--vscode-sideBarSectionHeader-background);
+  --sideBarSectionHeaderForeground: var(--vscode-sideBarSectionHeader-foreground);
+
+  /* 工具提示颜色 */
+  --tooltipBackground: var(--vscode-tooltip-background);
+  --tooltipForeground: var(--vscode-tooltip-foreground);
+  --tooltipBorder: var(--vscode-tooltip-border);
+
+  /* 进度条颜色 */
+  --progressBarBackground: var(--vscode-progressBar-background);
+
+  /* 徽章颜色 */
+  --badgeBackground: var(--vscode-badge-background);
+  --badgeForeground: var(--vscode-badge-foreground);
+
+  /* 扩展颜色 */
+  --extensionButtonProminentForeground: var(--vscode-extensionButton-prominentForeground);
+  --extensionButtonProminentBackground: var(--vscode-extensionButton-prominentBackground);
+  --extensionButtonProminentHoverBackground: var(--vscode-extensionButton-prominentHoverBackground);
+
+  /* 终端颜色 */
+  --terminalBackground: var(--vscode-terminal-background);
+  --terminalForeground: var(--vscode-terminal-foreground);
+  --terminalCursorBackground: var(--vscode-terminalCursor-background);
+  --terminalCursorForeground: var(--vscode-terminalCursor-foreground);
+
+  /* 调试颜色 */
+  --debugConsoleInfoForeground: var(--vscode-debugConsole-infoForeground);
+  --debugConsoleWarningForeground: var(--vscode-debugConsole-warningForeground);
+  --debugConsoleErrorForeground: var(--vscode-debugConsole-errorForeground);
+  --debugConsoleSourceForeground: var(--vscode-debugConsole-sourceForeground);
+
+  /* 测试颜色 */
+  --testingIconPassed: var(--vscode-testing-iconPassed);
+  --testingIconQueued: var(--vscode-testing-iconQueued);
+  --testingIconUnset: var(--vscode-testing-iconUnset);
+  --testingIconSkipped: var(--vscode-testing-iconSkipped);
+  --testingIconFailed: var(--vscode-testing-iconFailed);
+  --testingIconErrored: var(--vscode-testing-iconErrored);
+
+  /* 图表颜色 */
+  --chartsRed: var(--vscode-charts-red);
+  --chartsBlue: var(--vscode-charts-blue);
+  --chartsYellow: var(--vscode-charts-yellow);
+  --chartsOrange: var(--vscode-charts-orange);
+  --chartsGreen: var(--vscode-charts-green);
+  --chartsPurple: var(--vscode-charts-purple);
+  --chartsForeground: var(--vscode-charts-foreground);
+  --chartsLines: var(--vscode-charts-lines);
+
+  /* 符号颜色 */
+  --symbolIconArrayForeground: var(--vscode-symbolIcon-arrayForeground);
+  --symbolIconBooleanForeground: var(--vscode-symbolIcon-booleanForeground);
+  --symbolIconClassForeground: var(--vscode-symbolIcon-classForeground);
+  --symbolIconColorForeground: var(--vscode-symbolIcon-colorForeground);
+  --symbolIconConstantForeground: var(--vscode-symbolIcon-constantForeground);
+  --symbolIconConstructorForeground: var(--vscode-symbolIcon-constructorForeground);
+  --symbolIconEnumForeground: var(--vscode-symbolIcon-enumForeground);
+  --symbolIconEnumMemberForeground: var(--vscode-symbolIcon-enumMemberForeground);
+  --symbolIconEventForeground: var(--vscode-symbolIcon-eventForeground);
+  --symbolIconFieldForeground: var(--vscode-symbolIcon-fieldForeground);
+  --symbolIconFileForeground: var(--vscode-symbolIcon-fileForeground);
+  --symbolIconFolderForeground: var(--vscode-symbolIcon-folderForeground);
+  --symbolIconFunctionForeground: var(--vscode-symbolIcon-functionForeground);
+  --symbolIconInterfaceForeground: var(--vscode-symbolIcon-interfaceForeground);
+  --symbolIconKeyForeground: var(--vscode-symbolIcon-keyForeground);
+  --symbolIconKeywordForeground: var(--vscode-symbolIcon-keywordForeground);
+  --symbolIconMethodForeground: var(--vscode-symbolIcon-methodForeground);
+  --symbolIconModuleForeground: var(--vscode-symbolIcon-moduleForeground);
+  --symbolIconNamespaceForeground: var(--vscode-symbolIcon-namespaceForeground);
+  --symbolIconNullForeground: var(--vscode-symbolIcon-nullForeground);
+  --symbolIconNumberForeground: var(--vscode-symbolIcon-numberForeground);
+  --symbolIconObjectForeground: var(--vscode-symbolIcon-objectForeground);
+  --symbolIconOperatorForeground: var(--vscode-symbolIcon-operatorForeground);
+  --symbolIconPackageForeground: var(--vscode-symbolIcon-packageForeground);
+  --symbolIconPropertyForeground: var(--vscode-symbolIcon-propertyForeground);
+  --symbolIconReferenceForeground: var(--vscode-symbolIcon-referenceForeground);
+  --symbolIconSnippetForeground: var(--vscode-symbolIcon-snippetForeground);
+  --symbolIconStringForeground: var(--vscode-symbolIcon-stringForeground);
+  --symbolIconStructForeground: var(--vscode-symbolIcon-structForeground);
+  --symbolIconTextForeground: var(--vscode-symbolIcon-textForeground);
+  --symbolIconTypeParameterForeground: var(--vscode-symbolIcon-typeParameterForeground);
+  --symbolIconUnitForeground: var(--vscode-symbolIcon-unitForeground);
+  --symbolIconVariableForeground: var(--vscode-symbolIcon-variableForeground);
+
+  /* ========================================
+   * 扩展主题变量（基于 VSCode 原生变量）
+   * ======================================== */
+
+  /* 扩展颜色变量 */
+  --color-primary: var(--vscode-button-background);
+  --color-primary-hover: var(--vscode-button-hoverBackground);
+  --color-primary-light: var(--vscode-button-secondaryBackground);
+  --color-primary-dark: var(--vscode-button-hoverBackground);
+
+  --color-success: var(--vscode-charts-green);
+  --color-warning: var(--vscode-warningForeground);
+  --color-danger: var(--vscode-errorForeground);
+  --color-info: var(--vscode-infoForeground);
+
+  --color-background: var(--vscode-editor-background);
+  --color-foreground: var(--vscode-editor-foreground);
+  --color-border: var(--vscode-panel-border);
+  --color-hover: var(--vscode-list-hoverBackground);
+  --color-active: var(--vscode-list-activeBackground);
+  --color-focus: var(--vscode-focusBorder);
+  --color-shadow: var(--vscode-widget-shadow);
+
+  /* 状态颜色 */
+  --color-text-muted: var(--vscode-list-inactiveForeground);
+  --color-text-secondary: var(--vscode-sideBar-foreground);
+  --color-link: var(--vscode-textLink-foreground);
+  --color-link-hover: var(--vscode-textLink-activeForeground);
+
+  /* 组件特定颜色 */
+  --color-sidebar-bg: var(--vscode-sideBar-background);
+  --color-header-bg: var(--vscode-titleBar-activeBackground);
+  --color-card-bg: var(--vscode-editor-background);
+  --color-input-bg: var(--vscode-input-background);
+  --color-hover-bg: var(--vscode-list-hoverBackground);
+  --color-active-bg: var(--vscode-list-activeBackground);
+  --color-active-foreground: var(--vscode-list-activeForeground);
+  --color-disabled-bg: var(--vscode-list-inactiveForeground);
+  --color-disabled-text: var(--vscode-list-inactiveForeground);
+
+  /* 边框和分割线 */
+  --color-border-light: var(--vscode-panel-border);
+  --color-divider: var(--vscode-sideBarSectionHeader-background);
+
+  /* 阴影效果 */
+  --shadow-sm: var(--vscode-widget-shadow);
+  --shadow-md: var(--vscode-widget-shadow);
+  --shadow-lg: var(--vscode-widget-shadow);
+
+  /* 圆角 */
+  --border-radius: 4px;
+  --border-radius-lg: 8px;
+  --border-radius-sm: 2px;
+
+  /* 字体 */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+
+  /* 间距 */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+
+  /* 过渡动画 */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Z-index 层级 */
+  --z-index-dropdown: 1000;
+  --z-index-sticky: 1020;
+  --z-index-fixed: 1030;
+  --z-index-modal-backdrop: 1040;
+  --z-index-modal: 1050;
+  --z-index-popover: 1060;
+  --z-index-tooltip: 1070;
+}

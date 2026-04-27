@@ -1,0 +1,257 @@
+// 消息组件样式
+// 统一的消息通知样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础消息样式
+// ========================================
+
+.vscode-message,
+.orientais-message {
+  position: fixed;
+  top: vars.$spacing-lg;
+  right: vars.$spacing-lg;
+  z-index: vars.$z-index-tooltip;
+  background-color: var(--vscode-notification-background);
+  border: 1px solid var(--vscode-notification-border);
+  border-radius: vars.$border-radius;
+  box-shadow: var(--vscode-widget-shadow);
+  padding: vars.$spacing-md vars.$spacing-lg;
+  color: var(--vscode-notification-foreground);
+  font-size: vars.$font-size-sm;
+  line-height: 1.5;
+  max-width: 400px;
+  display: flex;
+  align-items: flex-start;
+  gap: vars.$spacing-sm;
+  animation: message-slide-in-right vars.$transition-base;
+
+  // 消息类型变体
+  &--success {
+    border-left: 4px solid var(--vscode-charts-green);
+  }
+
+  &--warning {
+    border-left: 4px solid var(--vscode-warningForeground);
+  }
+
+  &--error {
+    border-left: 4px solid var(--vscode-errorForeground);
+  }
+
+  &--info {
+    border-left: 4px solid var(--vscode-infoForeground);
+  }
+
+  // 消息内容区域
+  &__icon {
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: vars.$font-size-base;
+  }
+
+  &__content {
+    flex: 1;
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: var(--vscode-list-inactiveForeground);
+    cursor: pointer;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-sm;
+    transition: all vars.$transition-fast;
+    flex-shrink: 0;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+      color: var(--vscode-foreground);
+    }
+  }
+
+  // 消息尺寸变体
+  &--small {
+    padding: vars.$spacing-sm vars.$spacing-md;
+    font-size: vars.$font-size-xs;
+    max-width: 300px;
+  }
+
+  &--large {
+    padding: vars.$spacing-lg vars.$spacing-xl;
+    font-size: vars.$font-size-base;
+    max-width: 500px;
+  }
+
+  // 消息位置变体
+  &--top-left {
+    top: vars.$spacing-lg;
+    left: vars.$spacing-lg;
+    right: auto;
+    animation: message-slide-in-left vars.$transition-base;
+  }
+
+  &--top-center {
+    top: vars.$spacing-lg;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    animation: message-slide-in-down vars.$transition-base;
+  }
+
+  &--bottom-right {
+    top: auto;
+    bottom: vars.$spacing-lg;
+    right: vars.$spacing-lg;
+    animation: message-slide-in-right vars.$transition-base;
+  }
+
+  &--bottom-left {
+    top: auto;
+    bottom: vars.$spacing-lg;
+    left: vars.$spacing-lg;
+    right: auto;
+    animation: message-slide-in-left vars.$transition-base;
+  }
+
+  &--bottom-center {
+    top: auto;
+    bottom: vars.$spacing-lg;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    animation: message-slide-in-up vars.$transition-base;
+  }
+
+  // 消息状态
+  &--closable {
+    .vscode-message__close,
+    .orientais-message__close {
+      display: block;
+    }
+  }
+
+  &--persistent {
+    .vscode-message__close,
+    .orientais-message__close {
+      display: none;
+    }
+  }
+}
+
+// ========================================
+// 消息组容器
+// ========================================
+
+.vscode-message-group,
+.orientais-message-group {
+  position: fixed;
+  top: vars.$spacing-lg;
+  right: vars.$spacing-lg;
+  z-index: vars.$z-index-tooltip;
+  display: flex;
+  flex-direction: column;
+  gap: vars.$spacing-sm;
+  max-width: 400px;
+
+  &--top-left {
+    top: vars.$spacing-lg;
+    left: vars.$spacing-lg;
+    right: auto;
+  }
+
+  &--top-center {
+    top: vars.$spacing-lg;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+
+  &--bottom-right {
+    top: auto;
+    bottom: vars.$spacing-lg;
+    right: vars.$spacing-lg;
+  }
+
+  &--bottom-left {
+    top: auto;
+    bottom: vars.$spacing-lg;
+    left: vars.$spacing-lg;
+    right: auto;
+  }
+
+  &--bottom-center {
+    top: auto;
+    bottom: vars.$spacing-lg;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+}
+
+// ========================================
+// 消息动画
+// ========================================
+
+@keyframes message-slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes message-slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes message-slide-in-down {
+  from {
+    transform: translate(-50%, -100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes message-slide-in-up {
+  from {
+    transform: translate(-50%, 100%);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes message-fade-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+}
+
+// 消息淡出动画
+.vscode-message--fade-out,
+.orientais-message--fade-out {
+  animation: message-fade-out vars.$transition-fast;
+}

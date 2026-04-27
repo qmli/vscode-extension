@@ -3,8 +3,8 @@
  * 用于统一管理组件类型、数据类型、模板配置等
  */
 
+import { md5 } from '@orientais/vscode-core';
 import { md5ToUuid } from '@packages/utils/uuid';
-import { md5 } from '../crypto';
 import { EProjectType } from './constants.project';
 
 /**

@@ -1,5 +1,4 @@
-// import { InstantiationService } from '@packages/common/instantiation/common/instantiationService';
-// import { ServiceCollection } from '@packages/common/instantiation/common/serviceCollection';
+// import { InstantiationService, ServiceCollection } from '@orientais/vscode-core';
 
 // class CodeMain {
 //   private async startup(): Promise<void> {

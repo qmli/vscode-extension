@@ -1,0 +1,87 @@
+{
+  "name": "webview-core",
+  "version": "1.0.0",
+  "description": "Shared components and utilities for webview modules",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "private": true,
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./components": {
+      "import": "./dist/components/index.js",
+      "types": "./dist/components/index.d.ts"
+    },
+    "./utils": {
+      "import": "./dist/utils/index.js",
+      "types": "./dist/utils/index.d.ts"
+    },
+    "./stores": {
+      "import": "./dist/stores/index.js",
+      "types": "./dist/stores/index.d.ts"
+    },
+    "./icons": {
+      "import": "./dist/icons/index.js",
+      "types": "./dist/icons/index.d.ts"
+    },
+    "./styles": {
+      "import": "./dist/styles/index.js",
+      "types": "./dist/styles/index.d.ts"
+    },
+    "./services": {
+      "import": "./dist/services/index.js",
+      "types": "./dist/services/index.d.ts"
+    },
+    "./i18n": {
+      "import": "./dist/i18n/index.js",
+      "types": "./dist/i18n/index.d.ts"
+    },
+    "./types": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./mock": {
+      "import": "./dist/mock/index.js",
+      "types": "./dist/mock/index.d.ts"
+    },
+    "./webview-mock-theme.css": {
+      "import": "./dist/webview-mock-theme.css"
+    },
+    "./webview-core.css": {
+      "import": "./dist/webview-core.css"
+    }
+  },
+  "scripts": {
+    "dev": "vite build --mode development --watch",
+    "build:dev": "vite build --mode development",
+    "watch": "vite build --mode development --watch",
+    "build": "vite build --mode production",
+    "dev:mock": "vite build --mode development --watch",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "clean": "rimraf dist"
+  },
+  "devDependencies": {
+    "vite-plugin-dts": "^4.3.0",
+    "vite-plugin-lib-inject-css": "2.2.2"
+  },
+  "peerDependencies": {
+    "pinia": "^3.0.1",
+    "vue": "^3.5.13",
+    "vue-i18n": "^11.1.2"
+  },
+  "dependencies": {
+    "@types/sortablejs": "1.15.9",
+    "sortablejs": "1.15.7"
+  }
+}

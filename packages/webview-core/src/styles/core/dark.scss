@@ -1,0 +1,6 @@
+/* 官方主题重构 */
+:root[data-vscode-theme-kind="dark"] {
+
+/* 使用同一套 VSCode 变量名，值会随主题自动变化 */
+  --test-el-color-primary: yellow !important; // 测试变量
+}

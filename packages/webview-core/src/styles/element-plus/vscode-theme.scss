@@ -1,0 +1,236 @@
+// Element Plus VSCode 主题适配
+// 将 Element Plus 组件样式完美适配到 VSCode 主题
+
+html:root {
+  /* ========================================
+   * Element Plus 主色调系统
+   * ======================================== */
+
+  /* 主色调 - 基于 VSCode 按钮颜色 */
+  --el-color-primary: var(--vscode-button-background);
+  --el-color-primary-light-3: color-mix(
+    in srgb,
+    var(--vscode-button-background) 70%,
+    var(--vscode-button-secondaryBackground) 30%
+  );
+  --el-color-primary-light-5: var(--vscode-button-secondaryHoverBackground);
+  --el-color-primary-light-7: color-mix(
+    in srgb,
+    var(--vscode-button-secondaryBackground) 70%,
+    var(--vscode-editor-background) 30%
+  );
+  --el-color-primary-light-8: color-mix(
+    in srgb,
+    var(--vscode-button-secondaryBackground) 50%,
+    var(--vscode-editor-background) 50%
+  );
+  --el-color-primary-light-9: color-mix(
+    in srgb,
+    var(--vscode-button-secondaryBackground) 30%,
+    var(--vscode-editor-background) 70%
+  );
+  --el-color-primary-dark-2: var(--vscode-button-hoverBackground);
+
+  /* 功能色系统 - 基于 VSCode 状态颜色 */
+  --el-color-success: var(--vscode-charts-green);
+  // --el-color-success-light-3: color-mix(in srgb, var(--vscode-charts-green) 70%, var(--vscode-editor-background) 30%);
+  // --el-color-success-light-5: color-mix(in srgb, var(--vscode-charts-green) 50%, var(--vscode-editor-background) 50%);
+  // --el-color-success-light-7: color-mix(in srgb, var(--vscode-charts-green) 30%, var(--vscode-editor-background) 70%);
+  // --el-color-success-light-8: color-mix(in srgb, var(--vscode-charts-green) 20%, var(--vscode-editor-background) 80%);
+  // --el-color-success-light-9: color-mix(in srgb, var(--vscode-charts-green) 10%, var(--vscode-editor-background) 90%);
+  --el-color-success-dark-2: color-mix(in srgb, var(--vscode-charts-green) 80%, #000 20%);
+
+  // --el-color-warning-light-3: color-mix(
+  //   in srgb,
+  //   var(--vscode-warningForeground) 70%,
+  //   var(--vscode-editor-background) 30%
+  // );
+  // --el-color-warning-light-5: color-mix(
+  //   in srgb,
+  //   var(--vscode-warningForeground) 50%,
+  //   var(--vscode-editor-background) 50%
+  // );
+  // --el-color-warning-light-7: color-mix(
+  //   in srgb,
+  //   var(--vscode-warningForeground) 30%,
+  //   var(--vscode-editor-background) 70%
+  // );
+  // --el-color-warning-light-8: color-mix(
+  //   in srgb,
+  //   var(--vscode-warningForeground) 20%,
+  //   var(--vscode-editor-background) 80%
+  // );
+  // --el-color-warning-light-9: color-mix(
+  //   in srgb,
+  //   var(--vscode-warningForeground) 10%,
+  //   var(--vscode-editor-background) 90%
+  // );
+  // --el-color-warning-dark-2: color-mix(in srgb, var(--vscode-warningForeground) 80%, #000 20%);
+
+  --el-color-danger: var(--vscode-errorForeground);
+  --el-color-danger-light-3: color-mix(in srgb, var(--vscode-errorForeground) 70%, var(--vscode-editor-background) 30%);
+  --el-color-danger-light-5: color-mix(in srgb, var(--vscode-errorForeground) 50%, var(--vscode-editor-background) 50%);
+  --el-color-danger-light-7: color-mix(in srgb, var(--vscode-errorForeground) 30%, var(--vscode-editor-background) 70%);
+  --el-color-danger-light-8: color-mix(in srgb, var(--vscode-errorForeground) 20%, var(--vscode-editor-background) 80%);
+  --el-color-danger-light-9: color-mix(in srgb, var(--vscode-errorForeground) 10%, var(--vscode-editor-background) 90%);
+  --el-color-danger-dark-2: color-mix(in srgb, var(--vscode-errorForeground) 80%, #000 20%);
+
+  --el-color-error: var(--vscode-errorForeground);
+  --el-color-error-light-3: color-mix(in srgb, var(--vscode-errorForeground) 70%, var(--vscode-editor-background) 30%);
+  --el-color-error-light-5: color-mix(in srgb, var(--vscode-errorForeground) 50%, var(--vscode-editor-background) 50%);
+  --el-color-error-light-7: color-mix(in srgb, var(--vscode-errorForeground) 30%, var(--vscode-editor-background) 70%);
+  --el-color-error-light-8: color-mix(in srgb, var(--vscode-errorForeground) 20%, var(--vscode-editor-background) 80%);
+  --el-color-error-light-9: color-mix(in srgb, var(--vscode-errorForeground) 10%, var(--vscode-editor-background) 90%);
+  --el-color-error-dark-2: color-mix(in srgb, var(--vscode-errorForeground) 80%, #000 20%);
+
+  --el-color-info: var(--vscode-infoForeground);
+  --el-color-info-light-3: color-mix(in srgb, var(--vscode-infoForeground) 70%, var(--vscode-editor-background) 30%);
+  --el-color-info-light-5: color-mix(in srgb, var(--vscode-infoForeground) 50%, var(--vscode-editor-background) 50%);
+  --el-color-info-light-7: color-mix(in srgb, var(--vscode-infoForeground) 30%, var(--vscode-editor-background) 70%);
+  --el-color-info-light-8: color-mix(in srgb, var(--vscode-infoForeground) 20%, var(--vscode-editor-background) 80%);
+  --el-color-info-light-9: color-mix(in srgb, var(--vscode-infoForeground) 10%, var(--vscode-editor-background) 90%);
+  --el-color-info-dark-2: color-mix(in srgb, var(--vscode-infoForeground) 80%, #000 20%);
+
+  /* ========================================
+   * Element Plus 基础样式系统
+   * ======================================== */
+
+  /* 文本色系统 */
+  --el-text-color-primary: var(--vscode-foreground);
+  --el-text-color-regular: var(--vscode-foreground);
+  --el-text-color-placeholder: var(--vscode-input-placeholderForeground);
+
+  /* 边框色系统 */
+  --el-border-color: var(--vscode-widget-border);
+  --el-border-color-light: var(--vscode-panel-border);
+  --el-border-color-lighter: color-mix(in srgb, var(--vscode-panel-border) 50%, var(--vscode-editor-background) 50%);
+  --el-border-color-extra-light: color-mix(
+    in srgb,
+    var(--vscode-panel-border) 30%,
+    var(--vscode-editor-background) 70%
+  );
+  --el-border-color-dark: var(--vscode-widget-border);
+  --el-border-color-darker: color-mix(in srgb, var(--vscode-widget-border) 80%, #000 20%);
+  --el-border-color-hover: var(--vscode-focusBorder);
+
+  /* 填充色系统 */
+  --el-fill-color: var(--vscode-editor-background);
+  --el-fill-color-light: var(--vscode-sideBar-background);
+  --el-fill-color-lighter: color-mix(
+    in srgb,
+    var(--vscode-sideBar-background) 70%,
+    var(--vscode-editor-background) 30%
+  );
+  --el-fill-color-extra-light: color-mix(
+    in srgb,
+    var(--vscode-sideBar-background) 30%,
+    var(--vscode-editor-background) 70%
+  );
+  --el-fill-color-dark: color-mix(in srgb, var(--vscode-editor-background) 80%, #000 20%);
+  --el-fill-color-darker: color-mix(in srgb, var(--vscode-editor-background) 60%, #000 40%);
+  --el-fill-color-blank: transparent;
+
+  /* 背景色系统 */
+  --el-bg-color: var(--vscode-editor-background);
+  --el-bg-color-page: var(--vscode-editor-background);
+  --el-bg-color-overlay: var(--vscode-editor-background);
+
+  /* 阴影系统 */
+  --el-box-shadow: var(--vscode-widget-shadow);
+  --el-box-shadow-light: var(--vscode-widget-shadow);
+  --el-box-shadow-lighter: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --el-box-shadow-dark: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+  /* ========================================
+   * Element Plus 设计系统
+   * ======================================== */
+
+  /* 圆角系统 */
+  --el-border-radius-base: 4px;
+  --el-border-radius-small: 2px;
+  --el-border-radius-round: 20px;
+  --el-border-radius-circle: 100%;
+
+  /* 字体系统 */
+  --el-font-size-extra-large: 20px;
+  --el-font-size-large: 18px;
+  --el-font-size-medium: 16px;
+  --el-font-size-base: 14px;
+  --el-font-size-small: 13px;
+  --el-font-size-extra-small: 12px;
+
+  /* 组件尺寸系统 */
+  --el-component-size-large: 40px;
+  --el-component-size: 32px;
+  --el-component-size-small: 24px;
+
+  /* 过渡动画系统 */
+  --el-transition-duration: 0.15s;
+  --el-transition-duration-fast: 0.1s;
+  --el-transition-duration-slow: 0.3s;
+  --el-transition-function-ease-in-out-bezier: cubic-bezier(0.645, 0.045, 0.355, 1);
+
+  /* Z-index 系统 */
+  --el-index-normal: 1;
+  --el-index-top: 1000;
+  --el-index-popper: 2000;
+
+  /* ========================================
+   * VSCode 专用扩展
+   * ======================================== */
+  // --el-tag-bg-color: var(--vscode-tab-activeForeground);
+
+  // /* 输入框扩展 */
+  // --el-input-focus-border: var(--vscode-focusBorder);
+  // --el-input-hover-border: var(--vscode-focusBorder);
+  // --el-input-bg-color: var(--vscode-input-background);
+
+  // /* 按钮扩展 */
+  // --el-button-divide-border-color: var(--vscode-widget-border);
+
+  // /* 表格扩展 */
+  // --el-table-border: var(--vscode-widget-border);
+  // --el-table-header-bg: var(--vscode-sideBar-background);
+  // --el-table-header-text-color: var(--vscode-sideBar-foreground);
+  // --el-table-row-hover-bg: var(--vscode-list-hoverBackground);
+
+  // /* 菜单扩展 */
+  // --el-menu-bg-color: var(--vscode-sideBar-background);
+  // --el-menu-text-color: var(--vscode-sideBar-foreground);
+  // --el-menu-hover-bg-color: var(--vscode-list-hoverBackground);
+  // --el-menu-active-color: var(--vscode-list-activeForeground);
+
+  // /* 对话框扩展 */
+  // --el-dialog-bg-color: var(--vscode-background);
+  // --el-dialog-box-shadow: var(--vscode-widget-shadow);
+
+  // /* 消息扩展 */
+  // --el-message-bg-color: var(--vscode-notification-background);
+  // --el-message-border-color: var(--vscode-notification-border);
+  // --el-message-text-color: var(--vscode-notification-foreground);
+
+  // /* 工具提示扩展 */
+  // --el-tooltip-bg-color: var(--vscode-tooltip-background);
+  // --el-tooltip-text-color: var(--vscode-tooltip-foreground);
+  // --el-tooltip-border-color: var(--vscode-tooltip-border);
+
+  // /* Popper 扩展（下拉、弹出层，对应 effect: 'light' | 'dark'） */
+  // --el-popper-bg-color: var(--vscode-dropdown-background, var(--vscode-editor-background));
+  // --el-popper-text-color: var(--vscode-dropdown-foreground, var(--vscode-foreground));
+  // --el-popper-border-color: var(--vscode-dropdown-border, var(--vscode-widget-border));
+  // /* dark 主题（深色浮层，如 tooltip effect="dark"） */
+  // --el-popper-dark-bg-color: var(--vscode-tooltip-background);
+  // --el-popper-dark-text-color: var(--vscode-tooltip-foreground);
+  // --el-popper-dark-border-color: var(--vscode-tooltip-border);
+
+  /* 加载扩展 */
+  --el-loading-spinner-size: 20px;
+  --el-loading-fullscreen-spinner-size: 42px;
+
+  /* 间距系统 */
+  --el-spacing-xs: 4px;
+  --el-spacing-sm: 8px;
+  --el-spacing-md: 16px;
+  --el-spacing-lg: 24px;
+  --el-spacing-xl: 32px;
+}

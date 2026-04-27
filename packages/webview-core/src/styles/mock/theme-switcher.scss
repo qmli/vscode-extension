@@ -1,0 +1,262 @@
+// 主题切换器样式
+// 提供主题切换的 UI 组件和动画效果
+
+@use '../core/variables.scss' as vars;
+@use '../core/mixins.scss' as mixins;
+
+// ========================================
+// 主题切换按钮
+// ========================================
+
+.vscode-theme-switcher {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: vars.$spacing-sm;
+  background-color: var(--vscode-background);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  padding: vars.$spacing-xs vars.$spacing-sm;
+  box-shadow: var(--vscode-widget-shadow);
+  font-size: vars.$font-size-xs;
+  color: var(--vscode-foreground);
+  transition: all vars.$transition-fast;
+
+  &:hover {
+    background-color: var(--vscode-list-hoverBackground);
+    transform: translateY(-1px);
+  }
+
+  &__button {
+    background: none;
+    border: none;
+    color: var(--vscode-foreground);
+    cursor: pointer;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-sm;
+    transition: all vars.$transition-fast;
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-xs;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+    }
+
+    &.is-active {
+      background-color: var(--vscode-button-background);
+      color: var(--vscode-button-foreground);
+    }
+
+    &--light {
+      &::before {
+        content: '☀️';
+        font-size: 14px;
+      }
+    }
+
+    &--dark {
+      &::before {
+        content: '🌙';
+        font-size: 14px;
+      }
+    }
+  }
+
+  &__separator {
+    width: 1px;
+    height: 16px;
+    background-color: var(--vscode-border);
+  }
+
+  &__label {
+    font-size: vars.$font-size-xs;
+    color: var(--vscode-list-inactiveForeground);
+    white-space: nowrap;
+  }
+}
+
+// ========================================
+// 主题切换动画
+// ========================================
+
+@keyframes theme-switch-fade {
+  from {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.theme-switching {
+  animation: theme-switch-fade 0.3s ease;
+}
+
+// ========================================
+// 主题预览面板
+// ========================================
+
+.vscode-theme-preview {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  z-index: 9998;
+  background-color: var(--vscode-background);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  padding: vars.$spacing-md;
+  box-shadow: var(--vscode-widget-shadow);
+  max-width: 300px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all vars.$transition-fast;
+
+  &.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: vars.$spacing-sm;
+    padding-bottom: vars.$spacing-sm;
+    border-bottom: 1px solid var(--vscode-border);
+  }
+
+  &__title {
+    font-size: vars.$font-size-sm;
+    font-weight: 600;
+    color: var(--vscode-foreground);
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    color: var(--vscode-list-inactiveForeground);
+    cursor: pointer;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-sm;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+      color: var(--vscode-foreground);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: vars.$spacing-sm;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: vars.$spacing-sm;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-sm;
+    cursor: pointer;
+    transition: background-color vars.$transition-fast;
+
+    &:hover {
+      background-color: var(--vscode-list-hoverBackground);
+    }
+
+    &.is-active {
+      background-color: var(--vscode-list-activeBackground);
+      color: var(--vscode-list-activeForeground);
+    }
+  }
+
+  &__preview {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid var(--vscode-border);
+    flex-shrink: 0;
+
+    &--light {
+      background: linear-gradient(135deg, #ffffff 0%, #f6f8fa 100%);
+    }
+
+    &--dark {
+      background: linear-gradient(135deg, #1e1e1e 0%, #252526 100%);
+    }
+  }
+
+  &__name {
+    font-size: vars.$font-size-xs;
+    color: var(--vscode-foreground);
+  }
+}
+
+// ========================================
+// 主题状态指示器
+// ========================================
+
+.vscode-theme-indicator {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 9997;
+  background-color: var(--vscode-background);
+  border: 1px solid var(--vscode-border);
+  border-radius: vars.$border-radius;
+  padding: vars.$spacing-xs vars.$spacing-sm;
+  font-size: vars.$font-size-xs;
+  color: var(--vscode-list-inactiveForeground);
+  box-shadow: var(--vscode-widget-shadow);
+  opacity: 0.7;
+  transition: opacity vars.$transition-fast;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  &__icon {
+    margin-right: vars.$spacing-xs;
+  }
+
+  &__text {
+    font-family: monospace;
+  }
+}
+
+// ========================================
+// 响应式适配
+// ========================================
+
+@include mixins.respond-to('xs') {
+  .vscode-theme-switcher {
+    top: 10px;
+    right: 10px;
+    padding: vars.$spacing-xs;
+    gap: vars.$spacing-xs;
+
+    &__label {
+      display: none;
+    }
+  }
+
+  .vscode-theme-preview {
+    top: 50px;
+    right: 10px;
+    max-width: 250px;
+  }
+
+  .vscode-theme-indicator {
+    bottom: 10px;
+    right: 10px;
+  }
+}

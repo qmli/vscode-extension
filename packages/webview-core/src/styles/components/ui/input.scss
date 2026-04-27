@@ -1,0 +1,310 @@
+// 输入框组件样式
+// 统一的输入框样式定义
+
+@use '../../core/variables.scss' as vars;
+@use '../../core/mixins.scss' as mixins;
+
+// ========================================
+// 基础输入框样式
+// ========================================
+
+.vscode-input,
+.orientais-input {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+  border: 1px solid var(--vscode-input-border);
+  background-color: var(--vscode-input-background);
+
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    background-color: var(--vscode-input-background);
+    border: 1px solid var(--vscode-input-border);
+    border-radius: vars.$border-radius;
+    transition: all vars.$transition-fast;
+    overflow: hidden;
+
+    &:hover {
+      border-color: var(--vscode-focusBorder);
+    }
+
+    &.is-focus {
+      border-color: var(--vscode-focusBorder);
+      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: var(--vscode-list-inactiveForeground);
+    }
+
+    &.is-error {
+      border-color: var(--vscode-errorForeground);
+
+      &.is-focus {
+        box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.2);
+      }
+    }
+
+    &.is-success {
+      border-color: var(--vscode-charts-green);
+
+      &.is-focus {
+        box-shadow: 0 0 0 2px rgba(0, 255, 0, 0.2);
+      }
+    }
+
+    &.is-warning {
+      border-color: var(--vscode-warningForeground);
+
+      &.is-focus {
+        box-shadow: 0 0 0 2px rgba(255, 255, 0, 0.2);
+      }
+    }
+  }
+
+  &__inner {
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--vscode-input-foreground);
+    font-size: vars.$font-size-sm;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    line-height: 1.5;
+
+    &::placeholder {
+      color: var(--vscode-list-inactiveForeground);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  &__prefix,
+  &__suffix {
+    display: flex;
+    align-items: center;
+    padding: 0 vars.$spacing-sm;
+    color: var(--vscode-list-inactiveForeground);
+    font-size: vars.$font-size-sm;
+  }
+
+  &__prefix {
+    border-right: 1px solid var(--vscode-input-border);
+  }
+
+  &__suffix {
+    border-left: 1px solid var(--vscode-input-border);
+  }
+
+  &__clear {
+    cursor: pointer;
+    color: var(--vscode-list-inactiveForeground);
+    transition: color vars.$transition-fast;
+    padding: vars.$spacing-xs;
+    border-radius: vars.$border-radius-sm;
+
+    &:hover {
+      color: var(--vscode-foreground);
+      background-color: var(--vscode-list-hoverBackground);
+    }
+  }
+
+  &__icon {
+    color: var(--vscode-list-inactiveForeground);
+    font-size: vars.$font-size-base;
+  }
+
+  // 尺寸变体
+  &--small {
+    .vscode-input__inner,
+    .orientais-input__inner {
+      padding: vars.$spacing-xs vars.$spacing-sm;
+      font-size: vars.$font-size-xs;
+    }
+  }
+
+  &--large {
+    .vscode-input__inner,
+    .orientais-input__inner {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      font-size: vars.$font-size-lg;
+    }
+  }
+
+  // 无边框样式
+  &--borderless {
+    .vscode-input__wrapper {
+      border: none;
+      background-color: transparent;
+
+      &:hover,
+      &.is-focus {
+        background-color: var(--vscode-list-hoverBackground);
+      }
+    }
+  }
+
+  // 圆角样式
+  &--rounded {
+    .vscode-input__wrapper {
+      border-radius: vars.$border-radius-lg;
+    }
+  }
+}
+
+// ========================================
+// 文本域样式
+// ========================================
+
+.vscode-textarea,
+.orientais-textarea {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+
+  &__wrapper {
+    display: block;
+    background-color: var(--vscode-input-background);
+    border: 1px solid var(--vscode-input-border);
+    border-radius: vars.$border-radius;
+    transition: all vars.$transition-fast;
+    overflow: hidden;
+
+    &:hover {
+      border-color: var(--vscode-focusBorder);
+    }
+
+    &.is-focus {
+      border-color: var(--vscode-focusBorder);
+      box-shadow: 0 0 0 2px rgba(0, 122, 204, 0.2);
+    }
+
+    &.is-disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background-color: var(--vscode-list-inactiveForeground);
+    }
+  }
+
+  &__inner {
+    display: block;
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--vscode-input-foreground);
+    font-size: vars.$font-size-sm;
+    padding: vars.$spacing-sm vars.$spacing-md;
+    line-height: 1.5;
+    resize: vertical;
+    min-height: 80px;
+
+    &::placeholder {
+      color: var(--vscode-list-inactiveForeground);
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+      resize: none;
+    }
+  }
+
+  // 尺寸变体
+  &--small {
+    .vscode-textarea__inner,
+    .orientais-textarea__inner {
+      padding: vars.$spacing-xs vars.$spacing-sm;
+      font-size: vars.$font-size-xs;
+      min-height: 60px;
+    }
+  }
+
+  &--large {
+    .vscode-textarea__inner,
+    .orientais-textarea__inner {
+      padding: vars.$spacing-md vars.$spacing-lg;
+      font-size: vars.$font-size-lg;
+      min-height: 120px;
+    }
+  }
+
+  // 自动调整高度
+  &--autosize {
+    .vscode-textarea__inner,
+    .orientais-textarea__inner {
+      resize: none;
+      overflow: hidden;
+    }
+  }
+}
+
+// ========================================
+// 输入框组
+// ========================================
+
+.vscode-input-group,
+.orientais-input-group {
+  display: flex;
+  width: 100%;
+
+  .vscode-input,
+  .orientais-input {
+    position: relative;
+    flex: 1;
+
+    &:not(:first-child) {
+      .vscode-input__wrapper,
+      .orientais-input__wrapper {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+        border-left: none;
+      }
+    }
+
+    &:not(:last-child) {
+      .vscode-input__wrapper,
+      .orientais-input__wrapper {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+        border-right: none;
+      }
+    }
+
+    &:hover {
+      z-index: 1;
+    }
+
+    &.is-focus {
+      z-index: 2;
+    }
+  }
+
+  &__prepend,
+  &__append {
+    display: flex;
+    align-items: center;
+    padding: 0 vars.$spacing-md;
+    background-color: var(--vscode-sideBar-background);
+    border: 1px solid var(--vscode-input-border);
+    color: var(--vscode-foreground);
+    font-size: vars.$font-size-sm;
+    white-space: nowrap;
+  }
+
+  &__prepend {
+    border-right: none;
+    border-top-left-radius: vars.$border-radius;
+    border-bottom-left-radius: vars.$border-radius;
+  }
+
+  &__append {
+    border-left: none;
+    border-top-right-radius: vars.$border-radius;
+    border-bottom-right-radius: vars.$border-radius;
+  }
+}

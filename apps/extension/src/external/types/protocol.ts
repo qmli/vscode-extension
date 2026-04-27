@@ -16,7 +16,7 @@ export interface ExternalExecutableRequest {
     /** 工作目录，命令将在此目录下执行 */
     cwd?: string;
     /** 环境变量，键值对形式 */
-    env?: Record<string, string>;
+    env?: Record<string, string | undefined> | undefined;
   };
 }
 
@@ -64,7 +64,7 @@ export interface ExternalExecutableConfig {
   /** 重试间隔时间（毫秒） */
   retryDelay?: number;
   /** 环境变量，键值对形式 */
-  env?: Record<string, string>;
+  env?: Record<string, string | undefined> | undefined;
   /** 启动参数，程序启动时传递的参数 */
   startupArgs?: string[];
 }
@@ -122,7 +122,7 @@ export interface ExecutableConfig {
   /** 重启延迟时间（毫秒），程序崩溃后等待多久再重启 */
   restartDelay?: number;
   /** 环境变量，键值对形式 */
-  env?: Record<string, string>;
+  env?: Record<string, string | undefined> | undefined;
   /** 启动参数，程序启动时传递的参数 */
   startupArgs?: string[];
   /** 工作目录，程序运行的工作目录 */

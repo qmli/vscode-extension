@@ -12,8 +12,8 @@ import { createQuickPickSeparator } from '@/quickpicks/items/common';
 import type { DirectiveQuickPickItem } from '@/quickpicks/items/directive';
 import { createDirectiveQuickPickItem, Directive, isDirective } from '@/quickpicks/items/directive';
 import type { GlCommands } from '@packages/common/webviews/constants/constants.commands';
-import type { UnifiedDisposable } from '../unifiedDisposable';
-import { createDisposable } from '../unifiedDisposable';
+import type { UnifiedDisposable } from '@orientais/vscode-core';
+import { createDisposable } from '@orientais/vscode-core';
 
 /**
  * 定义一个类型工具，用于将某些属性设置为可选。

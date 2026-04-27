@@ -7,9 +7,9 @@
  * - LogScope（logger.scope.ts）：日志作用域管理，用于追踪调用链路
  */
 
-import { debug, log, logName } from '@/core/log';
-import { Logger } from '@/core/logger';
-import { getNewLogScope, setLogScopeExit, startLogScope } from '@/core/logger.scope';
+import { debug, log, logName } from '@orientais/vscode-core/log';
+import { Logger } from '@orientais/vscode-core/logger';
+import { getNewLogScope, setLogScopeExit, startLogScope } from '@orientais/vscode-core/logger.scope';
 
 // ============================================================================
 // 1. Logger 基础用法 —— 直接调用 Logger 单例

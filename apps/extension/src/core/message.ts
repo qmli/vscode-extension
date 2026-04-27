@@ -1,9 +1,9 @@
+import { openUrl } from '@orientais/vscode-core';
+import { Logger } from '@orientais/vscode-core/logger';
 import type { MessageItem } from 'vscode';
 import { window } from 'vscode';
 import type { SuppressedMessages } from '@/common/config';
-import { openUrl } from '@/common/uris';
 import { urls } from '@packages/common/webviews/constants/constants';
-import { Logger } from './logger';
 
 /**
  * 显示集成服务因请求过多而断开连接的错误消息
