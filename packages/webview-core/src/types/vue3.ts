@@ -6,8 +6,8 @@
 
 import type { Pinia } from 'pinia';
 import type { ComputedRef, Ref } from 'vue';
-import type { Disposable } from '@packages/common/browser/events';
-import type { HostIpc, HostIpcApi } from '@packages/common/browser/ipc';
+import type { Disposable } from '../browser/events';
+import type { HostIpc, HostIpcApi } from '../browser/ipc';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,

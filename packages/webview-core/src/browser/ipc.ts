@@ -1,29 +1,30 @@
 /**
  * IPC (进程间通信) 模块
  *
- * 这个文件实现了 Webview 与 VS Code 扩展主进程之间的双向通信机制，包含：
+ * 这个文件实现�?Webview �?VS Code 扩展主进程之间的双向通信机制，包含：
  * 1. HostIpcApi 接口 - VS Code 提供的基础 API
- * 2. HostIpc 类 - 封装的高级 IPC 通信客户端
- * 3. Promise 序列化/反序列化机制
- * 4. 消息队列和超时处理
- * 5. 状态持久化功能
+ * 2. HostIpc �?- 封装的高�?IPC 通信客户�? * 3. Promise 序列�?反序列化机制
+ * 4. 消息队列和超时处�? * 5. 状态持久化功能
  *
- * 特点：
- * - 支持命令发送和请求/响应模式
+ * 特点�? * - 支持命令发送和请求/响应模式
  * - 自动处理 Promise 的序列化传输
  * - 支持消息压缩(Uint8Array)
  * - 提供状态持久化机制
- * - 自动超时和错误处理
- */
+ * - 自动超时和错误处�? */
 
 /*global window */
+import type {
+  IpcCallParamsType,
+  IpcCallResponseParamsType,
+  IpcCommand,
+  IpcMessage,
+  IpcRequest
+} from '@packages/common/protocol';
+import { ipcPromiseSettled, isIpcPromise } from '@packages/common/protocol';
 import { getScopedCounter } from '@packages/utils/counter';
-import type { IpcCallParamsType, IpcCallResponseParamsType, IpcCommand, IpcMessage, IpcRequest } from '../protocol';
-import { ipcPromiseSettled, isIpcPromise } from '../protocol';
 import { DOM } from './dom';
 import type { Disposable, Event } from './events';
 import { Emitter } from './events';
-
 /**
  * VS Code Webview 主机 API 接口
  * 这是 VS Code 提供给 webview 的基础通信接口

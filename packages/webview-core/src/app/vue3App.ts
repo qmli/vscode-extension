@@ -14,9 +14,6 @@
 import { createPinia } from 'pinia';
 import type { Ref } from 'vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
-import { DOM } from '@packages/common/browser/dom';
-import type { Disposable } from '@packages/common/browser/events';
-import { getHostIpcApi, HostIpc } from '@packages/common/browser/ipc';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
@@ -31,6 +28,9 @@ import {
   WebviewFocusChangedCommand,
   WebviewReadyCommand
 } from '@packages/common/protocol';
+import { DOM } from '../browser/dom';
+import type { Disposable } from '../browser/events';
+import { getHostIpcApi, HostIpc } from '../browser/ipc';
 // 导入类型定义
 import type { Vue3AppConfig, Vue3AppContext, Vue3AppInstance } from '../types/vue3';
 import { debounce } from '../utils';
@@ -120,7 +120,7 @@ export function createVue3App(config: Vue3AppConfig): Vue3AppInstance {
           }
 
           default:
-            config.onMessageReceived!(msg);
+            config.onMessageReceived?.(msg);
         }
       })
     );

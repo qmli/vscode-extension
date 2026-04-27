@@ -374,10 +374,7 @@ export default [
   {
     name: 'vscode-core-typescript',
     files: ['packages/vscode-core/src/**/*.ts'],
-    ignores: [
-      ...filePatterns.excludeDeclarations,
-      'packages/vscode-core/src/instantiation/**'
-    ],
+    ignores: [...filePatterns.excludeDeclarations, 'packages/vscode-core/src/instantiation/**'],
     languageOptions: {
       ...defaultLanguageOptions,
       parser: ts.parser,
@@ -405,5 +402,39 @@ export default [
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-return': 'off'
     }
+  },
+
+  // webview-core — 浏览器环境 TypeScript + Vue
+  {
+    name: 'webview-core-typescript',
+    files: ['packages/webview-core/**/*.{js,ts,jsx,tsx,vue}'],
+    ignores: filePatterns.excludeDeclarations,
+    languageOptions: {
+      ...defaultLanguageOptions,
+      parser: ts.parser,
+      globals: { ...globals.browser }
+    },
+    plugins: { 'import-x': importX },
+    rules: {
+      ...baseJsRules,
+      ...importXRules,
+      ...tsRules,
+      // 限制跨包 @packages 引用，内部相对路径不受影响
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['@packages/utils/**'], message: 'webview-core 不能引用 @packages/utils，请在包内自行实现' },
+            { group: ['@packages/dbdriver/**'], message: 'webview-core 不能引用 @packages/dbdriver' },
+            {
+              group: ['@packages/vscode-core/**'],
+              message: 'webview-core 不能引用 @packages/vscode-core（Node.js 环境库）'
+            }
+          ]
+        }
+      ],
+      'prettier/prettier': 'warn'
+    },
+    settings: importSettings
   }
 ];

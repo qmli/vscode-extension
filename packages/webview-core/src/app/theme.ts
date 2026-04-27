@@ -1,4 +1,4 @@
-import type { Disposable } from '@packages/common/browser/events';
+import type { Disposable } from '../browser/events';
 
 export const THEMEATTR = 'data-vscode-theme-kind' as const;
 

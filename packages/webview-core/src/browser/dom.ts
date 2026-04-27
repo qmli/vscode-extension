@@ -1,9 +1,5 @@
 /*global document*/
-
-export interface Disposable {
-  dispose: () => void;
-}
-
+import type { Disposable } from '../browser/events';
 export namespace DOM {
   export function on<K extends keyof WindowEventMap>(
     window: Window,
@@ -30,12 +26,14 @@ export namespace DOM {
     options?: boolean | AddEventListenerOptions
   ): Disposable;
   export function on<T extends Element, K extends keyof DocumentEventMap>(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     selector: string,
     name: K,
     listener: (e: DocumentEventMap[K] & { target: HTMLElement | null }, target: T) => void,
     options?: boolean | AddEventListenerOptions
   ): Disposable;
   export function on<T extends HTMLElement, K>(
+    // eslint-disable-next-line @typescript-eslint/unified-signatures
     selector: string,
     name: string,
     listener: (e: CustomEvent<K> & { target: HTMLElement | null }, target: T) => void,

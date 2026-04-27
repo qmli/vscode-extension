@@ -6,7 +6,7 @@
 
 import type { Ref } from 'vue';
 import { computed, onMounted, onUnmounted, ref } from 'vue';
-import type { Disposable } from '@packages/common/browser/events';
+import type { Disposable } from '../browser/events';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
