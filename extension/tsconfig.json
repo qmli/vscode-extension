@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "removeComments": true,
+    "noErrorTruncation": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@packages/*": ["../packages/*"],
+      "@orientais/vscode-core": ["../packages/vscode-core/src/index.ts"],
+      "@orientais/vscode-core/*": ["../packages/vscode-core/src/*"],
+      "@orientais/vscode-webview": ["../packages/vscode-webview/src/index.ts"],
+      "@orientais/vscode-webview/*": ["../packages/vscode-webview/src/*"],
+      "@orientais/vscode-external": ["../packages/vscode-external/src/index.ts"],
+      "@orientais/vscode-external/*": ["../packages/vscode-external/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/extension.ts", "test/**/*.ts", "../packages/@types/global.d.ts"],
+  "exclude": ["node_modules", "webpack.config.js"]
+}

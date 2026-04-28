@@ -14,10 +14,10 @@ const isWatch = process.argv.includes('--watch');
 // 路径别名配置
 const alias = {
   '@': path.resolve(__dirname, 'src'),
-  '@packages': path.resolve(__dirname, '..', '..', 'packages'),
-  '@orientais/vscode-core': path.resolve(__dirname, '..', '..', 'packages', 'vscode-core', 'src'),
-  '@orientais/vscode-webview': path.resolve(__dirname, '..', '..', 'packages', 'vscode-webview', 'src'),
-  '@orientais/vscode-external': path.resolve(__dirname, '..', '..', 'packages', 'vscode-external', 'src')
+  '@packages': path.resolve(__dirname, '..', 'packages'),
+  '@orientais/vscode-core': path.resolve(__dirname, '..', 'packages', 'vscode-core', 'src'),
+  '@orientais/vscode-webview': path.resolve(__dirname, '..', 'packages', 'vscode-webview', 'src'),
+  '@orientais/vscode-external': path.resolve(__dirname, '..', 'packages', 'vscode-external', 'src')
 };
 
 /**@type {import('webpack').Configuration}*/
@@ -29,13 +29,13 @@ const config = {
   entry: './src/extension.ts',
 
   output: {
-    path: path.resolve(__dirname, '../../dist', 'extension'),
+    path: path.resolve(__dirname, '../dist', 'extension'),
     filename: 'extension.js',
     libraryTarget: 'commonjs2',
     // 配置 source map 路径模板，确保调试时能正确映射到源文件
     devtoolModuleFilenameTemplate: (info) => {
       const resourcePath = info.resourcePath;
-      const workspaceRoot = path.resolve(__dirname, '../..');
+      const workspaceRoot = path.resolve(__dirname, '..');
 
       // 如果是 @packages/dbdriver 的源文件，使用相对于工作区根目录的路径
       if (resourcePath.includes('packages' + path.sep + 'dbdriver' + path.sep + 'src')) {
@@ -45,7 +45,7 @@ const config = {
       }
 
       // 如果是 extension 的源文件
-      if (resourcePath.includes('apps' + path.sep + 'extension' + path.sep + 'src')) {
+      if (resourcePath.includes('extension' + path.sep + 'src')) {
         const relativePath = path.relative(workspaceRoot, resourcePath).replace(/\\/g, '/');
         return `webpack:///${relativePath}`;
       }
@@ -72,16 +72,12 @@ const config = {
       ...alias,
       // 开发模式下，将 @packages/dbdriver 解析到源文件，方便调试
       ...(isDevelopment && {
-        '@packages/dbdriver': path.resolve(__dirname, '..', '..', 'packages', 'dbdriver', 'src', 'index.ts'),
-        '@packages/dbdriver/src': path.resolve(__dirname, '..', '..', 'packages', 'dbdriver', 'src')
+        '@packages/dbdriver': path.resolve(__dirname, '..', 'packages', 'dbdriver', 'src', 'index.ts'),
+        '@packages/dbdriver/src': path.resolve(__dirname, '..', 'packages', 'dbdriver', 'src')
       })
     },
     symlinks: true, // pnpm 需要启用符号链接支持
-    modules: [
-      'node_modules',
-      path.resolve(__dirname, 'node_modules'),
-      path.resolve(__dirname, '..', '..', 'node_modules')
-    ]
+    modules: ['node_modules', path.resolve(__dirname, 'node_modules'), path.resolve(__dirname, '..', 'node_modules')]
   },
 
   module: {
@@ -156,7 +152,7 @@ const config = {
       patterns: [
         {
           from: path.resolve(__dirname, 'src/l10n'),
-          to: path.resolve(__dirname, '../../dist/extension/l10n')
+          to: path.resolve(__dirname, '../dist/extension/l10n')
         }
       ]
     })

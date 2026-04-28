@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 // 工作区配置
-const workspaces = ['apps/extension', 'packages/dbdriver'];
+const workspaces = ['extension', 'packages/dbdriver'];
 
 // 颜色输出
 const colors = {

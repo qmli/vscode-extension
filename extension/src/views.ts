@@ -1,6 +1,6 @@
+import type { WebviewsController } from '@orientais/vscode-webview';
 import { Disposable } from 'vscode';
 import type { Container } from './container';
-import type { WebviewsController } from '@orientais/vscode-webview/webviewsController';
 
 export class Views implements Disposable {
   private readonly _disposable: Disposable;

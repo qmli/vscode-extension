@@ -12,6 +12,7 @@
   "l10n": "./dist/extension/l10n",
   "resources": "./dist/extension/resources",
   "workspaces": [
+    "extension",
     "apps/*",
     "packages/*"
   ],

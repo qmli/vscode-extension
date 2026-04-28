@@ -5,7 +5,7 @@
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@/*": ["../../apps/extension/src/*"],
+      "@/*": ["../../extension/src/*"],
       "@packages/*": ["../*"],
       "@orientais/vscode-core": ["../vscode-core/src/index.ts"],
       "@orientais/vscode-core/*": ["../vscode-core/src/*"]

@@ -29,7 +29,7 @@ const defaultLanguageOptions = {
 /** 文件匹配模式 */
 const filePatterns = {
   extension: [
-    'apps/extension/**/*.{js,ts,jsx,tsx}',
+    'extension/**/*.{js,ts,jsx,tsx}',
     'packages/common/**/*.{js,ts,jsx,tsx}',
     'packages/utils/**/*.{js,ts,jsx,tsx}',
     'packages/dbdriver/**/*.{js,ts,jsx,tsx}'
@@ -47,8 +47,8 @@ const ignorePatterns = {
     '**/.cache/**',
     'packages/@types',
     '**/scripts/**',
-    'apps/extension/webpack.config.js',
-    'apps/extension/gulpfile.js',
+    'extension/webpack.config.js',
+    'extension/gulpfile.js',
     'packages/vscode-core/src/instantiation/**',
     // 根目录配置文件
     '.prettierrc.js',
@@ -66,7 +66,7 @@ const restrictedImports = {
     'error',
     {
       patterns: [
-        { group: ['**/apps/extension/webview/**/*'], message: 'Extension中不能使用webview模块' },
+        { group: ['**/extension/webview/**/*'], message: 'Extension中不能使用webview模块' },
         {
           regex: '^(?:\\.\\./)+(?:common|utils|@types)(?:/|$)',
           message: '在webview中请使用别名导入（如 @packages/common），禁止跨包相对路径'
@@ -317,7 +317,7 @@ export default [
       globals: globals.node,
       parserOptions: {
         ...defaultLanguageOptions.parserOptions,
-        project: ['./apps/extension/tsconfig.json', './tsconfig.json']
+        project: ['./extension/tsconfig.json', './tsconfig.json']
       }
     },
     linterOptions: { reportUnusedDisableDirectives: true },
@@ -335,7 +335,7 @@ export default [
   // 特定目录的额外限制（继承前面的 parser 配置）
   {
     name: 'extension-specific-restrictions',
-    files: ['apps/extension/src/**/*.ts'],
+    files: ['extension/src/**/*.ts'],
     rules: {
       'no-restricted-imports': [
         'error',
@@ -362,8 +362,8 @@ export default [
         'error',
         {
           patterns: [
-            { group: ['**/apps/extension/**'], message: 'common/utils包不能依赖extension模块' },
-            { group: ['apps/extension/**'], message: 'common/utils包不能依赖extension模块' }
+            { group: ['**/extension/**'], message: 'common/utils包不能依赖extension模块' },
+            { group: ['extension/**'], message: 'common/utils包不能依赖extension模块' }
           ]
         }
       ]

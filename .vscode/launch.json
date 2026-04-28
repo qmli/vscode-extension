@@ -20,15 +20,15 @@
       "showAsyncStacks": true,
       "skipFiles": ["<node_internals>/**", "**/node_modules/**"],
       "sourceMapPathOverrides": {
-        // esbuild 生成的路径是相对于 apps/extension/ 的
-        "src/*": "${workspaceFolder}/apps/extension/src/*",
+        // webpack 生成的路径是相对于 extension/ 的
+        "src/*": "${workspaceFolder}/extension/src/*",
         "../packages/*": "${workspaceFolder}/packages/*",
         "../../packages/*": "${workspaceFolder}/packages/*",
         // webpack 风格路径
         "webpack:///./*": "${workspaceFolder}/*",
         "webpack:///*": "${workspaceFolder}/*",
         // 其他相对路径
-        "../*": "${workspaceFolder}/apps/extension/*",
+        "../*": "${workspaceFolder}/extension/*",
         "../../*": "${workspaceFolder}/*"
       },
       "internalConsoleOptions": "openOnSessionStart",

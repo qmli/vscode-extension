@@ -4,7 +4,7 @@
     "noEmit": true,
     "types": ["node"],
     "paths": {
-      "@/*": ["../../apps/extension/src/*"],
+      "@/*": ["../../extension/src/*"],
       "@packages/*": ["../*"],
       "@orientais/vscode-core": ["./src/index.ts"],
       "@orientais/vscode-core/*": ["./src/*"]

@@ -120,8 +120,8 @@ azure-pipelines.yml
 # monorepo 其他应用（不应打包）
 apps/docs/**
 apps/webview/**
-# apps/extension 整个目录（源代码已打包到 dist/extension，不需要包含源目录）
-apps/extension/**
+# extension 整个目录（源代码已打包到 dist/extension，不需要包含源目录）
+extension/**
 # 但保留所有 dist 构建输出（extension 和 webview 的构建产物）
 !dist/**
 

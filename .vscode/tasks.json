@@ -69,11 +69,11 @@
     {
       "type": "npm",
       "script": "watch:webpack",
-      "path": "apps/extension",
+      "path": "extension",
       "group": "build",
       "problemMatcher": "$tsc-watch",
       "isBackground": true,
-      "label": "npm: watch:webpack - apps/extension",
+      "label": "npm: watch:webpack - extension",
       "presentation": {
         "group": "watch",
         "reveal": "always",
@@ -96,7 +96,7 @@
     },
     {
       "label": "watch:extension-with-dbdriver",
-      "dependsOn": ["npm: watch:webpack - apps/extension", "npm: watch - packages/dbdriver"],
+      "dependsOn": ["npm: watch:webpack - extension", "npm: watch - packages/dbdriver"],
       "problemMatcher": [],
       "presentation": {
         "reveal": "always",
