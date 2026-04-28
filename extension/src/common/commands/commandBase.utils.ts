@@ -1,6 +1,6 @@
+import type { GlCommands, GlCommandsDeprecated } from '@shared/webviews/constants/constants.commands';
 import type { TextEditor } from 'vscode';
 import { Uri, window } from 'vscode';
-import type { GlCommands, GlCommandsDeprecated } from '@packages/common/webviews/constants/constants.commands';
 import type { CommandContext } from './commandContext';
 import type { CommandContextParsingOptions } from './commandContext.utils';
 

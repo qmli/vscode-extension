@@ -3,9 +3,9 @@
 //  上下文传递 - 封装命令执行时的环境信息
 //  参数验证 - 确保命令接收到正确的上下文数据
 // =============================================================================
+import type { GlCommands, GlCommandsDeprecated } from '@shared/webviews/constants/constants.commands';
+import type { TreeNode } from '@shared/webviews/viewNode';
 import type { SourceControl, SourceControlResourceGroup, SourceControlResourceState, TextEditor, Uri } from 'vscode';
-import type { GlCommands, GlCommandsDeprecated } from '@packages/common/webviews/constants/constants.commands';
-import type { TreeNode } from '@packages/common/webviews/viewNode';
 
 export type CommandContext =
   | CommandEditorLineContext

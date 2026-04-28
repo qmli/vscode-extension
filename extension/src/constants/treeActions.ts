@@ -2,8 +2,8 @@
  * 树操作相关常量和映射
  */
 
-import type { GlCommands } from '@packages/common/webviews/constants/constants.commands';
-import type { TreeMoreActionType } from '@packages/common/webviews/protocol/tree.protocol';
+import type { GlCommands } from '@shared/webviews/constants/constants.commands';
+import type { TreeMoreActionType } from '@shared/webviews/protocol/tree.protocol';
 
 /**
  * 树操作命令映射表

@@ -64,7 +64,7 @@ export default defineConfig(({ mode }) => ({
     rollupOptions: {
       external: (id) => {
         // 将 Vue 生态系统和内部包标记为外部依赖
-        return ['vue', 'pinia', 'vue-i18n'].includes(id) || id.startsWith('@packages/');
+        return ['vue', 'pinia', 'vue-i18n'].includes(id) || id.startsWith('@packages/') || id.startsWith('@shared/');
       },
       output: {
         globals: {

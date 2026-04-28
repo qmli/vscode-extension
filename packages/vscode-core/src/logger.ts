@@ -2,7 +2,7 @@ import type { Logger as Logger4 } from 'log4js';
 import { configure, getLogger } from 'log4js';
 import type { LogOutputChannel } from 'vscode';
 import { padOrTruncateEnd } from './_utils/string';
-import type { LogLevel } from '@packages/common/webviews/constants/logger.constants';
+import type { LogLevel } from '@shared/webviews/constants/logger.constants';
 import type { LogScope } from './logger.scope';
 
 const enum OrderedLevel {

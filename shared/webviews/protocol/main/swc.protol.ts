@@ -1,4 +1,4 @@
-import { IpcRequest } from '@packages/common/protocol';
+import { IpcRequest } from '@shared/protocol';
 
 // export interface LeafContextMenuResponse {
 //   /** 回调函数ID */

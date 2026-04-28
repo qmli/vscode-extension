@@ -1,10 +1,10 @@
+import { errorManager } from '@orientais/vscode-core/errors';
+import { EProjectType, ProjectType } from '@shared/webviews/constants/constants.project';
+import type { ProjectInfo } from '@shared/webviews/models/projects/projectInfo';
 import vscode, { Uri } from 'vscode';
 import { Media } from '@/common/constants/constants';
 import { ISoftDataType } from '@/common/constants/constants.isoft';
-import { errorManager } from '@orientais/vscode-core/errors';
 import { getMediaIcon } from '@/utils/media';
-import { EProjectType, ProjectType } from '@packages/common/webviews/constants/constants.project';
-import type { ProjectInfo } from '@packages/common/webviews/models/projects/projectInfo';
 // TODO: 需要实现 Media 和 GlobalState 模块
 // import { getMediaIcon, Media } from '../base/common/Media';
 // import { GlobalState } from '../core/GlobalState';

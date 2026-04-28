@@ -14,8 +14,8 @@ import type {
   IpcCommand,
   IpcMessage,
   IpcRequest
-} from '@packages/common/protocol';
-import type { WebviewIds, WebviewViewIds } from '@packages/common/webviews/constants/constants.views';
+} from '@shared/protocol';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
 
 /**
  * Vue3应用基础状态接口

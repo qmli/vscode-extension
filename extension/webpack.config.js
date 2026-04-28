@@ -15,6 +15,7 @@ const isWatch = process.argv.includes('--watch');
 const alias = {
   '@': path.resolve(__dirname, 'src'),
   '@packages': path.resolve(__dirname, '..', 'packages'),
+  '@shared': path.resolve(__dirname, '..', 'shared'),
   '@orientais/vscode-core': path.resolve(__dirname, '..', 'packages', 'vscode-core', 'src'),
   '@orientais/vscode-webview': path.resolve(__dirname, '..', 'packages', 'vscode-webview', 'src'),
   '@orientais/vscode-external': path.resolve(__dirname, '..', 'packages', 'vscode-external', 'src')

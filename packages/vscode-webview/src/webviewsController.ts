@@ -17,7 +17,7 @@ import type {
   WebviewTypes,
   WebviewViewIds,
   WebviewViewTypes
-} from '@packages/common/webviews/constants/constants.views';
+} from '@shared/webviews/constants/constants.views';
 import { first } from '@packages/utils/iterable';
 import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';
 import type { IWebviewContainer as Container } from './types';

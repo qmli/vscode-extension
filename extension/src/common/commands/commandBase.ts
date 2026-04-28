@@ -1,6 +1,6 @@
 import { CommandBase, EditorCommand } from '@orientais/vscode-core';
+import type { GlCommands, GlCommandsDeprecated } from '@shared/webviews/constants/constants.commands';
 import type { TextEditor } from 'vscode';
-import type { GlCommands, GlCommandsDeprecated } from '@packages/common/webviews/constants/constants.commands';
 import { parseCommandContext } from './commandBase.utils';
 import type { CommandContext } from './commandContext';
 

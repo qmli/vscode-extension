@@ -1,4 +1,4 @@
-import { IpcRequest } from '@packages/common/protocol';
+import { IpcRequest } from '@shared/protocol';
 import type { NodeContextMenuData, NodeData } from '../../models/nodeData';
 
 // #region 编辑器左侧树形Node数据初始化相关协议

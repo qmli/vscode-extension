@@ -1,9 +1,9 @@
 import { existsSync, readdirSync } from 'fs';
 import { join } from 'path';
+import type { ViewIds, WebviewIds } from '@shared/webviews/constants/constants.views';
 import type { Uri } from 'vscode';
 import { window } from 'vscode';
-import { WebviewReloadCommand } from '@packages/common/protocol';
-import type { ViewIds, WebviewIds } from '@packages/common/webviews//constants/constants.views';
+import { WebviewReloadCommand } from '@packages/vscode-core';
 
 export interface HtmlGeneratorOptions {
   extensionUri: Uri;
@@ -93,7 +93,7 @@ export function generateWebviewHtml(options: HtmlGeneratorOptions): string {
         <title>Local Development</title>
         <script nonce="${nonce}" type="module">
           // 注入 VS Code API 模拟或热重载逻辑
-          // Hack: 确保 acquireVsCodeApi 是单例，防止旧界面脚本与此脚本同时获取导致错误
+          // Hack: 确保 acquireVsCodeApi 是单例，防止 webview-core 和此脚本同时获取导致错误
           const originalAcquire = window.acquireVsCodeApi;
           let vsCodeApi = undefined;
           window.acquireVsCodeApi = function() {

@@ -21,13 +21,13 @@ import type {
   IpcMessage,
   IpcRequest,
   WebviewFocusChangedParams
-} from '@packages/common/protocol';
+} from '@shared/protocol';
 import {
   DidChangeWebviewFocusNotification,
   DidChangeWebviewVisibilityNotification,
   WebviewFocusChangedCommand,
   WebviewReadyCommand
-} from '@packages/common/protocol';
+} from '@shared/protocol';
 import { DOM } from '../browser/dom';
 import type { Disposable } from '../browser/events';
 import { getHostIpcApi, HostIpc } from '../browser/ipc';

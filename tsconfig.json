@@ -16,6 +16,7 @@
     "ignoreDeprecations": "5.0",
     "paths": {
       "@packages/*": ["./packages/*"],
+      "@shared/*": ["./shared/*"],
       "@orientais/vscode-core": ["./packages/vscode-core/src/index.ts"],
       "@orientais/vscode-core/*": ["./packages/vscode-core/src/*"],
       "@orientais/vscode-webview": ["./packages/vscode-webview/src/index.ts"],

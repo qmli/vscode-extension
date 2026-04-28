@@ -10,9 +10,9 @@ import type {
   IpcNotification,
   IpcRequest,
   WebviewState
-} from '@packages/common/protocol';
-import type { WebviewCommands, WebviewViewCommands } from '@packages/common/webviews/constants/constants.commands';
-import type { WebviewIds, WebviewViewIds } from '@packages/common/webviews/constants/constants.views';
+} from '@shared/protocol';
+import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
 import type { WebviewContext } from './webview';
 import type { WebviewCommandCallback } from './webviewCommandRegistrar';
 

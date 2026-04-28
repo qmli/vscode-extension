@@ -2,7 +2,7 @@
 //  WebviewProvider 接口（业务逻辑层）
 // =============================================================================
 import type { Disposable } from 'vscode';
-import type { IpcMessage } from '@packages/common/protocol';
+import type { IpcMessage } from '@shared/protocol';
 import type { WebviewShowOptions } from './webviewHost';
 
 export type WebviewShowingArgs<T extends unknown[], SerializedState> = T | [{ state: Partial<SerializedState> }] | [];

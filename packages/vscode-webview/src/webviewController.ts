@@ -15,7 +15,7 @@ import type {
   IpcRequest,
   WebviewFocusChangedParams,
   WebviewState
-} from '@packages/common/protocol';
+} from '@shared/protocol';
 import {
   ApplicableRequest,
   DidChangeHostWindowFocusNotification,
@@ -26,9 +26,9 @@ import {
   isIpcPromise,
   WebviewReadyCommand,
   WebviewReloadCommand
-} from '@packages/common/protocol';
-import type { WebviewCommands, WebviewViewCommands } from '@packages/common/webviews/constants/constants.commands';
-import type { WebviewIds, WebviewViewIds } from '@packages/common/webviews/constants/constants.views';
+} from '@shared/protocol';
+import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
 import { getScopedCounter } from '@packages/utils/counter';
 import { isCancellationError } from '@orientais/vscode-core/errors';
 import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';

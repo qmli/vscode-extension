@@ -6,6 +6,7 @@
     "paths": {
       "@/*": ["../../extension/src/*"],
       "@packages/*": ["../*"],
+      "@shared/*": ["../../shared/*"],
       "@orientais/vscode-core": ["./src/index.ts"],
       "@orientais/vscode-core/*": ["./src/*"]
     }

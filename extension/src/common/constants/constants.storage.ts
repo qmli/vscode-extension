@@ -1,4 +1,4 @@
-import type { TreeNode } from '@packages/common/webviews/viewNode';
+import type { TreeNode } from '@shared/webviews/viewNode';
 
 /**
  * 工作区键枚举

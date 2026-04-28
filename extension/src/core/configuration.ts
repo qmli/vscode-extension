@@ -11,17 +11,11 @@
  * - 多层级配置值的获取（全局、工作区、工作区文件夹）
  * - 类型安全的配置路径操作
  */
+import type { Config, ConfigPath, ConfigPathValue, CoreConfigPath, CoreConfigPathValue } from '@shared/settings/config';
 import type { ConfigurationChangeEvent, ConfigurationScope, Disposable, Event, ExtensionContext } from 'vscode';
 import { ConfigurationTarget, EventEmitter, workspace } from 'vscode';
 import { extensionPrefix } from '@/common/constants/constants';
 import { areEqual } from '@/utils/object';
-import type {
-  Config,
-  ConfigPath,
-  ConfigPathValue,
-  CoreConfigPath,
-  CoreConfigPathValue
-} from '@packages/common/settings/config';
 
 /**
  * 配置覆盖接口

@@ -11,17 +11,17 @@
 import { Logger } from '@orientais/vscode-core/logger';
 import type { WebviewHost } from '@orientais/vscode-webview/webviewHost';
 import type { WebviewsController } from '@orientais/vscode-webview/webviewsController';
-import type { Disposable, Event } from 'vscode';
-import { EventEmitter, window, workspace } from 'vscode';
-import type { Container } from '@/container';
-import type { AppThemeType, LanguageInfo } from '@packages/common/global.protocol';
+import type { AppThemeType, LanguageInfo } from '@shared/global.protocol';
 import {
   DidChangeLanguageNotification,
   DidChangeThemeNotification,
   GlobalBroadcastNotification
-} from '@packages/common/global.protocol';
-import { DidChangeConfigurationNotification } from '@packages/common/setting.protocol';
-import type { WebviewIds, WebviewViewIds } from '@packages/common/webviews/constants/constants.views';
+} from '@shared/global.protocol';
+import { DidChangeConfigurationNotification } from '@shared/setting.protocol';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
+import type { Disposable, Event } from 'vscode';
+import { EventEmitter, window, workspace } from 'vscode';
+import type { Container } from '@/container';
 
 /**
  * 通知类型枚举

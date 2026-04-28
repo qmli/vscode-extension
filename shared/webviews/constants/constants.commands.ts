@@ -11,7 +11,7 @@ import type {
   ViewIds,
   WebviewTypes,
   WebviewViewTypes
-} from '@packages/common/webviews/constants/constants.views';
+} from '@shared/webviews/constants/constants.views';
 import type { ContributedCommands, ContributedPaletteCommands } from './constants.commands.generated';
 
 export const actionCommandPrefix = 'autosar.action.';

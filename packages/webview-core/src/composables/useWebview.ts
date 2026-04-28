@@ -13,7 +13,7 @@ import type {
   IpcCommand,
   IpcMessage,
   IpcRequest
-} from '@packages/common/protocol';
+} from '@shared/protocol';
 // 导入全局应用实例
 import { readCurrentTheme, THEMEATTR } from '../app/theme';
 import { getVue3App } from '../app/vue3App';

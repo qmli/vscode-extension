@@ -1,10 +1,10 @@
+import { Logger } from '@orientais/vscode-core/logger';
+import type { GlCommands } from '@shared/webviews/constants/constants.commands';
 import { TextEditor, Uri, window, workspace } from 'vscode';
 import { command } from '@/common/commands/command';
 import { GlCommandBase } from '@/common/commands/commandBase';
 import { CommandContext } from '@/common/commands/commandContext';
 import { Container } from '@/container';
-import { Logger } from '@orientais/vscode-core/logger';
-import type { GlCommands } from '@packages/common/webviews/constants/constants.commands';
 
 export interface RenameQuickCommitCommandArgs {
   repoPath?: string;

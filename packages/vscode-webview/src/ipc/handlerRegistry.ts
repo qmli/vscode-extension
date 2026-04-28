@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { WebviewHost } from '../webviewHost.js';
 import type {
   IpcCallParamsType,
@@ -5,7 +6,7 @@ import type {
   IpcCommand,
   IpcMessage,
   IpcRequest
-} from '@packages/common/protocol.js';
+} from '@shared/protocol.js';
 
 /** 从 IpcCommand 或 IpcRequest 中提取参数类型 */
 export type IpcParams<T extends IpcCommand<any> | IpcRequest<any, any>> = IpcCallParamsType<T>;
@@ -56,11 +57,13 @@ function registerHandler(
 }
 
 /** 命令处理函数类型 - 接收参数（或无参数时为 void），返回 void */
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 type CommandHandler<Params> = Params extends void
   ? () => void | Promise<void>
   : (params: Params) => void | Promise<void>;
 
 /** 请求处理函数类型 - 接收参数（或无参数时为 void），返回响应 */
+// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 type RequestHandler<Params, Response> = Params extends void
   ? () => Response | Promise<Response>
   : (params: Params) => Response | Promise<Response>;
@@ -78,6 +81,7 @@ export function ipcCommand<Params>(
   return function <F extends CommandHandler<Params>>(
     target: object,
     propertyKey: string | symbol,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _descriptor: TypedPropertyDescriptor<F>
   ): void {
     registerHandler(target, propertyKey, commandType, 'command');
@@ -98,6 +102,7 @@ export function ipcRequest<Params, Response>(
   return function <F extends RequestHandler<Params, Response>>(
     target: object,
     propertyKey: string | symbol,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     _descriptor: TypedPropertyDescriptor<F>
   ): void {
     registerHandler(target, propertyKey, requestType, 'request');

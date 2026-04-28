@@ -7,7 +7,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { createVue3App, type Vue3AppConfigType } from '../app/vue3App';
-import { IpcMessage } from '@packages/common/protocol';
+import { IpcMessage } from '@shared/protocol';
 // import { useWebviewFocus, useWebviewVisibility, useWebviewTheme } from '../composables/useWebview';
 // Props
 interface Props {

@@ -1,5 +1,5 @@
+import { EProjectType } from '@shared/webviews/constants/constants.project';
 import { Media } from '@/common/constants/constants';
-import { EProjectType } from '@packages/common/webviews/constants/constants.project';
 
 /**
  * 获取媒体图标

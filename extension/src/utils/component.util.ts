@@ -1,5 +1,5 @@
 // import { ISoftBooleanType } from '@/common/constants/constants.isoft';
-// import type { Template } from '@packages/common/webviews/models/template';
+// import type { Template } from '@shared/webviews/models/template';
 
 // interface Item {
 //   name: string;

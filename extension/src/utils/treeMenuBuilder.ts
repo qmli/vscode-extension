@@ -2,11 +2,11 @@
  * 树节点菜单构建工具
  */
 
+import type { TreeMoreActionType } from '@shared/webviews/protocol/tree.protocol';
 import type { QuickPickItem } from 'vscode';
 import { QuickPickItemKind } from 'vscode';
 import { EProjectType } from '@/common/constants/constants.project';
 import { treeActionLabelMap } from '@/constants/treeActions';
-import type { TreeMoreActionType } from '@packages/common/webviews/protocol/tree.protocol';
 
 /**
  * 构建操作菜单项

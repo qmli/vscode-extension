@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Disposable } from 'vscode';
 import { commands } from 'vscode';
-import type { WebviewCommands, WebviewViewCommands } from '@packages/common/webviews/constants/constants.commands';
+import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
 import type { WebviewContext } from './webview';
 import { isWebviewContext } from './webview';
 import type { WebviewProvider } from './webviewProvider';

@@ -2,7 +2,7 @@ import type {
   MonitoringObjectItem,
   ProcStatusNode,
   ProcStatusNodeType
-} from '@packages/common/webviews/models/monitors/monitoringData';
+} from '@shared/webviews/models/monitors/monitoringData';
 import { ArrayIterator } from '@packages/utils/iterable';
 
 // 进程节点类型数组，用于运行时检查

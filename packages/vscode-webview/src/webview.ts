@@ -2,8 +2,8 @@
 // 这个是 autosar 扩展中用于处理 Webview 上下文和命令链接 的核心工具模块
 // =============================================================================
 
-import type { WebviewCommands, WebviewViewCommands } from '@packages/common/webviews/constants/constants.commands';
-import type { WebviewIds, WebviewViewIds } from '@packages/common/webviews/constants/constants.views';
+import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
 
 export function createWebviewCommandLink<T>(
   command: WebviewCommands | WebviewViewCommands,

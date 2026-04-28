@@ -1,23 +1,15 @@
 /**
- * 核心功能：作为 autosar 命令的注册入口点，负责将所有命令注册到 VS Code 命令系统。
- * 功能特点：
- * - 定义 registerCommands 方法，用于集中式命令注册。
- * - 通过调用 GlCommandBase 子类的实例，将命令逻辑与 VS Code 命令系统连接起来。
- * 主要职责：
- * - 命令注册：集中式地将所有命令（例如 CreateProjectCommand）注册到 VS Code。
- * - 命令管理：统一管理命令的生命周期和依赖关系。
- * - 扩展入口点：作为 autosar 扩展的核心命令注册点。
- */
-import type { Command, Disposable } from 'vscode';
-import { commands } from 'vscode';
-import type { Container } from '@/container';
+ * 核心功能：作�?autosar 命令的注册入口点，负责将所有命令注册到 VS Code 命令系统�? * 功能特点�? * - 定义 registerCommands 方法，用于集中式命令注册�? * - 通过调用 GlCommandBase 子类的实例，将命令逻辑�?VS Code 命令系统连接起来�? * 主要职责�? * - 命令注册：集中式地将所有命令（例如 CreateProjectCommand）注册到 VS Code�? * - 命令管理：统一管理命令的生命周期和依赖关系�? * - 扩展入口点：作为 autosar 扩展的核心命令注册点�? */
 import type {
   CoreCommands,
   GlCommands,
   GlCommandsDeprecated,
   WebviewCommands,
   WebviewViewCommands
-} from '@packages/common/webviews/constants/constants.commands';
+} from '@shared/webviews/constants/constants.commands';
+import type { Command, Disposable } from 'vscode';
+import { commands } from 'vscode';
+import type { Container } from '@/container';
 import type { GlCommandBase } from './commandBase';
 
 export type CommandCallback = Parameters<typeof commands.registerCommand>[1];
@@ -64,8 +56,7 @@ export function registerCommands(container: Container): Disposable[] {
 /**
  *
  * @param command 终端链接命令
- * @param args 在终端点击指令
- * @returns
+ * @param args 在终端点击指�? * @returns
  */
 export function createTerminalLinkCommand<T extends object>(
   command: GlCommands,
@@ -90,10 +81,7 @@ export function createCoreCommand<T extends unknown[]>(command: CoreCommands, ti
 }
 
 /**
- * 执行 VS Code 内置的核心命令
- * @param command VS Code 核心命令：执行 VS Code 内置的核心命令
- * @param arg   执行核心命令所需的参数
- */
+ * 执行 VS Code 内置的核心命�? * @param command VS Code 核心命令：执�?VS Code 内置的核心命�? * @param arg   执行核心命令所需的参�? */
 export function executeCoreCommand<T = unknown, U = any>(command: CoreCommands, arg: T): Thenable<U>;
 export function executeCoreCommand<T extends [...unknown[]] = [], U = any>(
   command: CoreCommands,

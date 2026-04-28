@@ -1,5 +1,5 @@
 // import type { CancellationToken, Command, TreeItem } from 'vscode';
-// import type { TreeViewNodeTypes, TreeViewTypes } from '@packages/common/webviews/constants/constants.views';
+// import type { TreeViewNodeTypes, TreeViewTypes } from '@shared/webviews/constants/constants.views';
 // import type { View } from '../views';
 
 // /*

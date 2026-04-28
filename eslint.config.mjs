@@ -30,7 +30,7 @@ const defaultLanguageOptions = {
 const filePatterns = {
   extension: [
     'extension/**/*.{js,ts,jsx,tsx}',
-    'packages/common/**/*.{js,ts,jsx,tsx}',
+    'shared/**/*.{js,ts,jsx,tsx}',
     'packages/utils/**/*.{js,ts,jsx,tsx}',
     'packages/dbdriver/**/*.{js,ts,jsx,tsx}'
   ],
@@ -69,7 +69,7 @@ const restrictedImports = {
         { group: ['**/extension/webview/**/*'], message: 'Extension中不能使用webview模块' },
         {
           regex: '^(?:\\.\\./)+(?:common|utils|@types)(?:/|$)',
-          message: '在webview中请使用别名导入（如 @packages/common），禁止跨包相对路径'
+          message: '在webview中请使用别名导入（如 @shared），禁止跨包相对路径'
         }
       ]
     }
@@ -355,7 +355,7 @@ export default [
   // Common和Utils包的架构限制（继承前面的 parser 配置）
   {
     name: 'common-utils-restrictions',
-    files: ['packages/common/**/*.{js,ts}', 'packages/utils/**/*.{js,ts}'],
+    files: ['shared/**/*.{js,ts}', 'packages/utils/**/*.{js,ts}'],
     ignores: filePatterns.excludeDeclarations,
     rules: {
       'no-restricted-imports': [

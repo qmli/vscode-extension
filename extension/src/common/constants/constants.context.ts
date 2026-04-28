@@ -1,4 +1,4 @@
-import type { WebviewTypes, WebviewViewTypes } from '@packages/common/webviews/constants/constants.views';
+import type { WebviewTypes, WebviewViewTypes } from '@shared/webviews/constants/constants.views';
 import type { Keys } from './constants';
 
 type WebviewContextStateKeys =
