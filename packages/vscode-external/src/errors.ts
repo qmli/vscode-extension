@@ -1,4 +1,4 @@
-import { Logger } from '@orientais/vscode-core/logger';
+import { Logger } from '@orientais/vscode-core';
 
 export class ExternalExecutableError extends Error {
   readonly code: string;

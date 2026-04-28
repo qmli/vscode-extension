@@ -4,8 +4,8 @@
  * 这个文件展示了如何在 autosar 中使用外部可执行文件集成功能
  */
 
+import { showMessage } from '@orientais/vscode-core';
 import { window } from 'vscode';
-import { showMessage } from '@/core/message';
 import { SSHClientDetector } from '@packages/vscode-external';
 import type { Container } from '../../container';
 import { SSHExecutableNotFoundError } from '../errors';

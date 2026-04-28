@@ -3,8 +3,8 @@
  * 展示如何使用SSH连接到GitHub进行Git操作
  */
 
+import { showMessage } from '@orientais/vscode-core';
 import { window } from 'vscode';
-import { showMessage } from '@/core/message';
 import { SSHClientDetector } from '@packages/vscode-external';
 import type { Container } from '../../container';
 import { SSHExecutableNotFoundError } from '../errors';

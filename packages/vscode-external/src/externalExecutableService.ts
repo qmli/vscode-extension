@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Disposable } from 'vscode';
-import { Logger } from '@orientais/vscode-core/logger';
-import { getLogScope } from '@orientais/vscode-core/logger.scope';
-import { showGenericErrorMessage } from '@/core/message';
+import { Logger } from '@orientais/vscode-core';
+import { getLogScope } from '@orientais/vscode-core';
+import { showGenericErrorMessage } from '@orientais/vscode-core';
 import { ExternalExecutableError } from './errors';
 import { logExternalDebug, logExternalError, logExternalInfo, logExternalWarn } from './externalOutputChannel';
 import type {

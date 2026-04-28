@@ -58,6 +58,9 @@ export * from './commands/commandBase';
 
 // ─── QuickPick ────────────────────────────────────────────────────────────────
 export * from './quickpick/directive';
+
+// ─── Messages ────────────────────────────────────────────────────────────────
+export * from './message';
 export * from './quickpick/common';
 
 // ─── Utilities ────────────────────────────────────────────────────────────────

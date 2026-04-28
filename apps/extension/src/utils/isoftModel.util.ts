@@ -1,6 +1,6 @@
+import { showMessage } from '@orientais/vscode-core';
 import { JSONPath } from 'jsonpath-plus';
 import * as vscode from 'vscode';
-import { showMessage } from '@/core/message';
 // import { SdkUtil } from '@/utils/sdk.util';
 
 export function getNameFromFqn(fqn: string): string {

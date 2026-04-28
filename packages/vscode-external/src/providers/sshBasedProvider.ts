@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Disposable } from 'vscode';
 import { Logger } from '@orientais/vscode-core/logger';
 import { getLogScope } from '@orientais/vscode-core/logger.scope';
