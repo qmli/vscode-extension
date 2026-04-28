@@ -1,3 +1,4 @@
+import { satisfies } from '@orientais/vscode-core';
 import { once } from '@orientais/vscode-core/event';
 import { BufferedLogChannel, getLoggableName, Logger } from '@orientais/vscode-core/logger';
 import * as vscode from 'vscode';
@@ -6,7 +7,6 @@ import { Storage } from '@/core/storage';
 import { runExample } from '@/examples/basic-usage';
 import { registerCommands } from './common/commands/command';
 import { loggingJsonReplacer } from './common/json';
-import { satisfies } from '@orientais/vscode-core';
 import { isWorkspaceFolder } from './common/workspaces';
 import { Container } from './container';
 import { Configuration } from './core/configuration';
