@@ -1,5 +1,5 @@
 import { isAbsolute, normalize, resolve } from 'path';
-import type { SSHConfig } from '@orientais/vscode-external';
+import type { SSHConfig } from '../types/protocol';
 import { PlatformUtils } from './platform';
 import type { SSHClientInfo } from './sshClientDetector';
 import { SSHClientType } from './sshClientDetector';
@@ -258,7 +258,6 @@ export const SSHCommandBuilder = {
     }
 
     // 检查路径格式
-
     if (PlatformUtils.isWindows() && config.privateKey) {
       if (config.privateKey.includes('/') && !config.privateKey.includes('\\')) {
         suggestions.push('建议在Windows上使用反斜杠路径分隔符');

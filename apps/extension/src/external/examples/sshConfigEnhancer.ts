@@ -7,7 +7,7 @@ import { exec } from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 import { promisify } from 'util';
-import { SSHClientDetector } from '@/utils/sshClientDetector';
+import { SSHClientDetector } from '@packages/vscode-external';
 import type { SSHConfig } from '../types/protocol';
 import { ValidationUtils } from './validationUtils';
 

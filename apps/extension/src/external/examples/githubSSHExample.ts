@@ -5,7 +5,7 @@
 
 import { window } from 'vscode';
 import { showMessage } from '@/core/message';
-import { SSHClientDetector } from '@/utils/sshClientDetector';
+import { SSHClientDetector } from '@packages/vscode-external';
 import type { Container } from '../../container';
 import { SSHExecutableNotFoundError } from '../errors';
 import type { ExternalExecutableServiceConfig } from '../externalExecutableService';

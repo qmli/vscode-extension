@@ -9,7 +9,7 @@ import * as path from 'path';
 import { promisify } from 'util';
 import { window } from 'vscode';
 import { showMessage } from '@/core/message';
-import { SSHClientDetector } from '@/utils/sshClientDetector';
+import { SSHClientDetector } from '@packages/vscode-external';
 import type { Container } from '../../container';
 import type { ExternalExecutableServiceConfig } from '../externalExecutableService';
 import { ProviderName } from '../externalExecutableService';

@@ -137,9 +137,7 @@ export const SSHClientDetector = {
     }
 
     // 3. 检测Git for Windows中的SSH
-
     const programFiles = PlatformUtils.getProgramFilesDir();
-
     const programFilesX86 = PlatformUtils.getProgramFilesX86Dir();
 
     const gitSSHPaths = [

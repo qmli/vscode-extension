@@ -4,9 +4,9 @@ import { Logger } from '@orientais/vscode-core/logger';
 import { getLogScope } from '@orientais/vscode-core/logger.scope';
 import type { RunOptions, RunResult } from '@orientais/vscode-core/shell';
 import { runSpawn } from '@orientais/vscode-core/shell';
-import type { SSHClientInfo } from '@/utils/sshClientDetector';
-import { SSHClientDetector } from '@/utils/sshClientDetector';
-import { SSHCommandBuilder } from '@/utils/sshCommandBuilder';
+import type { SSHClientInfo } from '../_utils/sshClientDetector';
+import { SSHClientDetector } from '../_utils/sshClientDetector';
+import { SSHCommandBuilder } from '../_utils/sshCommandBuilder';
 import {
   CommunicationError,
   ExecutableTimeoutError,

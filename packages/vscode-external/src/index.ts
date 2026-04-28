@@ -8,3 +8,6 @@ export * from './channels/sshConnectionPool';
 export * from './providers/shellBasedProvider';
 export * from './providers/sshBasedProvider';
 export * from './providers/localExecutableProviderBase';
+export * from './_utils/platform';
+export * from './_utils/sshClientDetector';
+export * from './_utils/sshCommandBuilder';

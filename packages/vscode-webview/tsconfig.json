@@ -2,14 +2,13 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "noEmit": true,
+    "types": ["node"],
     "baseUrl": ".",
     "paths": {
       "@/*": ["../../apps/extension/src/*"],
       "@packages/*": ["../*"],
       "@orientais/vscode-core": ["../vscode-core/src/index.ts"],
-      "@orientais/vscode-core/*": ["../vscode-core/src/*"],
-      "@orientais/vscode-webview": ["./src/index.ts"],
-      "@orientais/vscode-webview/*": ["./src/*"]
+      "@orientais/vscode-core/*": ["../vscode-core/src/*"]
     }
   },
   "include": ["src/**/*.ts", "../../packages/@types/global.d.ts"]

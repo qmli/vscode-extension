@@ -1,12 +1,11 @@
 import { existsSync } from 'fs';
-import type { Disposable } from 'vscode';
 import { Logger } from '@orientais/vscode-core/logger';
 import { getLogScope } from '@orientais/vscode-core/logger.scope';
 import type { RunOptions, RunResult } from '@orientais/vscode-core/shell';
 import { runSpawn } from '@orientais/vscode-core/shell';
-import type { SSHClientInfo } from '@/utils/sshClientDetector';
-import { SSHClientDetector } from '@/utils/sshClientDetector';
-import { SSHCommandBuilder } from '@/utils/sshCommandBuilder';
+import type { SSHClientInfo } from '@orientais/vscode-external';
+import { SSHClientDetector, SSHCommandBuilder } from '@orientais/vscode-external';
+import type { Disposable } from 'vscode';
 import {
   CommunicationError,
   ExecutableTimeoutError,
