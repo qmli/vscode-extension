@@ -1,6 +1,5 @@
-import type { DebounceOptions } from '../debounce';
-import { debounce as _debounce } from '../debounce';
-
+import type { DebounceOptions } from '../utils/debounce';
+import { debounce as _debounce } from '../utils/debounce';
 /**
  * 防抖装饰器 - 为类方法添加防抖功能
  *

@@ -1,4 +1,4 @@
-import { IpcRequest } from '@packages/common/protocol';
+import { IpcRequest } from '@packages/vscode-core';
 import type { DraftOption, NodeAttrData, NodeAttrs } from '../../models/nodeData';
 
 /**

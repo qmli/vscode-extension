@@ -1,4 +1,4 @@
-import type { WebviewHost } from '@/webviewHost.js';
+import type { WebviewHost } from '../webviewHost.js';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
