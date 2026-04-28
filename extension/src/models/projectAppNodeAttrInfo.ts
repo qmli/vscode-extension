@@ -1,4 +1,4 @@
-import { convertEmptyStringToUndefined } from '@packages/utils/object';
+import { convertEmptyStringToUndefined } from '@shared/utils/object';
 
 interface ProjectAppNodeAttrEntity {
   id: string;

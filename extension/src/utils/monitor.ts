@@ -1,9 +1,9 @@
+import { ArrayIterator } from '@shared/utils/iterable';
 import type {
   MonitoringObjectItem,
   ProcStatusNode,
   ProcStatusNodeType
 } from '@shared/webviews/models/monitors/monitoringData';
-import { ArrayIterator } from '@packages/utils/iterable';
 
 // 进程节点类型数组，用于运行时检查
 export const processTypes: readonly ProcStatusNodeType[] = ['platformProcess', 'nonPlatformProcess'] as const;

@@ -29,7 +29,7 @@ import {
 } from '@shared/protocol';
 import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
 import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
-import { getScopedCounter } from '@packages/utils/counter';
+import { getScopedCounter } from '@shared/utils/counter';
 import { isCancellationError } from '@orientais/vscode-core/errors';
 import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';
 import { debug } from '@orientais/vscode-core/log';

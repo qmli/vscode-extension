@@ -1,16 +1,33 @@
 {
   "name": "@orientais/vscode-external",
   "version": "0.1.0",
+  "description": "External process and SSH channel utilities for VS Code extensions",
   "private": true,
   "type": "module",
   "main": "src/index.ts",
   "types": "src/index.ts",
   "exports": {
-    ".": "./src/index.ts",
-    "./*": "./src/*.ts"
+    ".": {
+      "import": "./src/index.ts",
+      "types": "./src/index.ts"
+    },
+    "./channels": {
+      "import": "./src/channels/shellChannel.ts",
+      "types": "./src/channels/shellChannel.ts"
+    },
+    "./providers": {
+      "import": "./src/providers/shellBasedProvider.ts",
+      "types": "./src/providers/shellBasedProvider.ts"
+    },
+    "./types": {
+      "import": "./src/types/protocol.ts",
+      "types": "./src/types/protocol.ts"
+    }
   },
   "scripts": {
-    "type-check": "tsc --noEmit -p tsconfig.json"
+    "type-check": "tsc --noEmit -p tsconfig.json",
+    "lint": "eslint src/ --fix",
+    "format": "prettier --write src/"
   },
   "peerDependencies": {
     "vscode": "^1.101.0"

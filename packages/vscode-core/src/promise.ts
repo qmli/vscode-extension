@@ -4,7 +4,7 @@
  */
 import { Logger } from '@orientais/vscode-core/logger';
 import type { CancellationToken, Disposable } from 'vscode';
-import { map } from '@packages/utils/iterable';
+import { map } from '@shared/utils/iterable';
 
 /** 将类型 T 的所有属性变为可写（去除 readonly） */
 type Mutable<T> = {
@@ -326,7 +326,7 @@ export function pauseOnCancelOrTimeout<T>(
   }
 
   if (cancellation == null && timeout == null) {
-    return promise.then((value) => ({ value: value, paused: false } satisfies CompletedResult<T>));
+    return promise.then((value) => ({ value: value, paused: false }) satisfies CompletedResult<T>);
   }
 
   let disposeCancellation: Disposable | undefined;

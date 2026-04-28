@@ -1,4 +1,4 @@
-import { getScopedCounter } from '@packages/utils/counter';
+import { getScopedCounter } from '@shared/utils/counter';
 
 export const logScopeIdGenerator = getScopedCounter();
 

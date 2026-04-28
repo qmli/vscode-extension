@@ -4,7 +4,7 @@
  */
 
 import { md5 } from '@orientais/vscode-core';
-import { md5ToUuid } from '@packages/utils/uuid';
+import { md5ToUuid } from '@shared/utils/uuid';
 import { EProjectType } from './constants.project';
 
 /**
