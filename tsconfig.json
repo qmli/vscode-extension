@@ -27,6 +27,7 @@
       "@orientais/vscode-external/*": ["./packages/vscode-external/src/*"]
     }
   },
+  "files": ["types/global.d.ts"],
   "exclude": [
     "node_modules",
     "dist",

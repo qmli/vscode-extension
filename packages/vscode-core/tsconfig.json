@@ -11,5 +11,5 @@
       "@orientais/vscode-core/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*.ts", "../../packages/@types/global.d.ts"]
+  "include": ["src/**/*.ts", "../../types/global.d.ts"]
 }

@@ -18,6 +18,6 @@
       "@orientais/dbdriver/*": ["../packages/vscode-dbdriver/src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/extension.ts", "test/**/*.ts", "../packages/@types/global.d.ts"],
+  "include": ["src/**/*.ts", "src/extension.ts", "test/**/*.ts", "../types/global.d.ts"],
   "exclude": ["node_modules", "webpack.config.js"]
 }

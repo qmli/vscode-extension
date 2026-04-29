@@ -13,7 +13,7 @@ export default defineConfig(({ mode }) => ({
     libInjectCss(),
     dts({
       insertTypesEntry: true,
-      include: ['src/**/*', '../../packages/@types/global.d.ts'],
+      include: ['src/**/*', '../../types/global.d.ts'],
       exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
     }),
     // 在开发模式下启用VSCode主题模拟
