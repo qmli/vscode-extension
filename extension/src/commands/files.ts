@@ -1,4 +1,4 @@
-import { Logger } from '@orientais/vscode-core/logger';
+import { Logger } from '@orientais/vscode-core';
 import type { GlCommands } from '@shared/webviews/constants/constants.commands';
 import { TextEditor, Uri, window, workspace } from 'vscode';
 import { command } from '@/common/commands/command';

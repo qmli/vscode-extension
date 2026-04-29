@@ -17,7 +17,7 @@
  */
 
 /*global window */
-import { getScopedCounter } from '@packages/utils/counter';
+import { getScopedCounter } from '@shared/utils/counter';
 
 import { DOM } from './dom';
 import type { Disposable, Event } from './events';

@@ -1,14 +1,16 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["DOM"],
+    "lib": ["ES2022", "DOM", "esnext.disposable"],
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
     "declaration": true,
     "paths": {
       "@/*": ["./src/*"],
       "@packages/*": ["../../packages/*"],
-      "@shared/*": ["../../shared/*"]
+      "@shared/*": ["../../shared/*"],
+      "@orientais/vscode-core": ["../vscode-core/src/index.ts"],
+      "@orientais/vscode-core/*": ["../vscode-core/src/*"]
     }
   },
   "include": [

@@ -18,7 +18,8 @@ const alias = {
   '@shared': path.resolve(__dirname, '..', 'shared'),
   '@orientais/vscode-core': path.resolve(__dirname, '..', 'packages', 'vscode-core', 'src'),
   '@orientais/vscode-webview': path.resolve(__dirname, '..', 'packages', 'vscode-webview', 'src'),
-  '@orientais/vscode-external': path.resolve(__dirname, '..', 'packages', 'vscode-external', 'src')
+  '@orientais/vscode-external': path.resolve(__dirname, '..', 'packages', 'vscode-external', 'src'),
+  '@orientais/dbdriver': path.resolve(__dirname, '..', 'packages', 'vscode-dbdriver', 'src')
 };
 
 /**@type {import('webpack').Configuration}*/

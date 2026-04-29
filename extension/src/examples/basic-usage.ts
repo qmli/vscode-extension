@@ -1,10 +1,10 @@
-import * as vscode from 'vscode';
 // import { Container } from '@/container';
-import { Logger } from '@orientais/vscode-core/logger';
 // import { ProjectEntity } from '@/entitys/project.entity';
 // import { ProjectRepository } from '@/entitys/project.repository';
-import type { ConnectionConfig, Database } from '@packages/dbdriver/src/index';
-import { createDatabase, generateUUID, Table } from '@packages/dbdriver/src/index';
+import type { ConnectionConfig, Database } from '@orientais/dbdriver';
+import { createDatabase, generateUUID, Table } from '@orientais/dbdriver';
+import { Logger } from '@orientais/vscode-core';
+import * as vscode from 'vscode';
 
 // 用户实体类
 @Table('users', { softDelete: { field: 'is_deleted' } })
@@ -129,7 +129,7 @@ export class BasicUsageExample {
 
     if (users.length > 0) {
       const formattedResult = users
-        .map((user) => `ID: ${user.id}, 姓名: ${user.name}, 邮箱: ${user.email}, 年龄: ${user.age || 'N/A'}`)
+        .map((user: User) => `ID: ${user.id}, 姓名: ${user.name}, 邮箱: ${user.email}, 年龄: ${user.age || 'N/A'}`)
         .join('\n');
       this.outputChannel.appendLine(formattedResult);
       this.outputChannel.show();
@@ -151,7 +151,7 @@ export class BasicUsageExample {
       Logger.log(message);
       this.outputChannel.appendLine(message);
 
-      result.data.forEach((user) => {
+      result.data.forEach((user: User) => {
         const line = `- ${user.name || 'N/A'} (${user.email || 'N/A'})`;
         Logger.debug(line);
         this.outputChannel.appendLine(line);

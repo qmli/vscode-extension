@@ -1,6 +1,6 @@
 import { CoreContainer } from '@orientais/vscode-core';
 import { EventBus } from '@orientais/vscode-core/eventBus';
-import { ExternalExecutableService, ProviderName } from '@orientais/vscode-external/externalExecutableService';
+import { ExternalExecutableService, ProviderName } from '@orientais/vscode-external';
 import { WebviewsController } from '@orientais/vscode-webview/webviewsController';
 import type { ExtensionContext } from 'vscode';
 import type { Storage } from '@/core/storage';

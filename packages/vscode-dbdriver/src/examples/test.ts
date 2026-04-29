@@ -21,7 +21,7 @@ class TestUser {
  * API 功能测试
  */
 export async function testAPI(): Promise<void> {
-  console.log('🚀 开始测试 @packages/dbdriver API 功能...\n');
+  console.log('🚀 开始测试 @orientais/dbdriver API 功能...\n');
 
   // 数据库配置
   const config: ConnectionConfig = {

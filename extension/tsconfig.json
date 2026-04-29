@@ -13,7 +13,9 @@
       "@orientais/vscode-webview": ["../packages/vscode-webview/src/index.ts"],
       "@orientais/vscode-webview/*": ["../packages/vscode-webview/src/*"],
       "@orientais/vscode-external": ["../packages/vscode-external/src/index.ts"],
-      "@orientais/vscode-external/*": ["../packages/vscode-external/src/*"]
+      "@orientais/vscode-external/*": ["../packages/vscode-external/src/*"],
+      "@orientais/dbdriver": ["../packages/vscode-dbdriver/src/index.ts"],
+      "@orientais/dbdriver/*": ["../packages/vscode-dbdriver/src/*"]
     }
   },
   "include": ["src/**/*.ts", "src/extension.ts", "test/**/*.ts", "../packages/@types/global.d.ts"],

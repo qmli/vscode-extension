@@ -1,5 +1,5 @@
 {
-  "name": "@packages/dbdriver",
+  "name": "@orientais/dbdriver",
   "version": "1.0.0",
   "description": "SQLite database driver based on better-sqlite3 with application-level encryption",
   "type": "module",

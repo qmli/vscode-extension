@@ -1,4 +1,4 @@
-import { createVSCodeContext } from '@orientais/vscode-core/context';
+import { createVSCodeContext } from '@orientais/vscode-core';
 import type { ContextKeys } from '@/common/constants/constants.context';
 
 const ctx = createVSCodeContext<ContextKeys>();

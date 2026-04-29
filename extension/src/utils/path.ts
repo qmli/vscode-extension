@@ -1,9 +1,9 @@
 import path, { isAbsolute as _isAbsolute, basename } from 'path';
+import { md5 } from '@orientais/vscode-core';
 import { Uri, workspace } from 'vscode';
 import * as vscode from 'vscode';
 import { file } from '@/common/constants/constants';
 import type { Workspace } from '@/common/constants/constants.workspace';
-import { md5 } from '@orientais/vscode-core';
 import { FileUtil } from '@/utils/file.util';
 import { PlatformUtils } from '@/utils/platform';
 

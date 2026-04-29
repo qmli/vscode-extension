@@ -2,6 +2,7 @@ import * as childProcess from 'child_process';
 import * as fs from 'fs';
 import path from 'path';
 import * as util from 'util';
+import { Logger } from '@orientais/vscode-core';
 import * as chardet from 'chardet';
 import * as iconv from 'iconv-lite';
 import { Client } from 'ssh2';
@@ -19,7 +20,6 @@ import {
 } from '@/common/constants/constants.are';
 import { DefaultAreCmdSysMonitorPath, SDK_INSTALL_DIR, WslDistro } from '@/common/constants/constants.shell';
 import { workspaceState as WorkspaceState } from '@/common/constants/constants.storage';
-import { Logger } from '@orientais/vscode-core/logger';
 import { SdkInfo } from '@/models/sdk';
 
 /**
