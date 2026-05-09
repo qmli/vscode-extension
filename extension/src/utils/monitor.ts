@@ -1,4 +1,4 @@
-import { ArrayIterator } from '@shared/utils/iterable';
+import { ArrayIterator } from '@orientais/vscode-core';
 import type {
   MonitoringObjectItem,
   ProcStatusNode,

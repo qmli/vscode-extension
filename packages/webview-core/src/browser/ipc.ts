@@ -17,7 +17,7 @@
  */
 
 /*global window */
-import { getScopedCounter } from '@shared/utils/counter';
+import { getScopedCounter } from '@orientais/vscode-core';
 
 import { DOM } from './dom';
 import type { Disposable, Event } from './events';
@@ -30,7 +30,7 @@ import {
   ipcPromiseSettled,
   IpcRequest,
   isIpcPromise
-} from '@packages/vscode-core';
+} from '@orientais/vscode-core';
 
 /**
  * VS Code Webview 主机 API 接口

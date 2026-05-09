@@ -7,6 +7,8 @@
     "paths": {
       "@packages/*": ["../*"],
       "@shared/*": ["../../shared/*"],
+      "@orientais/shared": ["../shared/src/index.ts"],
+      "@orientais/shared/*": ["../shared/src/*"],
       "@orientais/vscode-core": ["../vscode-core/src/index.ts"],
       "@orientais/vscode-core/*": ["../vscode-core/src/*"],
       "@orientais/vscode-external": ["./src/index.ts"],

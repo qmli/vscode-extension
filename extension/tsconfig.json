@@ -8,6 +8,8 @@
       "@/*": ["./src/*"],
       "@packages/*": ["../packages/*"],
       "@shared/*": ["../shared/*"],
+      "@orientais/shared": ["../packages/shared/src/index.ts"],
+      "@orientais/shared/*": ["../packages/shared/src/*"],
       "@orientais/vscode-core": ["../packages/vscode-core/src/index.ts"],
       "@orientais/vscode-core/*": ["../packages/vscode-core/src/*"],
       "@orientais/vscode-webview": ["../packages/vscode-webview/src/index.ts"],

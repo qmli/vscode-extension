@@ -4,7 +4,7 @@
  */
 import { Logger } from '@orientais/vscode-core/logger';
 import type { CancellationToken, Disposable } from 'vscode';
-import { map } from '@shared/utils/iterable';
+import { map } from '@orientais/vscode-core/iterable';
 
 /** 将类型 T 的所有属性变为可写（去除 readonly） */
 type Mutable<T> = {

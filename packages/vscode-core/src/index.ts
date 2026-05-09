@@ -29,7 +29,6 @@ export {
   type DeferredEvent,
   type DeferredEventExecutor
 } from './event';
-export * from './eventBus';
 export * from './promise';
 export * from './observableQueue';
 
@@ -62,6 +61,9 @@ export * from './quickpick/directive';
 // ─── Messages ────────────────────────────────────────────────────────────────
 export * from './message';
 export * from './quickpick/common';
+
+export * from './iterable';
+export * from './_utils/counter';
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 // once 与 event 同名，用别名区分：onceFn = 函数执行版本

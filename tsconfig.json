@@ -17,6 +17,8 @@
     "paths": {
       "@packages/*": ["./packages/*"],
       "@shared/*": ["./shared/*"],
+      "@orientais/shared": ["./packages/shared/src/index.ts"],
+      "@orientais/shared/*": ["./packages/shared/src/*"],
       "@orientais/dbdriver": ["./packages/vscode-dbdriver/src/index.ts"],
       "@orientais/dbdriver/*": ["./packages/vscode-dbdriver/src/*"],
       "@orientais/vscode-core": ["./packages/vscode-core/src/index.ts"],

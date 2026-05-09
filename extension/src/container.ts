@@ -1,7 +1,7 @@
 import { CoreContainer } from '@orientais/vscode-core';
-import { EventBus } from '@orientais/vscode-core/eventBus';
 import { ExternalExecutableService, ProviderName } from '@orientais/vscode-external';
 import { WebviewsController } from '@orientais/vscode-webview/webviewsController';
+import { EventBus } from '@shared/utils/eventBus';
 import type { ExtensionContext } from 'vscode';
 import type { Storage } from '@/core/storage';
 import { Keyboard } from './core/keyboard';

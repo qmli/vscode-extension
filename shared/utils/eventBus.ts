@@ -1,6 +1,6 @@
 import type { Disposable, Uri } from 'vscode';
 import { EventEmitter } from 'vscode';
-import type { ViewIds, WebviewIds } from '@shared/webviews/constants/constants.views';
+import type { ViewIds, WebviewIds } from '../webviews/constants/constants.views';
 
 export type FileSelectedEvent = EventBusEvent;
 interface FileSelectedEventArgs {

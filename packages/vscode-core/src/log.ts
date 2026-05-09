@@ -10,7 +10,7 @@ import {
 import { getParameters } from './_utils/function';
 import { isPromise } from '@orientais/vscode-core';
 import { getDurationMilliseconds } from './_utils/string';
-import { slowCallWarningThreshold } from '@shared/webviews/constants/logger.constants';
+import { slowCallWarningThreshold } from '@orientais/vscode-core/constants/logger.constants';
 
 export interface LogContext {
   id: number;

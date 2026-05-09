@@ -1,0 +1,16 @@
+{
+  "name": "@orientais/shared",
+  "version": "0.1.0",
+  "description": "Shared types, interfaces and utilities for orientais packages",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./*": {
+      "import": "./src/*.ts",
+      "types": "./src/*.ts"
+    }
+  },
+  "scripts": {
+    "type-check": "tsc --noEmit -p tsconfig.json"
+  }
+}
