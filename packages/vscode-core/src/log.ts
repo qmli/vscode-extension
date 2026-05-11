@@ -1,16 +1,11 @@
 import { hrtime } from 'process';
-import { customLoggableNameFns, getLoggableName, Logger } from '@orientais/vscode-core/logger';
-import type { LogScope } from '@orientais/vscode-core/logger.scope';
-import {
-  clearLogScope,
-  getLoggableScopeBlock,
-  logScopeIdGenerator,
-  setLogScope
-} from '@orientais/vscode-core/logger.scope';
+import { customLoggableNameFns, getLoggableName, Logger } from './logger';
+import type { LogScope } from './logger.scope';
+import { clearLogScope, getLoggableScopeBlock, logScopeIdGenerator, setLogScope } from './logger.scope';
 import { getParameters } from './_utils/function';
-import { isPromise } from '@orientais/vscode-core';
+import { isPromise } from './promise';
 import { getDurationMilliseconds } from './_utils/string';
-import { slowCallWarningThreshold } from '@orientais/vscode-core/constants/logger.constants';
+import { slowCallWarningThreshold } from './constants/logger.constants';
 
 export interface LogContext {
   id: number;

@@ -5,8 +5,8 @@
  * 本模块不依赖任何业务特定类型，可独立使用。
  */
 
-/** 内部使用的 scope 类型，框架层保持宽泛以不依赖业务字面量。业务层应在上层收窄此类型。 */
-type IpcScope = string;
+// /** 内部使用的 scope 类型，框架层保持宽泛以不依赖业务字面量。业务层应在上层收窄此类型。 */
+// type IpcScope = string;
 
 export type IpcMessage<T = unknown> = {
   id: string;
@@ -36,6 +36,7 @@ abstract class IpcCall<Params = unknown> {
 
 export type IpcCallMessageType<T> = T extends IpcCall<infer P> ? IpcMessage<P> : never;
 export type IpcCallParamsType<T> = IpcCallMessageType<T>['params'];
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export type IpcCallResponseType<T> = T extends IpcRequest<infer _P, infer _R> ? T['response'] : never;
 export type IpcCallResponseMessageType<T> = IpcCallMessageType<IpcCallResponseType<T>>;
 export type IpcCallResponseParamsType<T> = IpcCallResponseMessageType<T>['params'];
@@ -132,6 +133,18 @@ export const DidChangeWebviewVisibilityNotification = new IpcNotification<DidCha
   'webview/visibility/didChange'
 );
 
+export type AutoKeys = 'pro50' | (string & {});
+
+export interface ApplicableRequestParams {
+  readonly key: AutoKeys;
+  readonly code?: string;
+}
+
+export interface ApplicableResponse {
+  autoKeys: AutoKeys;
+}
+
+export const ApplicableRequest = new IpcRequest<ApplicableRequestParams, ApplicableResponse>('core', 'app/applicable');
 // ── WebviewState 基础类型 ─────────────────────────────────────────────────────
 
 /**

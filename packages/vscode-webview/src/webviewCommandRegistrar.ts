@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Disposable } from 'vscode';
 import { commands } from 'vscode';
-import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
 import type { WebviewContext } from './webview';
 import { isWebviewContext } from './webview';
 import type { WebviewProvider } from './webviewProvider';
@@ -23,7 +22,7 @@ export class WebviewCommandRegistrar implements Disposable {
     provider: T,
     id: string,
     instanceId: string | undefined,
-    command: WebviewCommands | WebviewViewCommands,
+    command: string,
     callback: CommandCallback
   ): Disposable {
     let registration = this._commandRegistrations.get(command);

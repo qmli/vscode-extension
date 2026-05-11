@@ -1,9 +1,9 @@
 import type { Disposable, Event, ExtensionContext } from 'vscode';
 import { EventEmitter } from 'vscode';
-import { getSingletonServiceDescriptors } from './instantiation/extensions';
-import { InstantiationService } from './instantiation/instantiationService';
-import { ServiceCollection } from './instantiation/serviceCollection';
-import type { Storage } from './storage';
+import { getSingletonServiceDescriptors } from '@orientais/vscode-core';
+import { InstantiationService } from '@orientais/vscode-core';
+import { ServiceCollection } from '@orientais/vscode-core';
+import type { Storage } from '@orientais/vscode-core';
 
 /**
  * 通用扩展容器基类

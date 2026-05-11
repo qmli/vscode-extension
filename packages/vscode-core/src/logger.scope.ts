@@ -1,4 +1,4 @@
-import { getScopedCounter } from '@orientais/vscode-core/_utils/counter';
+import { getScopedCounter } from '@orientais/shared';
 
 export const logScopeIdGenerator = getScopedCounter();
 

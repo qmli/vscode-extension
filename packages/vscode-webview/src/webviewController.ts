@@ -2,8 +2,8 @@
 // WebviewController 实现（具体控制器）
 // =============================================================================
 import type { Disposable, Event, Uri, ViewBadge, Webview, WebviewPanel, WebviewView } from 'vscode';
-import { CancellationTokenSource, EventEmitter, ViewColumn, window, WindowState } from 'vscode';
-import { executeCommand, executeCoreCommand } from '@/common/commands/command';
+import { commands, CancellationTokenSource, EventEmitter, ViewColumn, window, WindowState } from 'vscode';
+// import { executeCommand, executeCoreCommand } from '@/common/commands/command';
 import { pauseOnCancelOrTimeout } from '@orientais/vscode-core';
 import type {
   IpcCallMessageType,
@@ -15,60 +15,40 @@ import type {
   IpcRequest,
   WebviewFocusChangedParams,
   WebviewState
-} from '@shared/protocol';
+} from '@orientais/shared';
 import {
   ApplicableRequest,
   DidChangeHostWindowFocusNotification,
   DidChangeWebviewFocusNotification,
   DidChangeWebviewVisibilityNotification,
-  ExecuteCommand,
   ipcPromiseSettled,
   isIpcPromise,
   WebviewReadyCommand,
   WebviewReloadCommand
-} from '@shared/protocol';
-import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
-import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
+} from '@orientais/shared';
 
-import { isCancellationError } from '@orientais/vscode-core/errors';
-import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';
-import { debug } from '@orientais/vscode-core/log';
-import type { IWebviewContainer as Container } from './types';
+import { isCancellationError } from '@orientais/vscode-core';
+import { getViewFocusCommand } from './vscode.views';
+import { debug } from '@orientais/vscode-core';
+import type { IWebviewContainer } from './types';
 import type { WebviewContext } from './webview';
 import type { WebviewCommandCallback, WebviewCommandRegistrar } from './webviewCommandRegistrar';
 import type { WebviewHost, WebviewShowOptions } from './webviewHost';
 import type { WebviewProvider, WebviewShowingArgs } from './webviewProvider';
 import type { WebviewPanelDescriptor, WebviewViewDescriptor } from './webviewsController';
-import { getScopedCounter } from '@packages/vscode-core';
+import { getScopedCounter } from '@orientais/shared';
+import { ExecuteCommand } from './ptotocol';
 
 const ipcSequencer = getScopedCounter();
 
-type GetWebviewDescriptor<T extends WebviewIds | WebviewViewIds> = T extends WebviewIds
-  ? WebviewPanelDescriptor<T>
-  : T extends WebviewViewIds
-    ? WebviewViewDescriptor<T>
-    : never;
+type GetWebviewDescriptor<T extends string> = WebviewPanelDescriptor<T> | WebviewViewDescriptor<T>;
 
-type GetWebviewParent<T extends WebviewIds | WebviewViewIds> = T extends WebviewIds
-  ? WebviewPanel
-  : T extends WebviewViewIds
-    ? WebviewView
-    : never;
+type GetWebviewParent = WebviewPanel | WebviewView;
 
-type WebviewPanelController<
-  ID extends WebviewIds,
-  State,
-  SerializedState = State,
-  ShowingArgs extends unknown[] = unknown[]
-> = WebviewController<ID, State, SerializedState, ShowingArgs>;
-type WebviewViewController<
-  ID extends WebviewViewIds,
-  State,
-  SerializedState = State,
-  ShowingArgs extends unknown[] = unknown[]
-> = WebviewController<ID, State, SerializedState, ShowingArgs>;
+type Container<T> = T extends IWebviewContainer ? T : never;
+
 export class WebviewController<
-    ID extends WebviewIds | WebviewViewIds,
+    ID extends string,
     State,
     SerializedState = State,
     ShowingArgs extends unknown[] = unknown[]
@@ -103,41 +83,36 @@ export class WebviewController<
   private cancellation: CancellationTokenSource | undefined;
   readonly id: ID;
   readonly extensionUri: Uri;
-  static create<ID extends WebviewIds, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
-    container: Container,
+  static create<ID extends string, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
+    container: Container<IWebviewContainer>,
     commandRegistrar: WebviewCommandRegistrar,
     descriptor: WebviewPanelDescriptor<ID>,
     instanceId: string | undefined,
     parent: WebviewPanel,
     resolveProvider: (
-      container: Container,
+      container: Container<IWebviewContainer>,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
   ): Promise<WebviewController<ID, State, SerializedState, ShowingArgs>>;
-  static create<ID extends WebviewViewIds, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
-    container: Container,
+  static create<ID extends string, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
+    container: Container<IWebviewContainer>,
     commandRegistrar: WebviewCommandRegistrar,
     descriptor: WebviewViewDescriptor<ID>,
     instanceId: string | undefined,
     parent: WebviewView,
     resolveProvider: (
-      container: Container,
+      container: Container<IWebviewContainer>,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
   ): Promise<WebviewController<ID, State, SerializedState, ShowingArgs>>;
-  static async create<
-    ID extends WebviewIds | WebviewViewIds,
-    State,
-    SerializedState = State,
-    ShowingArgs extends unknown[] = unknown[]
-  >(
-    container: Container,
+  static async create<ID extends string, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
+    container: Container<IWebviewContainer>,
     commandRegistrar: WebviewCommandRegistrar,
     descriptor: GetWebviewDescriptor<ID>,
     instanceId: string | undefined,
-    parent: GetWebviewParent<ID>,
+    parent: GetWebviewParent,
     resolveProvider: (
-      container: Container,
+      container: Container<IWebviewContainer>,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
   ): Promise<WebviewController<ID, State, SerializedState, ShowingArgs>> {
@@ -155,13 +130,13 @@ export class WebviewController<
     return controller;
   }
   private constructor(
-    private readonly container: Container,
+    private readonly container: Container<IWebviewContainer>,
     private readonly _commandRegistrar: WebviewCommandRegistrar,
     private readonly descriptor: GetWebviewDescriptor<ID>,
     public readonly instanceId: string | undefined,
-    public readonly parent: GetWebviewParent<ID>,
+    public readonly parent: GetWebviewParent,
     resolveProvider: (
-      container: Container,
+      container: Container<IWebviewContainer>,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
   ) {
@@ -185,7 +160,7 @@ export class WebviewController<
   }
 
   registerWebviewCommand<T extends Partial<WebviewContext>>(
-    command: WebviewCommands | WebviewViewCommands,
+    command: string,
     callback: WebviewCommandCallback<T>
   ): Disposable {
     return this._commandRegistrar.registerCommand(this.provider, this.id, this.instanceId, command, callback);
@@ -201,7 +176,7 @@ export class WebviewController<
   async initialize(
     webctl: WebviewController<ID, State, SerializedState, ShowingArgs>,
     resolveProvider: (
-      container: Container,
+      container: Container<IWebviewContainer>,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
   ): Promise<void> {
@@ -408,17 +383,9 @@ export class WebviewController<
     return this.asWebviewUri(this.extensionUri).toString();
   }
 
-  is(
-    type: 'editor'
-  ): this is WebviewPanelController<ID extends WebviewIds ? ID : never, State, SerializedState, ShowingArgs>;
-  is(
-    type: 'view'
-  ): this is WebviewViewController<ID extends WebviewViewIds ? ID : never, State, SerializedState, ShowingArgs>;
-  is(
-    type: 'editor' | 'view'
-  ): this is
-    | WebviewPanelController<ID extends WebviewIds ? ID : never, State, SerializedState, ShowingArgs>
-    | WebviewViewController<ID extends WebviewViewIds ? ID : never, State, SerializedState, ShowingArgs> {
+  is(type: 'editor'): this is this & { parent: WebviewPanel };
+  is(type: 'view'): this is this & { parent: WebviewView };
+  is(type: 'editor' | 'view'): this is (this & { parent: WebviewPanel }) | (this & { parent: WebviewView }) {
     return type === 'editor' ? this._isInEditor : !this._isInEditor;
   }
 
@@ -690,7 +657,8 @@ export class WebviewController<
       }
     } else if (this.is('view')) {
       // WebviewView 需要通过 VS Code 的命令系统来获得焦点
-      await executeCoreCommand(getViewFocusCommand(this.id), options);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await commands.executeCommand(getViewFocusCommand(this.id as any), options);
       if (loading) {
         this.provider.onVisibilityChanged?.(true);
       }
@@ -708,9 +676,9 @@ export class WebviewController<
           break;
         case ExecuteCommand.is(message):
           if (message.params.args != null) {
-            void executeCommand(message.params.command, ...message.params.args);
+            void commands.executeCommand(message.params.command, ...message.params.args);
           } else {
-            void executeCommand(message.params.command);
+            void commands.executeCommand(message.params.command);
           }
           break;
         case ApplicableRequest.is(message): {

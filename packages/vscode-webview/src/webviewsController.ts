@@ -4,36 +4,30 @@
 import type {
   CancellationToken,
   WebviewOptions,
+  WebviewPanel,
   WebviewPanelOptions,
   WebviewView,
   WebviewViewProvider,
   WebviewViewResolveContext
 } from 'vscode';
-import { Disposable, Uri, ViewColumn, window } from 'vscode';
-import { executeCoreCommand } from '@/common/commands/command';
+import { commands, Disposable, Uri, ViewColumn, window } from 'vscode';
 import { uuid } from '@orientais/vscode-core';
-import type {
-  WebviewIds,
-  WebviewTypes,
-  WebviewViewIds,
-  WebviewViewTypes
-} from '@shared/webviews/constants/constants.views';
 import { first } from '@orientais/vscode-core';
-import { getViewFocusCommand } from '@orientais/vscode-core/vscode.views';
-import type { IWebviewContainer as Container } from './types';
+import { getViewFocusCommand } from './vscode.views';
+import type { IWebviewContainer } from './types';
 import { WebviewCommandRegistrar } from './webviewCommandRegistrar';
 import { WebviewController } from './webviewController';
 import type { WebviewHost } from './webviewHost';
 import type { WebviewProvider, WebviewShowingArgs } from './webviewProvider';
 
 //#region Webview相关类型定义
-export interface WebviewViewDescriptor<ID extends WebviewViewIds> {
+export interface WebviewViewDescriptor<ID extends string> {
   id: ID;
   title?: string;
-  readonly contextKeyPrefix: `autosar:webviewView:${WebviewViewTypes}`;
+  readonly contextKeyPrefix: string;
   iconPath: string;
   column: ViewColumn;
-  readonly type: WebviewViewTypes;
+  readonly type: string;
   readonly webviewOptions?: WebviewOptions;
   readonly webviewHostOptions?: {
     /**
@@ -56,7 +50,7 @@ export interface WebviewViewShowOptions {
   preserveFocus?: boolean;
   preserveVisibility?: boolean;
 }
-export interface WebviewViewProxy<ID extends WebviewViewIds, ShowingArgs extends unknown[], SerializedState = unknown>
+export interface WebviewViewProxy<ID extends string, ShowingArgs extends unknown[], SerializedState = unknown>
   extends Disposable {
   readonly id: ID;
   readonly ready: boolean;
@@ -66,7 +60,7 @@ export interface WebviewViewProxy<ID extends WebviewViewIds, ShowingArgs extends
 }
 
 interface WebviewViewRegistration<
-  ID extends WebviewViewIds,
+  ID extends string,
   State,
   SerializedState = State,
   ShowingArgs extends unknown[] = unknown[]
@@ -76,19 +70,19 @@ interface WebviewViewRegistration<
   pendingShowArgs?: [WebviewViewShowOptions | undefined, WebviewShowingArgs<ShowingArgs, SerializedState>] | undefined;
 }
 //#endregion
-export interface WebviewPanelDescriptor<ID extends WebviewIds> {
+export interface WebviewPanelDescriptor<ID extends string> {
   id: ID;
   readonly iconPath: string;
   readonly title: string;
-  readonly contextKeyPrefix: `autosar:webview:${WebviewTypes}`; // Context Keys 是 VS Code 的条件执行机制，contextKeyPrefix 为该 webview 的所有 context keys 提供统一前缀
-  readonly type: WebviewTypes;
+  readonly contextKeyPrefix: string;
+  readonly type: string;
   readonly column?: ViewColumn;
   readonly webviewOptions?: WebviewOptions;
   readonly webviewHostOptions?: WebviewPanelOptions;
   readonly allowMultipleInstances?: boolean; //配置中用于控制是否允许同一个 webview 类型打开多个实例的标志位
 }
 interface WebviewPanelRegistration<
-  ID extends WebviewIds,
+  ID extends string,
   State,
   SerializedState = State,
   ShowingArgs extends unknown[] = unknown[]
@@ -128,7 +122,7 @@ interface WebviewPanelsShowOptions extends WebviewPanelShowOptions {
 }
 
 export interface WebviewPanelProxy<
-  ID extends WebviewIds,
+  ID extends string,
   ShowingArgs extends unknown[] = unknown[],
   SerializedState = unknown
 > extends Disposable {
@@ -148,7 +142,7 @@ export interface WebviewPanelProxy<
 }
 
 export interface WebviewPanelsProxy<
-  ID extends WebviewIds,
+  ID extends string,
   ShowingArgs extends unknown[] = unknown[],
   SerializedState = unknown
 > extends Disposable {
@@ -168,28 +162,28 @@ export interface WebviewPanelsProxy<
   splitActiveInstance(options?: WebviewPanelsShowOptions): Promise<void>;
 }
 
-export class WebviewsController implements Disposable {
+export class WebviewsController<
+  TContainer extends IWebviewContainer = IWebviewContainer,
+  TPanelId extends string = string,
+  TViewId extends string = string
+> implements Disposable
+{
   private disposables: Disposable[] = [];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private readonly panels = new Map<string, WebviewPanelRegistration<WebviewIds, any>>();
+  private readonly panels = new Map<string, WebviewPanelRegistration<string, any>>();
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  private _views = new Map<string, WebviewController<WebviewViewIds, any>>();
+  private _views = new Map<string, WebviewController<string, any>>();
   private readonly _commandRegistrar: WebviewCommandRegistrar;
 
-  constructor(private readonly container: Container) {
+  constructor(private readonly container: TContainer) {
     this.disposables.push((this._commandRegistrar = new WebviewCommandRegistrar()));
   }
 
   // 注册 WebviewPanel（编辑器面板）
-  registerWebviewPanel<
-    ID extends WebviewIds,
-    State,
-    SerializedState = State,
-    ShowingArgs extends unknown[] = unknown[]
-  >(
+  registerWebviewPanel<ID extends TPanelId, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
     descriptor: WebviewPanelDescriptor<ID>,
     resolveProvider: (
-      container: Container,
+      container: TContainer,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
   ): WebviewPanelsProxy<ID, ShowingArgs, SerializedState> {
@@ -254,7 +248,10 @@ export class WebviewsController implements Disposable {
             descriptor,
             instanceId,
             panel,
-            resolveProvider
+            resolveProvider as (
+              container: IWebviewContainer,
+              host: WebviewHost<ID>
+            ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
           );
 
           registration.controllers ??= new Map();
@@ -282,15 +279,10 @@ export class WebviewsController implements Disposable {
   }
 
   // 注册 WebviewView（侧边栏视图）
-  registerWebviewView<
-    ID extends WebviewViewIds,
-    State,
-    SerializedState = State,
-    ShowingArgs extends unknown[] = unknown[]
-  >(
+  registerWebviewView<ID extends TViewId, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
     descriptor: WebviewViewDescriptor<ID>,
     resolveProvider: (
-      container: Container,
+      container: TContainer,
       host: WebviewHost<ID>
     ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>,
     onBeforeShow?: (...args: WebviewShowingArgs<ShowingArgs, SerializedState>) => void | Promise<void>
@@ -314,7 +306,10 @@ export class WebviewsController implements Disposable {
           descriptor,
           undefined,
           webviewView,
-          resolveProvider
+          resolveProvider as (
+            container: IWebviewContainer,
+            host: WebviewHost<ID>
+          ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
         );
         registration.controller = controller;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -369,7 +364,8 @@ export class WebviewsController implements Disposable {
           await onBeforeShow?.(...args);
         }
 
-        return void executeCoreCommand(getViewFocusCommand(descriptor.id), options);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        return void commands.executeCommand(getViewFocusCommand(descriptor.id as any), options);
       },
       dispose: function () {
         disposable.dispose();
@@ -388,7 +384,7 @@ export class WebviewsController implements Disposable {
   }
 }
 
-function getBestController<ID extends WebviewIds, State, SerializedState, ShowingArgs extends unknown[]>(
+function getBestController<ID extends string, State, SerializedState, ShowingArgs extends unknown[]>(
   registration: WebviewPanelRegistration<ID, State, SerializedState, ShowingArgs>,
   options: WebviewPanelsShowOptions | undefined,
   ...args: WebviewShowingArgs<ShowingArgs, SerializedState>
@@ -446,7 +442,7 @@ function getBestController<ID extends WebviewIds, State, SerializedState, Showin
 }
 
 function convertToWebviewPanelProxy<
-  ID extends WebviewIds,
+  ID extends string,
   State,
   SerializedState,
   ShowingArgs extends unknown[] = unknown[]
@@ -466,7 +462,7 @@ function convertToWebviewPanelProxy<
       return controller.canReuseInstance(options, ...args);
     },
     close: function () {
-      controller.parent.dispose();
+      (controller.parent as WebviewPanel).dispose();
     },
     dispose: function () {
       controller.dispose();

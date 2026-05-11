@@ -1,4 +1,5 @@
 export * from './types';
+export * from './container';
 export * from './webview';
 export * from './webviewHost';
 export * from './webviewProvider';

@@ -41,16 +41,9 @@ export * from './disposable';
 export * from './context';
 export * from './storage';
 export * from './uri';
-export * from './vscode.views';
 
 // ─── Crypto ───────────────────────────────────────────────────────────────────
 export * from './crypto';
-
-// ─── IPC Protocol ────────────────────────────────────────────────────────────
-export * from './protocol';
-
-// ─── Container ───────────────────────────────────────────────────────────────
-export * from './container';
 
 // ─── Commands ────────────────────────────────────────────────────────────────
 export * from './commands/commandBase';
@@ -63,7 +56,6 @@ export * from './message';
 export * from './quickpick/common';
 
 export * from './iterable';
-export * from './_utils/counter';
 
 // ─── Utilities ────────────────────────────────────────────────────────────────
 // once 与 event 同名，用别名区分：onceFn = 函数执行版本

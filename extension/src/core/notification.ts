@@ -93,7 +93,7 @@ export class NotificationManager implements Disposable {
 
   constructor(
     private readonly container: Container,
-    private readonly webviewsController: WebviewsController
+    private readonly webviewsController: WebviewsController<Container, WebviewIds, WebviewViewIds>
   ) {
     this.initialize();
   }

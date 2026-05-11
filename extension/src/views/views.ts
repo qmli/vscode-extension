@@ -1,13 +1,14 @@
+import type { WebviewsController } from '@orientais/vscode-webview/webviewsController';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
 import { Disposable } from 'vscode';
 import type { Container } from '@/container';
-import type { WebviewsController } from '@orientais/vscode-webview/webviewsController';
 
 export class Views implements Disposable {
   private readonly _disposable: Disposable;
 
   constructor(
     private readonly container: Container,
-    webviews: WebviewsController
+    webviews: WebviewsController<Container, WebviewIds, WebviewViewIds>
   ) {
     this._disposable = Disposable.from(
       ...this.registerViews(),
@@ -52,7 +53,7 @@ export class Views implements Disposable {
    * @param webviews WebviewsController 实例
    * @returns Disposable 对象
    */
-  private registerWebviewViews(_webviews: WebviewsController) {
+  private registerWebviewViews(_webviews: WebviewsController<Container, WebviewIds, WebviewViewIds>) {
     return [];
   }
 }

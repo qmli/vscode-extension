@@ -3,6 +3,7 @@
 //  类型约束 - GlCommands 类型确保只能调用已定义的命令
 //  中心化管理 - 所有命令 ID 集中定义，避免重复和冲突
 // =============================================================================
+import type { ContributedCommands, ContributedPaletteCommands } from './constants.commands.generated';
 import type {
   CoreViewContainerIds,
   TreeViewIds,
@@ -11,8 +12,7 @@ import type {
   ViewIds,
   WebviewTypes,
   WebviewViewTypes
-} from '@shared/webviews/constants/constants.views';
-import type { ContributedCommands, ContributedPaletteCommands } from './constants.commands.generated';
+} from './constants.views';
 
 export const actionCommandPrefix = 'autosar.action.';
 

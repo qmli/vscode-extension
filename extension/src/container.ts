@@ -1,7 +1,9 @@
-import { CoreContainer } from '@orientais/vscode-core';
 import { ExternalExecutableService, ProviderName } from '@orientais/vscode-external';
+import type { IWebviewContainer } from '@orientais/vscode-webview';
+import { CoreContainer } from '@orientais/vscode-webview';
 import { WebviewsController } from '@orientais/vscode-webview/webviewsController';
 import { EventBus } from '@shared/utils/eventBus';
+import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
 import type { ExtensionContext } from 'vscode';
 import type { Storage } from '@/core/storage';
 import { Keyboard } from './core/keyboard';
@@ -15,7 +17,7 @@ import { GitShellBasedProvider } from './external/providers/gitShellBasedProvide
 import { ProjectUpdateProvider } from './external/providers/projectUpdateProvider';
 import { Views } from './views';
 
-export class Container extends CoreContainer<Storage> {
+export class Container extends CoreContainer<Storage> implements IWebviewContainer {
   // ─── 单例（不可下沉：static 不参与继承多态）──────────────────────────────────
   static #instance: Container | undefined;
   static #proxy = new Proxy<Container>({} as Container, {
@@ -67,7 +69,10 @@ export class Container extends CoreContainer<Storage> {
   private constructor(context: ExtensionContext, storage: Storage, version: string) {
     super(context, storage, version);
 
-    const webviews = this.instantiationService.createInstance(WebviewsController, this);
+    const webviews = this.instantiationService.createInstance(
+      WebviewsController<Container, WebviewIds, WebviewViewIds>,
+      this
+    );
     this._disposables.push(webviews);
 
     this._disposables.push((this._notificationManager = new NotificationManager(this, webviews)));

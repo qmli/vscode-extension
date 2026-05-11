@@ -1,5 +1,5 @@
-import type { WebviewState as BaseWebviewState } from '@packages/vscode-core/src/protocol';
-import { IpcCommand, IpcRequest } from '@packages/vscode-core/src/protocol';
+import type { WebviewState as BaseWebviewState } from '@orientais/shared/protocol';
+import { IpcCommand, IpcRequest } from '@orientais/shared/protocol';
 import type { GlCommands } from './webviews/constants/constants.commands';
 import type { WebviewIds, WebviewTypes, WebviewViewIds, WebviewViewTypes } from './webviews/constants/constants.views';
 
@@ -16,7 +16,7 @@ export {
   WebviewFocusChangedCommand,
   WebviewReadyCommand,
   WebviewReloadCommand
-} from '@packages/vscode-core/src/protocol';
+} from '@orientais/shared/protocol';
 export type {
   DidChangeHostWindowFocusParams,
   DidChangeWebviewFocusParams,
@@ -30,7 +30,7 @@ export type {
   IpcPromise,
   WebviewFocusChangedParams,
   WebviewState
-} from '@packages/vscode-core/src/protocol';
+} from '@orientais/shared/protocol';
 
 /** 业务层收窄的 IpcScope：限定为已知的 scope 字面量 */
 export type IpcScope = 'core' | WebviewTypes | WebviewViewTypes;
@@ -45,19 +45,6 @@ export interface ExecuteCommandParams {
 }
 
 export const ExecuteCommand = new IpcCommand<ExecuteCommandParams>('core', 'command/execute');
-
-export type AutoKeys = 'pro50' | (string & {});
-
-export interface ApplicableRequestParams {
-  readonly key: AutoKeys;
-  readonly code?: string;
-}
-
-export interface ApplicableResponse {
-  autoKeys: AutoKeys;
-}
-
-export const ApplicableRequest = new IpcRequest<ApplicableRequestParams, ApplicableResponse>('core', 'app/applicable');
 
 /** Webview 持久化状态（含业务视图 ID 约束） */
 export type AppWebviewState<ID extends WebviewIds | WebviewViewIds = WebviewIds | WebviewViewIds> =

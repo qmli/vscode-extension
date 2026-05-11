@@ -10,9 +10,7 @@ import type {
   IpcNotification,
   IpcRequest,
   WebviewState
-} from '@shared/protocol';
-import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
-import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
+} from '@orientais/shared';
 import type { WebviewContext } from './webview';
 import type { WebviewCommandCallback } from './webviewCommandRegistrar';
 
@@ -22,7 +20,7 @@ export interface WebviewShowOptions {
   preserveVisibility?: boolean;
 }
 
-export interface WebviewHost<ID extends WebviewIds | WebviewViewIds> {
+export interface WebviewHost<ID extends string> {
   readonly id: ID;
   readonly extensionUri: Uri;
 
@@ -43,7 +41,7 @@ export interface WebviewHost<ID extends WebviewIds | WebviewViewIds> {
   ): Promise<boolean>;
   refresh(force?: boolean): Promise<void>;
   registerWebviewCommand<T extends Partial<WebviewContext>>(
-    command: WebviewCommands | WebviewViewCommands,
+    command: string,
     callback: WebviewCommandCallback<T>
   ): Disposable;
   show(loading: boolean, options?: WebviewShowOptions, ...args: unknown[]): Promise<void>;
@@ -56,6 +54,5 @@ export interface WebviewHost<ID extends WebviewIds | WebviewViewIds> {
   asWebviewUri(uri: Uri): Uri;
   getWebRoot(): string;
   // 类型判断
-  is(type: 'editor'): this is WebviewHost<ID extends WebviewIds ? ID : never>;
-  is(type: 'view'): this is WebviewHost<ID extends WebviewViewIds ? ID : never>;
+  is(type: 'editor' | 'view'): this is WebviewHost<ID>;
 }

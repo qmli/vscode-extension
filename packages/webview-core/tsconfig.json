@@ -7,12 +7,7 @@
     "declaration": true,
     "paths": {
       "@/*": ["./src/*"],
-      "@packages/*": ["../../packages/*"],
-      "@shared/*": ["../../shared/*"],
-      "@orientais/shared": ["../shared/src/index.ts"],
-      "@orientais/shared/*": ["../shared/src/*"],
-      "@orientais/vscode-core": ["../vscode-core/src/index.ts"],
-      "@orientais/vscode-core/*": ["../vscode-core/src/*"]
+      "@orientais/shared": ["../shared/src/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "src/**/*.vue", "src/**/*.tsx", "src/**/*.d.ts", "../../types/global.d.ts", "*.d.ts"],

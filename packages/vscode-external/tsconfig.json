@@ -1,19 +1,17 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "noEmit": true,
+    "declaration": true,
+    "outDir": "./dist",
     "types": ["node"],
     "baseUrl": ".",
     "paths": {
-      "@packages/*": ["../*"],
-      "@shared/*": ["../../shared/*"],
+      "@/*": ["./src/*"],
       "@orientais/shared": ["../shared/src/index.ts"],
-      "@orientais/shared/*": ["../shared/src/*"],
       "@orientais/vscode-core": ["../vscode-core/src/index.ts"],
-      "@orientais/vscode-core/*": ["../vscode-core/src/*"],
-      "@orientais/vscode-external": ["./src/index.ts"],
-      "@orientais/vscode-external/*": ["./src/*"]
+      "@orientais/vscode-external": ["./src/index.ts"]
     }
   },
-  "include": ["src/**/*.ts", "../../types/global.d.ts"]
+  "include": ["src/**/*.ts", "../../types/global.d.ts"],
+  "exclude": ["node_modules", "dist", "src/**/*.test.*", "src/**/*.spec.*"]
 }

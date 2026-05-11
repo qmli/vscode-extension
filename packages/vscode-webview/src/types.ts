@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Uri } from 'vscode';
 import type { WebviewHost } from './webviewHost';
 

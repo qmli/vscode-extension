@@ -1,10 +1,8 @@
-import { CommandBase, EditorCommand } from '@orientais/vscode-core';
+import { CommandBase } from '@orientais/vscode-core';
 import type { GlCommands, GlCommandsDeprecated } from '@shared/webviews/constants/constants.commands';
 import type { TextEditor } from 'vscode';
 import { parseCommandContext } from './commandBase.utils';
 import type { CommandContext } from './commandContext';
-
-export { EditorCommand };
 
 export abstract class GlCommandBase extends CommandBase<GlCommands | GlCommandsDeprecated, CommandContext> {
   constructor(command: GlCommands | GlCommands[], deprecated?: GlCommandsDeprecated[]) {
