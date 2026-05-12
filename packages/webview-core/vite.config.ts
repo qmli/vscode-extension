@@ -63,9 +63,11 @@ export default defineConfig(({ mode }) => ({
     cssCodeSplit: true,
     rollupOptions: {
       external: (id) => {
-        // 将 Vue 生态系统和内部包标记为外部依赖
+        // 将 Vue 生态系统、Element Plus 及内部包标记为外部依赖
         return (
-          ['vue', 'pinia', 'vue-i18n'].includes(id) ||
+          ['vue', 'pinia', 'vue-i18n', 'element-plus'].includes(id) ||
+          id.startsWith('element-plus/') ||
+          id.startsWith('@element-plus/') ||
           id.startsWith('@packages/') ||
           id.startsWith('@shared/') ||
           id.startsWith('@orientais/shared/')
@@ -75,7 +77,8 @@ export default defineConfig(({ mode }) => ({
         globals: {
           vue: 'Vue',
           pinia: 'Pinia',
-          'vue-i18n': 'VueI18n'
+          'vue-i18n': 'VueI18n',
+          'element-plus': 'ElementPlus'
         },
         // 控制静态资源（包括生成的单一 CSS 文件）的命名。
         // 当以 library 模式构建（尤其是多入口或 cssCodeSplit: false）时，Vite/Rollup
@@ -106,8 +109,7 @@ export default defineConfig(({ mode }) => ({
   },
   resolve: {
     alias: {
-      '@': resolve(__dirname, 'src'),
-      '@packages': resolve(__dirname, '../../packages')
+      '@': resolve(__dirname, 'src')
     }
   }
 }));

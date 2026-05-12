@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import type { Disposable } from 'vscode';
-import type { RunOptions } from '@orientais/vscode-core/shell';
-import { findExecutable, runSpawn } from '@orientais/vscode-core/shell';
+import type { RunOptions } from '@orientais/vscode-core';
+import { findExecutable, runSpawn } from '@orientais/vscode-core';
 import { Platform, PlatformUtils } from '../_utils/platform';
 import { ExecutableNotFoundError, ExternalExecutableError } from '../errors';
 import {

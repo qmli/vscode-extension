@@ -6,7 +6,7 @@ import type {
   IpcCommand,
   IpcMessage,
   IpcRequest
-} from '@shared/protocol.js';
+} from '@orientais/shared';
 
 /** 从 IpcCommand 或 IpcRequest 中提取参数类型 */
 export type IpcParams<T extends IpcCommand<any> | IpcRequest<any, any>> = IpcCallParamsType<T>;

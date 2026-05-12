@@ -6,7 +6,7 @@ export default defineConfig(({ mode }) => ({
   plugins: [
     dts({
       insertTypesEntry: true,
-      include: ['src/**/*'],
+      include: ['src/**/*', '../../types/global.d.ts'],
       exclude: ['src/**/*.test.*', 'src/**/*.spec.*']
     })
   ],

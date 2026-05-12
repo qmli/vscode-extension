@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { env, UIKind } from 'vscode';
 
 export enum Platform {
@@ -37,7 +38,6 @@ export const PlatformUtils = {
     return platform === Platform.MacOS || platform === Platform.Linux;
   },
   getEnvVar(name: string, defaultValue: string = ''): string {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return (process as any).env[name] || defaultValue;
   },
   getUserHome(): string {

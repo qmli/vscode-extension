@@ -1,9 +1,9 @@
 import { existsSync } from 'fs';
 import type { Disposable } from 'vscode';
-import { Logger } from '@orientais/vscode-core/logger';
-import { getLogScope } from '@orientais/vscode-core/logger.scope';
-import type { RunOptions } from '@orientais/vscode-core/shell';
-import { findExecutable, runSpawn } from '@orientais/vscode-core/shell';
+import { Logger } from '@orientais/vscode-core';
+import { getLogScope } from '@orientais/vscode-core';
+import type { RunOptions } from '@orientais/vscode-core';
+import { findExecutable, runSpawn } from '@orientais/vscode-core';
 import { ShellChannel } from '../channels/shellChannel';
 import {
   ExecutableNotFoundError,
@@ -109,7 +109,7 @@ export abstract class ShellBasedExecutableProvider implements ExecutableProvider
         this._config.startupArgs || [],
         {
           cwd: this._config.cwd,
-          // eslint-disable-next-line no-restricted-globals
+
           env: { ...process.env, ...this._config.env } // 合并系统环境变量和配置环境变量
         },
         this._config.timeout

@@ -1,13 +1,42 @@
 // =============================================================================
-// 这个是 autosar 扩展中用于处理 Webview 上下文和命令链接 的核心工具模块
+// Webview 上下文与命令链接工具模块
+// 通过 WebviewTypeRegistry 模块扩充注入应用特定类型，保持包本身零业务耦合。
 // =============================================================================
 
-import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
-import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
+/**
+ * 可扩充的 Webview 类型注册表。
+ *
+ * 在应用层通过 declare module 注入具体业务类型，从而在不引入应用依赖的前提下
+ * 获得端到端的强类型校验。
+ *
+ * @example
+ * // 在应用的类型声明文件（如 types/webview.d.ts）中：
+ * import type { WebviewCommands, WebviewViewCommands } from '@shared/webviews/constants/constants.commands';
+ * import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
+ *
+ * declare module '@orientais/vscode-webview' {
+ *   interface WebviewTypeRegistry {
+ *     webviewId: WebviewIds | WebviewViewIds;
+ *     webviewCommand: WebviewCommands | WebviewViewCommands;
+ *   }
+ * }
+ */
+export interface WebviewTypeRegistry {
+  // 所有 webview / webviewView 面板 ID
+  webviewId: string;
+  // 所有与 webview 相关的命令 ID
+  webviewCommand: string;
+}
+
+/** 当前已注册的 Webview ID 类型（默认 `string`，扩充后收窄为具体联合类型）*/
+export type AnyWebviewId = WebviewTypeRegistry['webviewId'];
+
+/** 当前已注册的 Webview 命令类型（默认 `string`，扩充后收窄为具体联合类型）*/
+export type AnyWebviewCommand = WebviewTypeRegistry['webviewCommand'];
 
 export function createWebviewCommandLink<T>(
-  command: WebviewCommands | WebviewViewCommands,
-  webviewId: WebviewIds | WebviewViewIds,
+  command: AnyWebviewCommand,
+  webviewId: AnyWebviewId,
   webviewInstanceId: string | undefined,
   args?: T
 ): string {
@@ -17,7 +46,7 @@ export function createWebviewCommandLink<T>(
 }
 
 export interface WebviewContext {
-  webview: WebviewIds | WebviewViewIds;
+  webview: AnyWebviewId;
   webviewInstance: string | undefined;
 }
 

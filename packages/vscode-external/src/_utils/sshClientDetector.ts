@@ -1,9 +1,9 @@
 import { existsSync } from 'fs';
 import { join } from 'path';
-import { Logger } from '@orientais/vscode-core/logger';
-import { getLogScope } from '@orientais/vscode-core/logger.scope';
-import type { RunOptions, RunResult } from '@orientais/vscode-core/shell';
-import { runSpawn } from '@orientais/vscode-core/shell';
+import { Logger } from '@orientais/vscode-core';
+import { getLogScope } from '@orientais/vscode-core';
+import type { RunOptions, RunResult } from '@orientais/vscode-core';
+import { runSpawn } from '@orientais/vscode-core';
 import { PlatformUtils } from './platform';
 
 /**
