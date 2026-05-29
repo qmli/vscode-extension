@@ -1,11 +1,11 @@
 import { hrtime } from 'process';
+import { getParameters } from './_utils/function';
+import { getDurationMilliseconds } from './_utils/string';
+import { slowCallWarningThreshold } from './constants/logger.constants';
 import { customLoggableNameFns, getLoggableName, Logger } from './logger';
 import type { LogScope } from './logger.scope';
 import { clearLogScope, getLoggableScopeBlock, logScopeIdGenerator, setLogScope } from './logger.scope';
-import { getParameters } from './_utils/function';
 import { isPromise } from './promise';
-import { getDurationMilliseconds } from './_utils/string';
-import { slowCallWarningThreshold } from './constants/logger.constants';
 
 export interface LogContext {
   id: number;
@@ -325,7 +325,7 @@ export function log<T extends (...arg: any) => any>(
               try {
                 exit = exitFn(r);
               } catch (ex) {
-                exit = `@log.exit error: ${ex}`;
+                exit = `@log.exit error: ${ex instanceof Error ? ex.message : String(ex)}`;
               }
             } else if (exitFn === true) {
               exit = `returned ${Logger.toLoggable(r)}`;

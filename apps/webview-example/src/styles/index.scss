@@ -1,0 +1,9 @@
+.el-header {
+  --el-header-height: 40px;
+  --el-header-padding: 0 0;
+  border-bottom: 1px solid var(--el-border-color-light);
+  //padding: 13px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

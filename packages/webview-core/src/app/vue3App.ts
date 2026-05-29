@@ -11,9 +11,6 @@
  * - 自动状态持久化
  * - 主题和语言切换支持
  */
-import { createPinia } from 'pinia';
-import type { Ref } from 'vue';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
@@ -21,13 +18,16 @@ import type {
   IpcMessage,
   IpcRequest,
   WebviewFocusChangedParams
-} from '@shared/protocol';
+} from '@orientais/shared';
 import {
   DidChangeWebviewFocusNotification,
   DidChangeWebviewVisibilityNotification,
   WebviewFocusChangedCommand,
   WebviewReadyCommand
-} from '@shared/protocol';
+} from '@orientais/shared';
+import { createPinia } from 'pinia';
+import type { Ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { DOM } from '../browser/dom';
 import type { Disposable } from '../browser/events';
 import { getHostIpcApi, HostIpc } from '../browser/ipc';

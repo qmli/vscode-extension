@@ -4,33 +4,17 @@
  * 提供Vue3 webview集成的完整类型支持
  */
 
-import type { Pinia } from 'pinia';
-import type { ComputedRef, Ref } from 'vue';
-import type { Disposable } from '../browser/events';
-import type { HostIpc, HostIpcApi } from '../browser/ipc';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
   IpcCommand,
   IpcMessage,
   IpcRequest
-} from '@shared/protocol';
-import type { WebviewIds, WebviewViewIds } from '@shared/webviews/constants/constants.views';
-
-/**
- * Vue3应用基础状态接口
- */
-export interface Vue3AppBaseState {
-  webviewId: WebviewIds | WebviewViewIds;
-  timestamp: number;
-}
-
-/**
- * Vue3应用状态接口
- */
-export interface Vue3AppState extends Vue3AppBaseState {
-  [key: string]: any;
-}
+} from '@orientais/shared';
+import type { Pinia } from 'pinia';
+import type { ComputedRef, Ref } from 'vue';
+import type { Disposable } from '../browser/events';
+import type { HostIpc, HostIpcApi } from '../browser/ipc';
 
 /**
  * Vue3应用配置接口

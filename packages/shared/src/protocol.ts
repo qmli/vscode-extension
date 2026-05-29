@@ -156,3 +156,102 @@ export interface WebviewState<ID extends string = string> {
   webviewInstanceId: string | undefined;
   timestamp: number;
 }
+
+// ---------------------------------------------------------------------------
+// Dirty State（未保存状态）IPC 协议
+// ---------------------------------------------------------------------------
+/**
+ * DidChangeDirtyStateNotification: Extension 推送给 Webview，通知当前 dirty 状态已变更。
+ * Webview 端可据此更新 UI（如禁用/启用保存按钮、显示提示等）。
+ */
+export interface DidChangeDirtyStateParams {
+  /** true = 有未保存更改，false = 已保存/无更改 */
+  dirty: boolean;
+}
+
+export const DidChangeDirtyStateNotification = new IpcNotification<DidChangeDirtyStateParams>(
+  'core',
+  'webview/dirty/didChange'
+);
+
+/**
+ * WebviewSetDirtyCommand: Webview 通知 Extension 标记 dirty 状态。
+ * 当前端数据发生变更时，主动通过此命令将 dirty 状态同步给后端控制器，
+ * 控制器会同步更新面板标题的"● "指示符。
+ */
+export interface WebviewSetDirtyCommandParams {
+  /** true = 标记为有未保存更改，false = 清除未保存更改标记 */
+  dirty: boolean;
+}
+export const WebviewSetDirtyCommand = new IpcCommand<WebviewSetDirtyCommandParams>('core', 'webview/dirty/set');
+
+// ---------------------------------------------------------------------------
+// Document Save / Revert IPC 协议（配合 CustomEditorProvider 使用）
+// ---------------------------------------------------------------------------
+
+/**
+ * WebviewRequestSaveCommand: Webview 请求触发保存（等效于用户按 Ctrl+S）。
+ * Extension 收到后通过 workbench.action.files.save 触发 VS Code 原生保存流程，
+ * 进而调用 CustomEditorProvider.saveCustomDocument。
+ * 可用于 Webview 内部"保存"按钮的实现。
+ */
+export const WebviewRequestSaveCommand = new IpcCommand('core', 'document/requestSave');
+
+/**
+ * DidSaveDocumentNotification: Extension 通知 Webview 文档已成功保存。
+ * Webview 可据此更新 UI（如隐藏"未保存"提示、刷新数据快照等）。
+ */
+export interface DidSaveDocumentParams {
+  /** 保存成功时始终为 true */
+  success: true;
+}
+export const DidSaveDocumentNotification = new IpcNotification<DidSaveDocumentParams>('core', 'document/didSave');
+
+/**
+ * DidRevertDocumentNotification: Extension 通知 Webview 文档已被还原至已保存状态。
+ * Webview 应重新从 bootstrap 或请求接口拉取最新数据。
+ */
+export const DidRevertDocumentNotification = new IpcNotification('core', 'document/didRevert');
+
+// ---------------------------------------------------------------------------
+// History（撤销/重做）IPC 协议
+// ---------------------------------------------------------------------------
+
+/**
+ * HistoryCommandExecutedCommand: Webview 通知 Extension 一条 History 命令刚被执行。
+ *
+ * Extension 收到后通过 `CustomDocumentEditEvent` 将该操作注册到 VSCode 的原生
+ * 撤销/重做栈，使 Edit 菜单的"撤销（Ctrl+Z）/恢复（Ctrl+Y）"能驱动
+ * Webview 内自定义 History 的 undo/redo 回调。
+ *
+ * 数据流：
+ *   Webview history.execute(cmd)
+ *     → 发送 HistoryCommandExecutedCommand
+ *     → Extension 注册 CustomDocumentEditEvent
+ *       { undo: → HistoryUndoNotification, redo: → HistoryRedoNotification }
+ *     → VSCode Edit 菜单 / Ctrl+Z 触发 editEvent.undo()
+ *     → Webview history.undo()
+ */
+export const HistoryCommandExecutedCommand = new IpcCommand('core', 'history/commandExecuted');
+
+/**
+ * HistoryUndoNotification: Extension 通知 Webview 执行撤销操作。
+ *
+ * 触发场景：
+ *  1. VSCode Edit 菜单"撤销" / Ctrl+Z（CustomDocumentEditEvent.undo() 回调）
+ *  2. 通过 `${webviewId}.history.undo` 命令主动调用（非 CustomEditor 面板）
+ *
+ * Webview 端在 `useHistory({ vscodeUndoRedo: true })` 时会自动监听此通知。
+ */
+export const HistoryUndoNotification = new IpcNotification('core', 'history/undo');
+
+/**
+ * HistoryRedoNotification: Extension 通知 Webview 执行重做操作。
+ *
+ * 触发场景：
+ *  1. VSCode Edit 菜单"恢复" / Ctrl+Y（CustomDocumentEditEvent.redo() 回调）
+ *  2. 通过 `${webviewId}.history.redo` 命令主动调用（非 CustomEditor 面板）
+ *
+ * Webview 端在 `useHistory({ vscodeUndoRedo: true })` 时会自动监听此通知。
+ */
+export const HistoryRedoNotification = new IpcNotification('core', 'history/redo');

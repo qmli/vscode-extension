@@ -90,7 +90,7 @@ export default defineConfig(({ mode }) => ({
           const possibleName =
             Array.isArray(assetInfo.names) && assetInfo.names.length > 0 ? assetInfo.names[0] : assetInfo.name;
 
-          if (possibleName && possibleName.endsWith('.css')) {
+          if (possibleName?.endsWith('.css')) {
             // 根据不同的 CSS 文件给予不同的命名
             if (possibleName.includes('webview-core-css')) {
               return 'webview-core.css';

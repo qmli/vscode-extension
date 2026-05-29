@@ -2,9 +2,9 @@
  * Promise 工具模块
  * 提供 Promise 的扩展能力：竞态、批处理、可取消、超时、延迟、计时等
  */
-import { Logger } from './logger';
 import type { CancellationToken, Disposable } from 'vscode';
 import { map } from './iterable';
+import { Logger } from './logger';
 
 /** 将类型 T 的所有属性变为可写（去除 readonly） */
 type Mutable<T> = {

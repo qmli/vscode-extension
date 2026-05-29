@@ -1,9 +1,9 @@
 import { existsSync, readdirSync } from 'fs';
 import { join } from 'path';
+import { WebviewReloadCommand } from '@orientais/vscode-webview';
 import type { ViewIds, WebviewIds } from '@shared/webviews/constants/constants.views';
 import type { Uri } from 'vscode';
 import { window } from 'vscode';
-import { WebviewReloadCommand } from '@packages/vscode-core';
 
 export interface HtmlGeneratorOptions {
   extensionUri: Uri;

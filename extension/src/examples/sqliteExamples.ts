@@ -1,6 +1,6 @@
 import SQLCipher from '@journeyapps/sqlcipher';
-import * as vscode from 'vscode';
 import { Logger } from '@orientais/vscode-core/logger';
+import * as vscode from 'vscode';
 // 定义用户类型
 interface User {
   id: number;

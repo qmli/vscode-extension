@@ -1,5 +1,5 @@
-import { commands, EventEmitter } from 'vscode';
 import type { Event } from 'vscode';
+import { commands, EventEmitter } from 'vscode';
 
 /**
  * 创建一个类型安全的 VS Code context 管理器。
@@ -13,7 +13,14 @@ import type { Event } from 'vscode';
  * export const { onDidChangeContext, getContext, setContext } = ctx;
  * ```
  */
-export function createVSCodeContext<T extends Record<string, unknown>>() {
+export function createVSCodeContext<T extends Record<string, unknown>>(): {
+  onDidChangeContext: Event<keyof T>;
+  getContext: {
+    <K extends keyof T>(key: K): T[K] | undefined;
+    <K extends keyof T>(key: K, defaultValue: T[K]): T[K];
+  };
+  setContext: <K extends keyof T>(key: K, value: T[K] | undefined) => Promise<void>;
+} {
   const storage = new Map<keyof T, unknown>();
   const _onDidChange = new EventEmitter<keyof T>();
 
@@ -37,7 +44,7 @@ export function createVSCodeContext<T extends Record<string, unknown>>() {
 
   return {
     onDidChangeContext: _onDidChange.event as Event<keyof T>,
-    getContext,
-    setContext
+    getContext: getContext,
+    setContext: setContext
   };
 }

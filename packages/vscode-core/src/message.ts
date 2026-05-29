@@ -1,7 +1,7 @@
-import { openUrl } from './uri';
-import { Logger } from './logger';
 import type { MessageItem } from 'vscode';
 import { window } from 'vscode';
+import { Logger } from './logger';
+import { openUrl } from './uri';
 
 /**
  * 显示集成服务因请求过多而断开连接的错误消息

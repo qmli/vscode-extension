@@ -1,0 +1,35 @@
+{
+  "name": "webview-example",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode development",
+    "build:dev": "vite build --mode development",
+    "build": "node -e \"const fs=require('node:fs');const path=require('node:path');fs.rmSync(path.resolve(process.cwd(),'../../../dist/example'),{recursive:true,force:true});console.log('skip webview-example production build (dev-only sample)');\"",
+    "watch": "vite build --watch --mode development",
+    "preview": "vite preview",
+    "test:unit": "vitest run --passWithNoTests",
+    "test:coverage": "vitest run --coverage --passWithNoTests",
+    "test:e2e": "playwright test",
+    "build-only": "vite build",
+    "type-check": "vue-tsc --noEmit",
+    "lint": "eslint . --fix",
+    "format": "prettier --write src/"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.0",
+    "@vitejs/plugin-vue-jsx": "^4.0.0",
+    "vite-plugin-vue-devtools": "^7.0.0",
+    "vue-tsc": "^2.0.0"
+  },
+  "dependencies": {
+    "@orientais/webview-core": "*",
+    "@he-tree/vue": "2.10.1",
+    "element-plus": "^2.9.0",
+    "pinia": "^3.0.1",
+    "vue": "^3.5.13",
+    "vue-i18n": "^11.1.2",
+    "vue-router": "^4.5.0"
+  }
+}

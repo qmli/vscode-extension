@@ -378,7 +378,11 @@ export default [
     languageOptions: {
       ...defaultLanguageOptions,
       parser: ts.parser,
-      globals: globals.node
+      globals: globals.node,
+      parserOptions: {
+        ...defaultLanguageOptions.parserOptions,
+        project: ['./packages/vscode-core/tsconfig.json']
+      }
     },
     plugins: { 'import-x': importX },
     rules: {
@@ -407,12 +411,16 @@ export default [
   // webview-core — 浏览器环境 TypeScript + Vue
   {
     name: 'webview-core-typescript',
-    files: ['packages/webview-core/**/*.{js,ts,jsx,tsx,vue}'],
+    files: ['packages/webview-core/**/*.{js,ts,tsx}'],
     ignores: filePatterns.excludeDeclarations,
     languageOptions: {
       ...defaultLanguageOptions,
       parser: ts.parser,
-      globals: { ...globals.browser }
+      globals: { ...globals.browser },
+      parserOptions: {
+        ...defaultLanguageOptions.parserOptions,
+        project: ['./packages/webview-core/tsconfig.json', './packages/webview-core/tsconfig.node.json']
+      }
     },
     plugins: { 'import-x': importX },
     rules: {
@@ -436,5 +444,67 @@ export default [
       'prettier/prettier': 'warn'
     },
     settings: importSettings
+  },
+
+  // webview-core — Vue 单文件组件（无类型信息，需 vue-eslint-parser）
+  {
+    name: 'webview-core-vue',
+    ignores: ['packages/webview-core/**/*.vue']
+  },
+
+  // apps — 浏览器环境 TypeScript（webview-example 等前端工程）
+  {
+    name: 'apps-typescript',
+    files: ['apps/**/*.{js,ts,tsx}'],
+    ignores: filePatterns.excludeDeclarations,
+    languageOptions: {
+      ...defaultLanguageOptions,
+      parser: ts.parser,
+      globals: { ...globals.browser },
+      parserOptions: {
+        ...defaultLanguageOptions.parserOptions,
+        project: [
+          './apps/**/tsconfig.json',
+          './apps/**/tsconfig.node.json'
+          // 未来新增工程时在此添加对应 tsconfig 路径
+        ]
+      }
+    },
+    plugins: { 'import-x': importX },
+    rules: {
+      ...baseJsRules,
+      ...importXRules,
+      ...tsRules,
+      // 限制跨包 @packages 引用，禁止引用 Node.js 环境库
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            { group: ['@packages/dbdriver/**'], message: 'apps 不能引用 @packages/dbdriver' },
+            {
+              group: ['@packages/vscode-core/**'],
+              message: 'apps 不能引用 @packages/vscode-core（Node.js 环境库）'
+            }
+          ]
+        }
+      ],
+      'prettier/prettier': 'warn'
+    },
+    settings: importSettings
+  },
+
+  // 工具链配置文件 — 必须使用默认导出，豁免 no-default-export 规则
+  // 此块必须放在所有业务规则之后，利用 flat config 后者优先的特性覆盖
+  {
+    name: 'config-files-default-export',
+    files: [
+      '**/*.config.ts',
+      '**/*.config.js',
+      '**/*.config.mts',
+      '**/*.config.mjs'
+    ],
+    rules: {
+      'import-x/no-default-export': 'off'
+    }
   }
 ];

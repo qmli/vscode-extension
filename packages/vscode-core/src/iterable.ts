@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
  * 可迭代对象工具函数库
  *
@@ -602,7 +601,7 @@ export function* union<T>(...sources: (Iterable<T> | IterableIterator<T> | undef
 export function uniqueBy<TKey, TValue>(
   source: Iterable<TValue> | IterableIterator<TValue>,
   getUniqueKey: (item: TValue) => TKey,
-  // eslint-disable-next-line @typescript-eslint/no-invalid-void-type
+
   onDuplicate: (original: TValue, current: TValue) => TValue | void
 ): IterableIterator<TValue> {
   const result = new Map<TKey, TValue>();

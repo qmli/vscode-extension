@@ -1,5 +1,5 @@
 {
-  "name": "webview-core",
+  "name": "@orientais/webview-core",
   "version": "1.0.0",
   "description": "Shared components and utilities for webview modules",
   "type": "module",
@@ -83,6 +83,7 @@
     "vue-i18n": "^11.1.2"
   },
   "dependencies": {
+    "@orientais/shared": "*",
     "@types/sortablejs": "1.15.9",
     "sortablejs": "1.15.7"
   }

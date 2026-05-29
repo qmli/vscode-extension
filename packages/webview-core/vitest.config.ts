@@ -1,10 +1,10 @@
 // Vitest 测试配置
 
 import { resolve } from 'path';
-import vue from '@vitejs/plugin-vue';
+import { default as vue } from '@vitejs/plugin-vue';
 import { defineConfig } from 'vitest/config';
 
-export default defineConfig({
+export const config = defineConfig({
   plugins: [vue()],
 
   resolve: {

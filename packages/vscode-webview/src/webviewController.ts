@@ -1,10 +1,22 @@
 // =============================================================================
 // WebviewController 实现（具体控制器）
 // =============================================================================
-import type { Disposable, Event, Uri, ViewBadge, Webview, WebviewPanel, WebviewView } from 'vscode';
+import type {
+  CancellationToken,
+  CustomDocumentBackup,
+  CustomDocumentBackupContext,
+  CustomDocumentEditEvent,
+  Disposable,
+  Event,
+  Uri,
+  ViewBadge,
+  Webview,
+  WebviewPanel,
+  WebviewView
+} from 'vscode';
 import { commands, CancellationTokenSource, EventEmitter, ViewColumn, window, WindowState } from 'vscode';
 // import { executeCommand, executeCoreCommand } from '@/common/commands/command';
-import { pauseOnCancelOrTimeout } from '@orientais/vscode-core';
+import { Logger, pauseOnCancelOrTimeout } from '@orientais/vscode-core';
 import type {
   IpcCallMessageType,
   IpcCallParamsType,
@@ -21,10 +33,18 @@ import {
   DidChangeHostWindowFocusNotification,
   DidChangeWebviewFocusNotification,
   DidChangeWebviewVisibilityNotification,
+  DidChangeDirtyStateNotification,
+  DidRevertDocumentNotification,
+  DidSaveDocumentNotification,
+  HistoryCommandExecutedCommand,
+  HistoryRedoNotification,
+  HistoryUndoNotification,
   ipcPromiseSettled,
   isIpcPromise,
   WebviewReadyCommand,
-  WebviewReloadCommand
+  WebviewReloadCommand,
+  WebviewRequestSaveCommand,
+  WebviewSetDirtyCommand
 } from '@orientais/shared';
 
 import { isCancellationError } from '@orientais/vscode-core';
@@ -32,6 +52,7 @@ import { getViewFocusCommand } from './vscode.views';
 import { debug } from '@orientais/vscode-core';
 import type { IWebviewContainer } from './types';
 import type { WebviewContext } from './webview';
+import type { WebviewDocument } from './webviewDocument';
 import type { WebviewCommandCallback, WebviewCommandRegistrar } from './webviewCommandRegistrar';
 import type { WebviewHost, WebviewShowOptions } from './webviewHost';
 import type { WebviewProvider, WebviewShowingArgs } from './webviewProvider';
@@ -258,6 +279,197 @@ export class WebviewController<
   private _ready: boolean = false;
   get ready(): boolean {
     return this._ready;
+  }
+
+  // ---------------------------------------------------------------------------
+  // Dirty（未保存）状态 — 仅 CustomEditorProvider 模式
+  // ---------------------------------------------------------------------------
+
+  private _dirty: boolean = false;
+
+  // --- CustomEditorProvider 模式专用字段 ---
+
+  /**
+   * 关联的 `CustomDocument`，由 `attachCustomEditor` 赋值。
+   * 非 null 表示当前处于 CustomEditorProvider 模式。
+   */
+  private _customDocument: WebviewDocument | undefined;
+
+  /**
+   * VS Code 原生 dirty 事件发射器，由 `WebviewsController` 创建并共享给所有实例。
+   * 当 `dirty = true` 时触发，通知 VS Code 在标题显示 "●" 并接管关闭确认流程。
+   */
+  private _onDidChangeCustomDocument: EventEmitter<CustomDocumentEditEvent<WebviewDocument>> | undefined;
+
+  /**
+   * 是否处于"History 驱动"的撤销栈模式。
+   * 一旦收到首个 `HistoryCommandExecutedCommand`（webview 使用 useHistory + vscodeUndoRedo），
+   * 撤销栈条目改由每条 History 命令逐条注册；此时 `set dirty` 不再额外注册条目，避免重复入栈。
+   */
+  private _historyEditsActive: boolean = false;
+
+  /**
+   * 将此控制器与 `CustomDocument` 关联，进入 CustomEditorProvider 模式。
+   * 由 `WebviewsController.resolveCustomEditor` 在控制器创建后立即调用。
+   *
+   * 关联后：
+   * - `dirty = true`  → 触发 VS Code 原生 `onDidChangeCustomDocument` 事件（出现 `●`）
+   * - `dirty = false` → 仅更新内部状态（VS Code 在 save/revert 回调成功后自动清除 dirty）
+   * - 关闭确认对话框由 VS Code 原生接管（Save / Don't Save / Cancel）
+   */
+  attachCustomEditor(
+    document: WebviewDocument,
+    onDidChangeCustomDocument: EventEmitter<CustomDocumentEditEvent<WebviewDocument>>
+  ): void {
+    this._customDocument = document;
+    this._onDidChangeCustomDocument = onDidChangeCustomDocument;
+  }
+
+  /** 是否处于 CustomEditorProvider 模式 */
+  get isCustomEditor(): boolean {
+    return this._customDocument != null;
+  }
+
+  /**
+   * 当前是否有未保存更改（仅 CustomEditorProvider 模式有效）。
+   *
+   * `dirty = true` → 触发 `onDidChangeCustomDocument` 事件 → VS Code 在标签页显示 `●`
+   *                   并接管关闭确认（Save / Don't Save / Cancel）和 Ctrl+S 保存流程。
+   * `dirty = false` → 仅更新内部状态；VS Code 在 `saveCustomDocument` /
+   *                   `revertCustomDocument` 成功后自动清除 dirty 标记。
+   */
+  get dirty(): boolean {
+    return this._dirty;
+  }
+
+  set dirty(value: boolean) {
+    if (this._dirty === value) return;
+    this._dirty = value;
+
+    // 仅"纯 dirty 驱动"模式（未接入 History 集成）才借助一次编辑事件让 VS Code 显示 ●。
+    // History 驱动模式下撤销栈条目按命令逐条注册（见 onHistoryCommandExecuted），
+    // 此处不再触发，否则首条变更会重复入栈，导致撤销次数与历史条目数错位。
+    if (value && !this._historyEditsActive && this._onDidChangeCustomDocument != null && this._customDocument != null) {
+      this.fireUndoableCustomDocumentEdit();
+    }
+
+    void this.notify(DidChangeDirtyStateNotification, { dirty: value });
+  }
+
+  /**
+   * 收到 webview 的 `HistoryCommandExecutedCommand`：为该条 History 命令向 VS Code
+   * 原生撤销栈注册一个对应的可撤销编辑条目（携带 undo/redo 回调）。
+   *
+   * 每条新建的 History 命令都会触发一次，从而保证 Ctrl+Z / Ctrl+Y 可连续撤销/重做，
+   * 而非"执行一次便失效"。编辑事件本身会让 VS Code 标记文档为脏（●），因此一并同步内部
+   * dirty 状态并通知 webview。
+   */
+  private onHistoryCommandExecuted(): void {
+    if (this._onDidChangeCustomDocument == null || this._customDocument == null) {
+      return;
+    }
+
+    this._historyEditsActive = true;
+
+    if (!this._dirty) {
+      this._dirty = true;
+      void this.notify(DidChangeDirtyStateNotification, { dirty: true });
+    }
+
+    this.fireUndoableCustomDocumentEdit();
+  }
+
+  /**
+   * 发出一个可撤销的 CustomDocument 编辑事件，使 VS Code“编辑 -> 撤销/重做”
+   * 可以回调到扩展侧，并在这里统一接收与打印。
+   */
+  private fireUndoableCustomDocumentEdit(): void {
+    if (this._onDidChangeCustomDocument == null || this._customDocument == null) return;
+
+    this._onDidChangeCustomDocument.fire({
+      document: this._customDocument,
+      undo: async () => {
+        Logger.debug(
+          `[WebviewController] receive undo from VS Code Edit menu: webviewId=${this.id}, instanceId=${
+            this.instanceId ?? 'default'
+          }`
+        );
+        await this.notify(HistoryUndoNotification, undefined);
+      },
+      redo: async () => {
+        Logger.debug(
+          `[WebviewController] receive redo from VS Code Edit menu: webviewId=${this.id}, instanceId=${
+            this.instanceId ?? 'default'
+          }`
+        );
+        await this.notify(HistoryRedoNotification, undefined);
+      }
+    });
+  }
+  /** 标记为"有未保存更改"，等价于 `dirty = true` */
+  markDirty(): void {
+    this.dirty = true;
+  }
+
+  /** 清除"未保存更改"标记，等价于 `dirty = false` */
+  clearDirty(): void {
+    this.dirty = false;
+  }
+
+  // ---------------------------------------------------------------------------
+  // CustomEditorProvider 回调方法（由 WebviewsController 在对应回调中调用）
+  // ---------------------------------------------------------------------------
+
+  /**
+   * 保存文档（对应 `CustomEditorProvider.saveCustomDocument`）。
+   *
+   * 调用 `provider.saveDocument()`，成功后：
+   * - 更新内部 `_dirty = false`（VS Code 在回调成功后自动清除 dirty，两者保持一致）
+   * - 向 Webview 推送 `DidSaveDocumentNotification` 和 `DidChangeDirtyStateNotification`
+   *
+   * 若 `provider.saveDocument()` 抛出异常，异常向上传播给 VS Code，
+   * VS Code 将显示错误提示并**保持文档 dirty 状态不关闭面板**。
+   */
+  async saveDocument(cancellation: CancellationToken): Promise<void> {
+    await this.provider.saveDocument?.(cancellation);
+    this._dirty = false;
+    void this.notify(DidChangeDirtyStateNotification, { dirty: false });
+    void this.notify(DidSaveDocumentNotification, { success: true });
+  }
+
+  /**
+   * 另存为（对应 `CustomEditorProvider.saveCustomDocumentAs`）。
+   * 仅推送保存成功通知；dirty 状态由 VS Code 根据目标 URI 与原 URI 是否相同决定。
+   */
+  async saveDocumentAs(destination: Uri, cancellation: CancellationToken): Promise<void> {
+    await this.provider.saveDocumentAs?.(destination, cancellation);
+    void this.notify(DidSaveDocumentNotification, { success: true });
+  }
+
+  /**
+   * 还原文档（对应 `CustomEditorProvider.revertCustomDocument`）。
+   *
+   * 调用 `provider.revertDocument()`，成功后更新内部状态并通知 Webview 重新加载数据。
+   */
+  async revertDocument(cancellation: CancellationToken): Promise<void> {
+    await this.provider.revertDocument?.(cancellation);
+    this._dirty = false;
+    void this.notify(DidChangeDirtyStateNotification, { dirty: false });
+    void this.notify(DidRevertDocumentNotification, undefined);
+  }
+
+  /**
+   * 备份文档（对应 `CustomEditorProvider.backupCustomDocument`）。
+   * 若 Provider 未实现 `backupDocument`，返回一个空备份（无热重启恢复能力）。
+   */
+  async backupDocument(
+    context: CustomDocumentBackupContext,
+    cancellation: CancellationToken
+  ): Promise<CustomDocumentBackup> {
+    if (this.provider.backupDocument != null) {
+      return this.provider.backupDocument(context, cancellation);
+    }
+    return { id: context.destination.toString(), delete: async () => {} };
   }
 
   get description(): string | undefined {
@@ -544,7 +756,7 @@ export class WebviewController<
       // 提取 CSP nonce（dev 模式下由 generateWebviewHtml 写入 <meta name="csp-nonce">）
       const nonceMatch = html.match(/<meta name="csp-nonce" content="([^"]+)"/);
       const nonce = nonceMatch ? ` nonce="${nonceMatch[1]}"` : '';
-      const script = `<script${nonce} type="module">window.bootstrap=${JSON.stringify(bootstrap)};</script>`;
+      const script = `<script${nonce} >window.bootstrap=${JSON.stringify(bootstrap)};</script>`;
       html = html.replace(/<script/i, `${script}<script`);
     }
     return html;
@@ -688,6 +900,20 @@ export class WebviewController<
         case WebviewReloadCommand.is(message):
           void this.refresh(true);
           break;
+        case WebviewSetDirtyCommand.is(message):
+          // Webview 主动上报 dirty 状态，控制器同步更新标题与内部状态
+          this.dirty = message.params.dirty;
+          break;
+        case HistoryCommandExecutedCommand.is(message):
+          // Webview 每执行一条新的 History 命令，便为其注册一个 VS Code 原生撤销栈条目
+          this.onHistoryCommandExecuted();
+          break;
+        case WebviewRequestSaveCommand.is(message):
+          // Webview 请求保存（等效于 Ctrl+S）
+          // CustomEditor 模式：触发 VS Code 原生保存命令，进而调用 saveCustomDocument
+          // 普通模式：同上，workbench.action.files.save 对无 URI 的面板通常无效，Provider 可自行处理
+          void commands.executeCommand('workbench.action.files.save');
+          break;
         default:
           this.provider?.onMessageReceived?.(message);
           break;
@@ -706,6 +932,23 @@ export class WebviewController<
   }
 
   private _disposed: boolean = false;
+  /**
+   * WebviewPanel 关闭时的处理逻辑，在 `parent.onDidDispose` 触发时调用。
+   *
+   * ## CustomEditorProvider 模式
+   * VS Code 在触发 `onDidDispose` 之前已经完成了"保存/不保存/取消"的原生对话框流程
+   * （若用户选择了 Cancel，面板不会关闭，`onDidDispose` 不会被触发）。
+   * 因此在此模式下无需再弹出任何对话框，直接释放资源即可。
+   *
+   * CustomEditorProvider 模式下 VS Code 在面板关闭前已完成原生确认流程
+   * （Save / Don't Save / Cancel），此处直接释放资源。
+   */
+  private _handlePanelClose(): void {
+    if (!this._disposed) {
+      this.dispose();
+    }
+  }
+
   dispose(): void {
     // // 从通知管理器注销
     // this.container.notificationManager.unregisterWebviewHost(this.id);

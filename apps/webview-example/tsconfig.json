@@ -1,0 +1,24 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react",
+    "allowSyntheticDefaultImports": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@shared/*": ["../../shared/*"],
+      "@orientais/webview-core": ["../../packages/webview-core/src/index.ts"],
+      "@orientais/webview-core/*": ["../../packages/webview-core/src/*"],
+      "@orientais/vscode-core": ["../../packages/vscode-core/src/index.ts"],
+      "@orientais/vscode-core/*": ["../../packages/vscode-core/src/*"]
+    }
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "src/**/*.tsx",
+    "src/**/*.d.ts",
+    "../../../packages/@types/global.d.ts",
+    "*.d.ts"
+  ],
+  "exclude": ["node_modules", "dist", "src/**/__tests__/*"]
+}

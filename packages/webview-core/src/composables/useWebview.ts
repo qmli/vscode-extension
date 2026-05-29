@@ -4,19 +4,19 @@
  * 提供Vue3 Composition API风格的webview功能集成
  */
 
-import type { Ref } from 'vue';
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import type { Disposable } from '../browser/events';
 import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
   IpcCommand,
   IpcMessage,
   IpcRequest
-} from '@shared/protocol';
+} from '@orientais/shared';
+import type { Ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 // 导入全局应用实例
 import { readCurrentTheme, THEMEATTR } from '../app/theme';
 import { getVue3App } from '../app/vue3App';
+import type { Disposable } from '../browser/events';
 
 /**
  * Webview IPC通信Composable

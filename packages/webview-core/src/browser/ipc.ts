@@ -17,20 +17,17 @@
  */
 
 /*global window */
-import { getScopedCounter } from '@orientais/vscode-core';
-
-import { DOM } from './dom';
-import type { Disposable, Event } from './events';
-import { Emitter } from './events';
-import {
+import type {
   IpcCallParamsType,
   IpcCallResponseParamsType,
   IpcCommand,
   IpcMessage,
-  ipcPromiseSettled,
-  IpcRequest,
-  isIpcPromise
-} from '@orientais/vscode-core';
+  IpcRequest
+} from '@orientais/shared';
+import { getScopedCounter, ipcPromiseSettled, isIpcPromise } from '@orientais/shared';
+import { DOM } from './dom';
+import type { Disposable, Event } from './events';
+import { Emitter } from './events';
 
 /**
  * VS Code Webview 主机 API 接口

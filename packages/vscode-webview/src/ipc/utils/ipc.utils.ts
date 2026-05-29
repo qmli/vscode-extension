@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { IpcDate, IpcPromise, IpcTaggedType, IpcUri } from '../models/dataTypes.js';
 
 /**

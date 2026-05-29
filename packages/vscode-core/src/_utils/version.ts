@@ -10,8 +10,12 @@ export interface Version {
 }
 
 export function compare(v1: string | Version, v2: string | Version): VersionComparisonResult {
-  if (typeof v1 === 'string') v1 = fromString(v1);
-  if (typeof v2 === 'string') v2 = fromString(v2);
+  if (typeof v1 === 'string') {
+    v1 = fromString(v1);
+  }
+  if (typeof v2 === 'string') {
+    v2 = fromString(v2);
+  }
 
   if (v1.major > v2.major) return 1;
   if (v1.major < v2.major) return -1;

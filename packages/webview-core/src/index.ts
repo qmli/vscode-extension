@@ -31,3 +31,11 @@ export * from './types/vue3';
 
 // // VSCode 主题模拟系统
 // export * from './styles/mock/src/index';
+
+// 撤销 / 重做历史管理
+export * from './history';
+
+export * from './browser/events';
+
+export * from '@orientais/shared/protocol';
+export * from './composables/useDirtyState';

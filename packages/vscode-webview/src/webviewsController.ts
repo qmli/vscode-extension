@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 // =============================================================================
 // WebviewsController 实现（总控制器）
 // =============================================================================
 import type {
   CancellationToken,
+  CustomDocumentEditEvent,
+  CustomEditorProvider,
   WebviewOptions,
   WebviewPanel,
   WebviewPanelOptions,
@@ -10,7 +13,7 @@ import type {
   WebviewViewProvider,
   WebviewViewResolveContext
 } from 'vscode';
-import { commands, Disposable, Uri, ViewColumn, window } from 'vscode';
+import { commands, Disposable, EventEmitter, Uri, ViewColumn, window, workspace } from 'vscode';
 import { uuid } from '@orientais/vscode-core';
 import { first } from '@orientais/vscode-core';
 import { getViewFocusCommand } from './vscode.views';
@@ -19,6 +22,12 @@ import { WebviewCommandRegistrar } from './webviewCommandRegistrar';
 import { WebviewController } from './webviewController';
 import type { WebviewHost } from './webviewHost';
 import type { WebviewProvider, WebviewShowingArgs } from './webviewProvider';
+import {
+  buildCustomEditorUri,
+  getInstanceIdFromUri,
+  WebviewDocument,
+  WebviewPanelFileSystemProvider
+} from './webviewDocument';
 
 //#region Webview相关类型定义
 export interface WebviewViewDescriptor<ID extends string> {
@@ -73,7 +82,7 @@ interface WebviewViewRegistration<
 export interface WebviewPanelDescriptor<ID extends string> {
   id: ID;
   readonly iconPath: string;
-  readonly title: string;
+  title: string;
   readonly contextKeyPrefix: string;
   readonly type: string;
   readonly column?: ViewColumn;
@@ -89,6 +98,16 @@ interface WebviewPanelRegistration<
 > {
   readonly descriptor: WebviewPanelDescriptor<ID>;
   controllers?: Map<string | undefined, WebviewController<ID, State, SerializedState, ShowingArgs>> | undefined;
+  /** CustomEditor 模式：每次 show() 调用时缓存的参数，resolveCustomEditor 中消费 */
+  pendingShowArgs?: Map<
+    string,
+    [WebviewPanelsShowOptions | undefined, WebviewShowingArgs<ShowingArgs, SerializedState>]
+  >;
+  /** CustomEditor 模式：Provider 工厂函数 */
+  resolveProvider?: (
+    container: IWebviewContainer,
+    host: WebviewHost<ID>
+  ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>;
 }
 
 export interface WebviewPanelShowOptions {
@@ -162,6 +181,8 @@ export interface WebviewPanelsProxy<
   splitActiveInstance(options?: WebviewPanelsShowOptions): Promise<void>;
 }
 
+/** 所有 registerCustomEditorPanel 面板共享的 viewType（对应 package.json contributes.customEditors）*/
+const webviewPanelViewType = 'autosar.webviewPanel';
 export class WebviewsController<
   TContainer extends IWebviewContainer = IWebviewContainer,
   TPanelId extends string = string,
@@ -169,16 +190,227 @@ export class WebviewsController<
 > implements Disposable
 {
   private disposables: Disposable[] = [];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   private readonly panels = new Map<string, WebviewPanelRegistration<string, any>>();
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   private _views = new Map<string, WebviewController<string, any>>();
   private readonly _commandRegistrar: WebviewCommandRegistrar;
+  /** 共享 CustomEditorProvider 的 EditEvent Emitter（所有 registerCustomEditorPanel 面板共用）
+   *
+   * 使用 CustomDocumentEditEvent（而非 ContentChangeEvent）以支持 VSCode 原生撤销/重做栈：
+   * 每次触发时可携带 undo/redo 回调，VSCode Edit 菜单会直接调用这些回调完成撤销/重做。
+   */
+  private _sharedOnDidChangeCustomDocument: EventEmitter<CustomDocumentEditEvent<WebviewDocument>> | undefined;
 
+  // ── 面包屑动态控制 ────────────────────────────────────────────────────────────
+  /** 本插件注册的所有 WebviewPanel ID（registerWebviewPanel 使用，TabInputWebview 类型） */
+  private readonly _ourPanelIds = new Set<string>();
+  /** 面包屑监听器是否已初始化 */
+  private _breadcrumbSyncReady = false;
+  /** 禁用面包屑前保存的原始值，用于恢复 */
+  private _savedBreadcrumbs: boolean | undefined;
+  // ────────────────────────────────────────────────────────────────────────────
   constructor(private readonly container: TContainer) {
     this.disposables.push((this._commandRegistrar = new WebviewCommandRegistrar()));
   }
 
+  /**
+   * 检查当前活动 Tab 的 input 是否属于本插件的 Webview 面板。
+   *
+   * 使用鸭子类型而非 `instanceof`，避免 VS Code 扩展宿主跨代理对象的
+   * `instanceof` 失效问题：
+   * - `TabInputCustom`：有 `uri` + `viewType`，viewType 为 WEBVIEW_PANEL_VIEW_TYPE
+   * - `TabInputWebview`：只有 `viewType`（无 `uri`），viewType 在 _ourPanelIds 中
+   */
+  private _isOurActiveTab(): boolean {
+    const input = window.tabGroups.activeTabGroup?.activeTab?.input;
+    if (input == null || typeof input !== 'object') return false;
+
+    const viewType = (input as { viewType?: string }).viewType;
+    if (!viewType) return false;
+
+    // registerCustomEditorPanel → TabInputCustom（有 uri 字段）
+    if (viewType === webviewPanelViewType) return true;
+
+    // registerWebviewPanel → TabInputWebview（无 uri 字段）
+    if ('uri' in input) return false;
+    return this._ourPanelIds.has(viewType);
+  }
+
+  /**
+   * 根据当前活动 Tab 开关面包屑：
+   * - 本插件面板激活 → 隐藏面包屑栏（breadcrumbs.enabled = false）
+   * - 其他编辑器激活 → 恢复 breadcrumbs.enabled 原始值
+   *
+   * 只写入 Global 用户设置，不修改 workspace/.vscode/settings.json。
+   */
+  private _syncBreadcrumbs(): void {
+    const bcCfg = workspace.getConfiguration('breadcrumbs');
+    if (this._isOurActiveTab()) {
+      if (bcCfg.get<boolean>('enabled') !== false) {
+        this._savedBreadcrumbs = bcCfg.get<boolean>('enabled') ?? true;
+        void bcCfg.update('enabled', false, true /* global */);
+      }
+    } else if (this._savedBreadcrumbs !== undefined) {
+      void bcCfg.update('enabled', this._savedBreadcrumbs, true);
+      this._savedBreadcrumbs = undefined;
+    }
+  }
+
+  /**
+   * 首次调用时注册 Tab 切换监听器（懒初始化，由两种注册方法共同触发）。
+   *
+   * 同时清理旧版本遗留的 `breadcrumbs.filePath: "off"` 全局设置，恢复
+   * JSON/代码文件的完整面包屑导航。
+   */
+  private _ensureBreadcrumbSync(): void {
+    if (this._breadcrumbSyncReady) return;
+    this._breadcrumbSyncReady = true;
+
+    // 清理旧版本遗留的 breadcrumbs.filePath: "off" 全局设置
+    const bcCfg = workspace.getConfiguration('breadcrumbs');
+    const filePathInspect = bcCfg.inspect<string>('filePath');
+    if (filePathInspect?.globalValue === 'off') {
+      void bcCfg.update('filePath', undefined, true /* 删除 global 覆盖，恢复默认值 */);
+    }
+
+    this.disposables.push(
+      // Tab 激活切换（含 webview ↔ webview 之间）
+      window.tabGroups.onDidChangeTabs(() => this._syncBreadcrumbs()),
+      // Tab 组激活切换（分屏时不同组之间切换）
+      window.tabGroups.onDidChangeTabGroups(() => this._syncBreadcrumbs()),
+      // 文本编辑器激活（webview → 代码文件，补充覆盖）
+      window.onDidChangeActiveTextEditor(() => this._syncBreadcrumbs())
+    );
+    // 立即同步一次，处理插件激活时已有面板打开的情况
+    this._syncBreadcrumbs();
+  }
+
+  /**
+   * 首次调用时执行（懒初始化）：
+   * 1. 注册 `webview-panel://` FileSystemProvider（VS Code 需能 stat 虚拟 URI）
+   * 2. 注册共享 CustomEditorProvider（viewType = `autosar.webviewPanel`）
+   *    按 URI authority（panelId）路由到具体面板的 WebviewController
+   */
+  private _ensureSharedCustomEditorProvider(): EventEmitter<CustomDocumentEditEvent<WebviewDocument>> {
+    if (this._sharedOnDidChangeCustomDocument != null) {
+      return this._sharedOnDidChangeCustomDocument;
+    }
+
+    // ← 新增：在注册 Provider 前，先清理上次会话遗留的 webview-panel:// 标签
+    // 此时还没有任何 pendingShowArgs，所有 webview-panel:// 标签都是遗留的
+    const staleTabs = window.tabGroups.all.flatMap((group) =>
+      group.tabs.filter((tab) => {
+        const input = tab.input as { viewType?: string; uri?: Uri } | null;
+        return input?.viewType === webviewPanelViewType && input?.uri?.scheme === 'webview-panel';
+      })
+    );
+    if (staleTabs.length > 0) {
+      void window.tabGroups.close(staleTabs);
+    }
+
+    const fsp = new WebviewPanelFileSystemProvider();
+    this.disposables.push(
+      workspace.registerFileSystemProvider('webview-panel', fsp, {
+        isCaseSensitive: true,
+        isReadonly: false
+      }),
+      fsp
+    );
+
+    // 初始化面包屑动态控制（registerCustomEditorPanel 会触发此方法）
+    this._ensureBreadcrumbSync();
+
+    const emitter = new EventEmitter<CustomDocumentEditEvent<WebviewDocument>>();
+    this._sharedOnDidChangeCustomDocument = emitter;
+    this.disposables.push(emitter);
+
+    const sharedProvider: CustomEditorProvider<WebviewDocument> = {
+      openCustomDocument: (uri) => {
+        return new WebviewDocument(uri);
+      },
+
+      resolveCustomEditor: async (document, webviewPanel, token) => {
+        if (token.isCancellationRequested) return;
+
+        const panelId = document.uri.authority;
+
+        const reg = this.panels.get(panelId) as WebviewPanelRegistration<string, any, any, any> | undefined;
+        if (reg?.resolveProvider == null) {
+          console.error(`[WebviewsController] resolveCustomEditor: unknown panelId='${panelId}'`);
+          return;
+        }
+
+        // 将标签页标题设置为面板描述符标题，避免显示 UUID 文件名
+        webviewPanel.title = reg.descriptor.title;
+
+        const instanceId = getInstanceIdFromUri(document.uri);
+        const uriKey = document.uri.toString();
+        // // ← 新增：会话恢复时没有 pendingShowArgs，直接关闭，不恢复上次的面板
+        // if (!reg.pendingShowArgs?.has(uriKey)) {
+        //   webviewPanel.dispose();
+        //   return;
+        // }
+        const [pendingOpts, pendingArgs] = reg.pendingShowArgs?.get(uriKey) ?? [undefined, []];
+        reg.pendingShowArgs?.delete(uriKey);
+
+        const ctrl = await WebviewController.create(
+          this.container,
+          this._commandRegistrar,
+          reg.descriptor,
+          instanceId,
+          webviewPanel,
+          reg.resolveProvider
+        );
+
+        ctrl.attachCustomEditor(document, emitter);
+
+        reg.controllers ??= new Map();
+        reg.controllers.set(ctrl.instanceId, ctrl);
+
+        this.disposables.push(
+          ctrl.onDidDispose(() => reg.controllers?.delete(ctrl.instanceId)),
+          ctrl
+        );
+
+        await ctrl.show(true, pendingOpts, ...(pendingArgs ?? []));
+      },
+
+      saveCustomDocument: async (document: WebviewDocument, cancellation) => {
+        const ctrl = findCtrlByDoc(document, this.panels);
+        if (!ctrl) throw new Error(`[saveCustomDocument] no controller for ${document.uri.toString()}`);
+        await ctrl.saveDocument(cancellation);
+      },
+
+      saveCustomDocumentAs: async (document: WebviewDocument, destination: Uri, cancellation) => {
+        const ctrl = findCtrlByDoc(document, this.panels);
+        if (!ctrl) throw new Error(`[saveCustomDocumentAs] no controller for ${document.uri.toString()}`);
+        await ctrl.saveDocumentAs(destination, cancellation);
+      },
+
+      revertCustomDocument: async (document: WebviewDocument, cancellation) => {
+        const ctrl = findCtrlByDoc(document, this.panels);
+        if (!ctrl) throw new Error(`[revertCustomDocument] no controller for ${document.uri.toString()}`);
+        await ctrl.revertDocument(cancellation);
+      },
+
+      backupCustomDocument: async (document: WebviewDocument, context, cancellation) => {
+        const ctrl = findCtrlByDoc(document, this.panels);
+        if (!ctrl) return { id: context.destination.toString(), delete: async () => {} };
+        return ctrl.backupDocument(context, cancellation);
+      },
+
+      onDidChangeCustomDocument: emitter.event
+    };
+
+    this.disposables.push(
+      window.registerCustomEditorProvider(webviewPanelViewType, sharedProvider, {
+        webviewOptions: { retainContextWhenHidden: true },
+        supportsMultipleEditorsPerDocument: true
+      })
+    );
+
+    return emitter;
+  }
   // 注册 WebviewPanel（编辑器面板）
   registerWebviewPanel<ID extends TPanelId, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
     descriptor: WebviewPanelDescriptor<ID>,
@@ -190,7 +422,8 @@ export class WebviewsController<
     const registration: WebviewPanelRegistration<ID, State, SerializedState, ShowingArgs> = {
       descriptor: descriptor
     };
-    this.panels.set(descriptor.id, registration);
+
+    this.panels.set(descriptor.id, registration as WebviewPanelRegistration<string, any>);
     const disposables: Disposable[] = [];
     const { container, _commandRegistrar: commandRegistrar } = this;
 
@@ -222,8 +455,9 @@ export class WebviewsController<
         let controller = getBestController(registration, options, ...args);
 
         if (!controller) {
+          descriptor.title = options?.title ?? descriptor.title;
           // 创建新的面板
-          const panel = window.createWebviewPanel(descriptor.id, options?.title ?? descriptor.title, column, {
+          const panel = window.createWebviewPanel(descriptor.id, descriptor.title, column, {
             enableScripts: true,
             localResourceRoots: [Uri.file(container.context.extensionPath)],
             retainContextWhenHidden: true
@@ -278,6 +512,101 @@ export class WebviewsController<
     return proxy;
   }
 
+  // 注册 CustomEditor 面板（原生 dirty 状态 + Ctrl+S 支持）
+  /**
+   * 注册一个基于 `CustomEditorProvider` 的 Webview 面板。
+   *
+   * 与 `registerWebviewPanel` 的核心区别：
+   * - VS Code 原生管理 dirty 状态（标题 `●`、关闭确认对话框、全局保存参与）
+   * - Ctrl+S 触发 `provider.saveDocument()`；保存失败时面板不关闭
+   * - 关闭时有 Save / Don't Save / **Cancel**（真正阻止关闭）三个选项
+   * - Provider 需实现 `saveDocument` 和 `revertDocument`
+   *
+   * 面板通过虚拟 URI `webview-panel://<viewType>/<instanceId>` 标识，
+   * 调用 `show()` 时内部使用 `vscode.openWith` 命令打开。
+   */
+  /**
+   * 注册支持原生 Dirty State（● 标记、保存/撤销对话框）的编辑器面板。
+   *
+   * 所有通过此方法注册的面板共享 viewType `autosar.webviewPanel`，
+   * 并由唯一的 `CustomEditorProvider` 按 URI authority（panelId）内部路由。
+   * URI 格式：`webview-panel://<panelId>/<instanceId>.webview-panel`
+   */
+  registerCustomEditorPanel<
+    ID extends TPanelId,
+    State,
+    SerializedState = State,
+    ShowingArgs extends unknown[] = unknown[]
+  >(
+    descriptor: WebviewPanelDescriptor<ID>,
+    resolveProvider: (
+      container: TContainer,
+      host: WebviewHost<ID>
+    ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
+  ): WebviewPanelsProxy<ID, ShowingArgs, SerializedState> {
+    // 确保共享 Provider 和 FSP 已注册（懒初始化）
+    this._ensureSharedCustomEditorProvider();
+
+    const registration: WebviewPanelRegistration<ID, State, SerializedState, ShowingArgs> = {
+      descriptor: descriptor,
+      resolveProvider: resolveProvider as (
+        container: IWebviewContainer,
+        host: WebviewHost<ID>
+      ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>,
+      pendingShowArgs: new Map()
+    };
+
+    this.panels.set(descriptor.id, registration as WebviewPanelRegistration<string, any>);
+
+    const proxy: WebviewPanelsProxy<ID, ShowingArgs, SerializedState> = {
+      id: descriptor.id,
+      instances: [],
+      getActiveInstance: () => undefined,
+      getBestInstance: function (
+        options?: WebviewPanelShowOptions,
+        ...args: WebviewShowingArgs<ShowingArgs, SerializedState>
+      ) {
+        const controller = getBestController(registration, options, ...args);
+        return controller != null ? convertToWebviewPanelProxy(controller) : undefined;
+      },
+      show: async (options?: WebviewPanelsShowOptions, ...args: WebviewShowingArgs<ShowingArgs, SerializedState>) => {
+        // 已有可复用实例时直接 reveal
+        const existing = getBestController(registration, options, ...args);
+        if (existing) {
+          if (options?.title != null) {
+            existing.title = options.title;
+          }
+          await existing.show(false, options, ...args);
+          return;
+        }
+
+        const instanceId = descriptor.allowMultipleInstances
+          ? typeof options?.preserveInstance === 'string'
+            ? options.preserveInstance
+            : uuid()
+          : undefined;
+        descriptor.title = options?.title ?? descriptor.title;
+        const uri = buildCustomEditorUri(descriptor.id, instanceId, descriptor.title);
+
+        // 缓存 show 参数，resolveCustomEditor 中消费
+        registration.pendingShowArgs?.set(uri.toString(), [options, args]);
+
+        const column = options?.column ?? descriptor.column ?? ViewColumn.Beside;
+
+        // 使用共享 viewType 打开，VS Code 路由到 sharedProvider
+        await commands.executeCommand('vscode.openWith', uri, webviewPanelViewType, {
+          viewColumn: column,
+          preserveFocus: options?.preserveFocus ?? false,
+          label: descriptor.title // 直接用正确标题，无需等 resolveCustomEditor
+        });
+      },
+      splitActiveInstance: async () => {},
+      dispose: () => {}
+    };
+
+    return proxy;
+  }
+
   // 注册 WebviewView（侧边栏视图）
   registerWebviewView<ID extends TViewId, State, SerializedState = State, ShowingArgs extends unknown[] = unknown[]>(
     descriptor: WebviewViewDescriptor<ID>,
@@ -312,7 +641,7 @@ export class WebviewsController<
           ) => Promise<WebviewProvider<State, SerializedState, ShowingArgs>>
         );
         registration.controller = controller;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
         this._views.set(descriptor.id, controller as any);
 
         webviewView.webview.options = {
@@ -364,7 +693,6 @@ export class WebviewsController<
           await onBeforeShow?.(...args);
         }
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return void commands.executeCommand(getViewFocusCommand(descriptor.id as any), options);
       },
       dispose: function () {
@@ -477,6 +805,20 @@ function convertToWebviewPanelProxy<
       return controller.maximize();
     }
   };
+}
+
+/**
+ * 在所有 CustomEditor 面板中按 document URI 找到对应的 WebviewController。
+ * URI authority = panelId，URI path basename（去后缀）= instanceId。
+ */
+function findCtrlByDoc(
+  document: WebviewDocument,
+
+  panels: Map<string, WebviewPanelRegistration<string, any>>
+): WebviewController<string, any, any, any> | undefined {
+  const panelId = document.uri.authority;
+  const instanceId = getInstanceIdFromUri(document.uri);
+  return panels.get(panelId)?.controllers?.get(instanceId);
 }
 
 export function isSerializedState<State>(o: unknown): o is { state: Partial<State> } {

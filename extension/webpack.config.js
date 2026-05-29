@@ -28,29 +28,29 @@ const config = {
 
   mode: isDevelopment ? 'development' : 'production',
 
-  entry: './src/extension.ts',
+  entry: { extension: './src/extension.ts' },
 
   output: {
     path: path.resolve(__dirname, '../dist', 'extension'),
-    filename: 'extension.js',
+    filename: '[name].js',
     libraryTarget: 'commonjs2',
     // 配置 source map 路径模板，确保调试时能正确映射到源文件
     devtoolModuleFilenameTemplate: (info) => {
       const resourcePath = info.resourcePath;
       const workspaceRoot = path.resolve(__dirname, '..');
 
-      // 如果是 @packages/dbdriver 的源文件，使用相对于工作区根目录的路径
-      if (resourcePath.includes('packages' + path.sep + 'dbdriver' + path.sep + 'src')) {
-        const relativePath = path.relative(workspaceRoot, resourcePath).replace(/\\/g, '/');
-        // 返回 webpack:// 协议路径，VS Code 会通过 sourceMapPathOverrides 映射
-        return `webpack:///${relativePath}`;
-      }
+      // // 如果是 @packages/dbdriver 的源文件，使用相对于工作区根目录的路径
+      // if (resourcePath.includes('packages' + path.sep + 'dbdriver' + path.sep + 'src')) {
+      //   const relativePath = path.relative(workspaceRoot, resourcePath).replace(/\\/g, '/');
+      //   // 返回 webpack:// 协议路径，VS Code 会通过 sourceMapPathOverrides 映射
+      //   return `webpack:///${relativePath}`;
+      // }
 
       // 如果是 extension 的源文件
-      if (resourcePath.includes('extension' + path.sep + 'src')) {
-        const relativePath = path.relative(workspaceRoot, resourcePath).replace(/\\/g, '/');
-        return `webpack:///${relativePath}`;
-      }
+      // if (resourcePath.includes('extension' + path.sep + 'src')) {
+      //   const relativePath = path.relative(workspaceRoot, resourcePath).replace(/\\/g, '/');
+      //   return `webpack:///${relativePath}`;
+      // }
 
       // 其他文件使用默认模板
       return `webpack:///${path.relative(workspaceRoot, resourcePath).replace(/\\/g, '/')}`;
@@ -58,7 +58,7 @@ const config = {
     clean: true
   },
 
-  devtool: isDevelopment ? 'source-map' : false,
+  devtool: isDevelopment ? 'nosources-source-map' : false,
 
   // 外部依赖排除
   externals: {
@@ -123,7 +123,36 @@ const config = {
   optimization: {
     minimize: !isDevelopment,
     usedExports: true,
-    sideEffects: false // 启用tree shaking
+    sideEffects: false,
+    splitChunks: {
+      chunks: 'all',
+      minSize: 0,
+      cacheGroups: {
+        // log4js 及其依赖（streamroller、date-format、flatted），已有 ContextReplacementPlugin 限制 appenders
+        vendorLog: {
+          test: /[\\/]node_modules[\\/](log4js|streamroller|date-format|flatted)[\\/]/,
+          name: 'vendor-log4js',
+          chunks: 'all',
+          priority: 20,
+          enforce: true
+        },
+        // ssh2 及其传递依赖（eddsajs、bcrypt-pbkdf 等），体积较大，优先拆分
+        vendorSsh: {
+          test: /[\\/]node_modules[\\/](ssh2|eddsajs|bcrypt-pbkdf|asn1|safer-buffer|sshcrypto)[\\/]/,
+          name: 'vendor-ssh',
+          chunks: 'all',
+          priority: 30,
+          enforce: true
+        },
+        // 将 node_modules 中的模块单独打包到 vendors.js
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+          priority: -10
+        }
+      }
+    }
   },
 
   // 插件配置

@@ -118,7 +118,6 @@ export function findExecutable(exe: string, args: string[]): { cmd: string; args
 
 export async function getWindowsShortPath(path: string): Promise<string> {
   return new Promise<string>((resolve, reject) => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     exec(`for %I in ("${path}") do @echo %~sI`, (error, stdout, _stderr) => {
       if (error != null) {
         reject(error);

@@ -1,5 +1,5 @@
 import type { IpcMessage } from '@orientais/shared/protocol';
-import type { WebviewHost, WebviewProvider, WebviewShowingArgs, WebviewShowOptions } from '@orientais/vscode-webview';
+import type { WebviewHost, WebviewProvider, WebviewShowOptions } from '@orientais/vscode-webview';
 import { createIpcDispatcher, ipcCommand, ipcRequest } from '@orientais/vscode-webview';
 import type { BatchTransferRequest, BatchTransferResponse } from '@shared/example.protocol';
 import { BatchTransferCommand, ExampleQuickPickSelectCommand } from '@shared/example.protocol';
@@ -21,11 +21,7 @@ export class ExampleWebviewProvider implements WebviewProvider<State, State, Exa
     protected readonly host: WebviewHost<'autosar.example'>
   ) {}
 
-  onShowing(
-    _loading: boolean,
-    _options: WebviewShowOptions,
-    ...args: WebviewShowingArgs<ExampleWebviewShowingArgs, State>
-  ): [boolean, undefined] {
+  onShowing(_loading: boolean, _options: WebviewShowOptions): [boolean, undefined] {
     return [true, undefined];
   }
 

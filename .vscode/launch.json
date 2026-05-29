@@ -11,6 +11,7 @@
       "request": "launch",
       "runtimeExecutable": "${execPath}",
       "args": ["--profile=Debugging", "--extensionDevelopmentPath=${workspaceFolder}"],
+      "preLaunchTask": "build",
       "outFiles": ["${workspaceFolder}/dist/extension/**/*.js"],
       "pauseForSourceMap": true,
       "presentation": {

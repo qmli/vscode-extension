@@ -11,3 +11,5 @@ export * from './webviewsController';
 export * from './ipc/handlerRegistry';
 export * from './ipc/models/dataTypes';
 export * from './ipc/utils/ipc.utils';
+
+export { WebviewReloadCommand } from '@orientais/shared/protocol'; // 重新导出协议层的类型和工具函数，保持消费方导入路径不变

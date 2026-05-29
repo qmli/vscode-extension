@@ -126,7 +126,7 @@ export class Storage<
     }
 
     if (keys.length) {
-      this._onDidChange.fire({ keys, workspace: false });
+      this._onDidChange.fire({ keys: keys, workspace: false });
     }
   }
 
@@ -197,7 +197,7 @@ export class Storage<
     }
 
     if (keys.length) {
-      this._onDidChange.fire({ keys, workspace: true });
+      this._onDidChange.fire({ keys: keys, workspace: true });
     }
   }
 

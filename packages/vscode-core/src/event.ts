@@ -109,7 +109,7 @@ export function promisifyDeferred<T, U>(
       } catch (ex) {
         pending = false;
 
-        reject(ex);
+        reject(ex instanceof Error ? ex : new Error(String(ex)));
       }
     });
   }).then(
